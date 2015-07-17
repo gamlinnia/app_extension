@@ -1,0 +1,19 @@
+
+table.navMenu {
+    margin: 0 auto 10px;
+}
+table.navMenu td {
+    padding: 0 5px;
+}
+
+.infoTable th {
+    text-align: center;
+    white-space: nowrap;
+}
+.infoTable th, .infoTable td {
+    border: 1px solid #ff0000;
+}
+
+.alignCenter {
+    text-align: center;
+}

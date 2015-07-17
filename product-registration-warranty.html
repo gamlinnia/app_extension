@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+</head>
+<body>
+
+<p>
+    <script type="text/javascript">// <![CDATA[
+    jQuery(document).ready(function () {
+        initDatePicker();
+    });
+
+    function initDatePicker () {
+        jQuery( "#dateOfPurchase" ).datepicker();
+    }
+
+    function create(event) {
+        event.preventDefault();
+        var requestBody = {form_name:'productRegistration',value:JSON.stringify(jQuery('#form').serializeArray())};
+        jQuery.ajax({
+            url:"http://10.16.133.65/rosewill/rest/route.php/api/insertFormValue",
+            type:"POST",
+            data:JSON.stringify(requestBody)
+        }).done(function( msg ) {
+            alert(msg.message);
+        });
+    }
+
+    function getUserName () {
+        var userNameBlock = jQuery('.welcome-msg').text();
+        var splitArray = userNameBlock.split(',');
+        if (splitArray[0] == 'Welcome') {
+            var userName = splitArray[1].trim().split('!', 1);
+            jQuery('#name').val(userName );
+        } else {
+            if (confirm('Please Login before submission')) {
+                location.href = '/customer/account/login/';
+            } else {
+                location.href = '/customer/account/login/';
+            }
+        }
+    }
+    // ]]></script>
+</p>
+
+<div style="background-color: #f8f8f8; margin: 10px; margin-bottom: 20px;">
+    <p style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333; margin-bottom: 20px; line-height: 26px;"><b>Thank you for choosing Rosewill products! To fully enjoy the benefits of the products, please take a few minutes to register your products and you will have the following benefits: <span><br /> 1. Receive exclusive promotional Email. <br /> 2. Receive information about Rosewill new products.</span></b></p>
+    <form id="form" method="post">
+        <table style="width: 600px; height: 400px;" border="0">
+            <tbody>
+            <tr>
+                <th><span style="color: #ff0000; font-family: arial black,avant garde;">*</span></th>
+                <th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Customer Type</span></th>
+                <td>
+                    <select name="customerType">
+                        <option value="endUser">End User</option>
+                        <option value="solutionProvider">Solution Provider</option>
+                        <option value="reseller">Reseller</option>
+                        <option value="distributor">Distributor</option>
+                    </select>
+                </td>
+            </tr>
+            <tr><th><span style="color: #ff0000; font-family: arial black,avant garde;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">E-mail</span></th>
+                <td><input type="text" name="email" /></td>
+            </tr>
+            <tr><th><span style="color: #ff0000; font-family: arial black,avant garde;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">First Name</span></th>
+                <td><input type="text" name="firstName" /></td>
+            </tr>
+            <tr><th><span style="color: #ff0000; font-family: arial black,avant garde;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Last Name</span></th>
+                <td><input type="text" name="lastName" /></td>
+            </tr>
+            <tr><th><span style="color: #f8f8f8; font-family: arial black,avant garde;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Zip / Postal Code</span></th>
+                <td><input type="text" name="zip" /></td>
+            </tr>
+            <tr><th><span style="color: #f8f8f8; font-family: arial black,avant garde;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Phone Number</span></th>
+                <td><input type="text" name="phoneNumber" /></td>
+            </tr>
+            <tr><th><span style="color: #ff0000; font-family: arial black,avant garde;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Place of Purchase</span></th>
+                <td><input type="text" name="placeOfPurchase" /></td>
+            </tr>
+            <tr><th><span style="color: #f8f8f8; font-family: arial black,avant garde;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Invoice Number</span></th>
+                <td><input type="text" name="invoiceNumber" /></td>
+            </tr>
+            <tr><th><span style="color: #ff0000; font-family: arial black,avant garde;">*</span></th>
+                <th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Date of Purchase</span></th>
+                <td><input type="text" name="dateOfPurchase" id="dateOfPurchase" /></td>
+            </tr>
+            <tr><th><span style="color: #ff0000; font-family: arial black,avant garde;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Product Name</span></th>
+                <td><input type="text" name="productName" /></td>
+            </tr>
+            <tr><th><span style="color: #f8f8f8; font-family: arial black,avant garde;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Model Number</span></th>
+                <td><input type="text" name="modelNumber" /></td>
+            </tr>
+            <tr><th><span style="color: #f8f8f8; font-family: arial black,avant garde;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Serial Number</span></th>
+                <td><input type="text" name="serialNumber" /></td>
+            </tr>
+            <tr><th><span style="color: #f8f8f8; font-family: arial black,avant garde;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Interested Field</span></th>
+                <td><input type="text" name="interestedField:" /></td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td><button onclick="create(event)" type="submit">Submit</button></td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+
+</body>
+</html>

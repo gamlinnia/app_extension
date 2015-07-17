@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+</head>
+<body>
+
+<table id="testimonial"></table>
+
+</body>
+</html>
+
+<script type="text/javascript">
+
+    function appendHtml (target, inputHTML) {
+        return jQuery(target).append(inputHTML);
+    }
+
+    jQuery(document).ready(function () {
+        var $testimonialTable = appendHtml(jQuery('#testimonial'), '<tr></tr>');
+        console.log($testimonialTable);
+        var $tr = appendHtml(jQuery('tr:last-child', $testimonialTable), '<td></td>');
+        console.log($tr);
+
+    });
+
+</script>

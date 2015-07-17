@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html data-ng-app="app">
+
+<head>
+    <title>RW App Extension</title>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+    <!--BootStrap-->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.0/ui-bootstrap-tpls.min.js"></script>
+    <!--Controller-->
+    <script type="text/javascript" src="Controller/app.js"></script>
+    <script type="text/javascript" src="Controller/IndexController.js"></script>
+    <!--Factory-->
+    <script type="text/javascript" src="Factory/Utils.js"></script>
+    <!--Service-->
+    <script type="text/javascript" src="Service/restService.js"></script>
+    <!--Style-->
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="css/default.css" />
+</head>
+
+<body data-ng-controller="indexController">
+
+<div data-ng-show="alert">
+    <alert type="{{alert.type}}" close="closeAlert()">{{alert.msg}}</alert>
+</div>
+
+<div>
+    <pre>
+        {{errorObj}}
+    </pre>
+</div>
+
+<table class="navMenu">
+    <tr>
+        <td>
+            <input type="button" value="HOME" data-ng-click="backHome()" />
+        </td>
+        <td data-ng-if="authenticated">
+            <input type="button" value="Get Product List" data-ng-click="getProductList()" />
+        </td>
+        <td>
+            <input type="number" style="width: 35px;" data-ng-model="bigCurrentPage" />
+            <!--<input type="number" style="width: 50px;" data-ng-model="rowsPerPage" />-->
+            <select style="width: 60px;" data-ng-model="rowsPerPage">
+                <option>1</option>
+                <option>10</option>
+                <option>20</option>
+                <option>50</option>
+                <option>100</option>
+            </select>
+        </td>
+        <td data-ng-if="authenticated">
+            <input type="button" value="Get From Intelligence" data-ng-click="getInformationFromIntelligence()" />
+        </td>
+        <td data-ng-if="authenticated">
+            <input type="button" value="Create New Product" data-ng-click="createNewProduct()" />
+        </td>
+        <td>
+            <input type="button" value="Update Product Info" data-ng-click="updateAllInfo()" />
+        </td>
+        <td>
+            <input type="button" value="Update Product Images" data-ng-click="uploadProductImages()" />
+        </td>
+        <td>
+            <input type="button" value="CLEAR SESSION" data-ng-click="destroySession()" />
+        </td>
+    </tr>
+</table>
+
+<div ng-switch on="authObject.action">
+    <div ng-switch-when="getProductList">
+        <div class="alignCenter">
+            <span data-ng-repeat="entity in productList">
+                <span data-ng-bind="entity.sku" data-ng-if="isNotEmpty(entity.sku)"></span>
+                <span data-ng-if="$index<productList.length-1&&isNotEmpty(entity.sku)">, </span>
+            </span>
+        </div>
+
+        <table class="infoTable" data-ng-if="productList.length>0">
+            <tr>
+                <th>#</th>
+                <th>SKU#</th>
+                <th>RAW data</th>
+            </tr>
+            <tr data-ng-repeat="entity in productList">
+                <td class="alignCenter" data-ng-bind="$index+1"></td>
+                <td class="alignCenter">
+                    <span data-ng-bind="entity.sku"></span>
+                </td>
+                <td>
+                    <span data-ng-bind="entity | json"></span>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div ng-switch-when="createNewProduct">
+        createNewProduct
+    </div>
+</div>
+
+<!--Pagination-->
+<!--<div style="text-align: center;" data-ng-if="productList.length>0">-->
+<!--<pagination total-items="totalAmount" ng-model="bigCurrentPage" max-size="rowsPerPage" class="pagination-sm" boundary-links="true" num-pages="numPages" ng-change="pageChanged()"></pagination>-->
+<!--</div>-->
+
+<pre data-ng-if="pageSetup.debug">
+    {{authObject | json}}
+</pre>
+
+</body>
+</html>

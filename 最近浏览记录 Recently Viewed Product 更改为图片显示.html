@@ -1,0 +1,45 @@
+<?php if($_products = $this->getRecentlyViewedProducts()): ?>
+<div class="category-products home-page-listing">
+    <div class="home-category-title">
+        <h1>Recently Viewed Products</h1>
+    </div>
+    <div id="mygallery"class="stepcarousel">
+        <div class="belt products-grid">
+
+            <?php $j=100;  foreach($_products as $_product):$j++;?>
+
+            <div class="panel">
+                <div class="product-topbg">
+                    <div class="product-bottombg">
+                        <div class="product-midbg">
+                            <div class="overlay"id="overlay-<?php echo $j;?>">
+                                <a href="<?php echo $_product->getProductUrl() ?>"title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>"class="product-image"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(160,180); ?>" width="160"height="180" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>"/></a>
+                            </div>
+
+                            <h2 class="product-name"><a href="<?php echo $this->getProductUrl($_product) ?>"><?php echo $this->helper('catalog/output')->productAttribute($_product,$_product->getName() ,'name') ?></a></h2>
+
+                            <div class="overlay-show"id="overlay-show-<?php echo $j;?>">
+                                <div class="product-price">
+                                    <?phpecho $this->getPriceHtml($_product, true) ?>
+                                </div>
+                                <div class="price-bottombg"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    var $i = jQuery.noConflict();
+                    $i("#overlay-<?php echo $j;?>").hover(function() {
+                        if($i("#overlay-show-<?php echo $j;?>").is(":hidden")) {
+                            $i("#overlay-show-<?php echo $j;?>").slideDown("fast");
+                        }else {
+                            $i("#overlay-show-<?php echo $j;?>").slideUp("fast");
+                        }
+                    });
+                </script>
+            </div>
+            <?phpendforeach; ?>
+        </div>
+    </div>
+</div>
+<?php endif; ?>

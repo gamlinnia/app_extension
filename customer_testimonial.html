@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+</head>
+<body>
+
+<div style="margin: 5%;">
+    <!--<p><span style="color: black; font-size: 16px; font-weight: bold;">SUBMIT YOUR TESTIMONIAL</span></p>-->
+    <form id="testimonialForm" action="javascript:submitTestimonial()">
+        <table>
+            <tr>
+                <td style="color:#ff0000;padding-top: 20px;">*</td>
+                <td style="color: black;padding-top: 20px;">Your Name:</td>
+            </tr>
+            <tr>
+                <td colspan="2"><input style="padding: 3px 10px;" id="name" name="name" type="text" class="required" minlength="2" /></td>
+            </tr>
+            <tr>
+                <td style="padding-top: 20px;"></td>
+                <td style="color: black;padding-top: 20px;">Your Email:</td>
+            </tr>
+            <tr>
+                <td colspan="2"><input style="padding: 3px 10px;" id="email" name="email" type="text" class="email" /></td>
+            </tr>
+            <tr>
+                <td style="color:#ff0000;padding-top: 20px;">*</td>
+                <td style="color: black;padding-top: 20px;">Your Testimonial:</td>
+            </tr>
+            <tr>
+                <td colspan="2"><textarea id="testimonial" name="testimonial" rows="4" cols="50" style="border: 1px solid darkgrey;" class="required" minlength="2"></textarea></td>
+            </tr>
+            <tr>
+                <td colspan="2"><input style="padding: 5px;border-radius: 5px;" type="submit" value="SUBMIT TESTIMONIAL" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script type="text/javascript">// <![CDATA[
+function submitTestimonial () {
+    var requestBody = {
+        form_name: 'customer_testimonial',
+        value: JSON.stringify(jQuery('#testimonialForm').serializeArray())
+    };
+    jQuery.ajax({
+        type: "POST",
+        url: "http://10.16.133.65/rosewill/rest/route.php/api/insertFormValue",
+        data: JSON.stringify(requestBody),
+        success: function( msg ) {
+            if (msg.status == 'success') {
+                redirectAfterAlert('Form has been successfully submitted', redirectToPage('http://' + window.location.hostname + '/customer_testimonial/'));
+            } else {
+                redirectAfterAlert('Error occured, please try again', refreshPage);
+            }
+            return false;
+        },
+        error: function () {
+            redirectAfterAlert('Error occured, please try again', refreshPage);
+            return false;
+        }
+    });
+}
+
+jQuery(document).ready(function () {
+    getUserName();
+    formValidation();
+});
+
+function getUserName () {
+    var userNameBlock = jQuery('.welcome-msg').text();
+    var splitArray = userNameBlock.split(',');
+    if (splitArray[0] == 'Welcome') {
+        var userName = splitArray[1].trim().split('!', 1);
+        jQuery('#name').val(userName);
+    }
+}
+
+function alertMessage (msg) {
+    alert(msg);
+}
+
+function redirectToPage (page) {
+    window.location.href = page;
+}
+
+function refreshPage () {
+    window.location.reload();
+}
+
+function redirectAfterAlert (msg, callback) {
+    alertMessage(msg);
+    if (typeof callback == 'function') {
+        callback();
+    }
+}
+
+function formValidation () {
+    jQuery("#testimonialForm").validate();
+}
+
+// ]]></script>
+
+</body>
+</html>

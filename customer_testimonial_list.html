@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+</head>
+<body>
+
+<script type="text/javascript">// <![CDATA[
+
+jQuery(document).ready(function(){
+    getTestimonial();
+});
+
+function appendHtml (target, html) {
+    return jQuery(target).append(html);
+}
+
+function getTestimonial (page, rowPerPage) {
+    if (!page) {page = 1;}
+    if (!rowPerPage) {rowPerPage = 10;}
+    var queryString = '?page=' + page + '&rowPerPage=' + rowPerPage;
+    resetTable('#testimonial');
+    jQuery.ajax({
+        url:'http://10.16.133.65/rosewill/rest/route.php/api/getFormList/customer_testimonial' + queryString,
+        type:'GET'
+    }).done(function(list){
+        buildPagination(page, list.totalPage);
+        jQuery('#dataCount').html(list.count);
+        jQuery('#totalPage').html(list.totalPage);
+        var dataCollection = list.DataCollection;
+        for(var i=0; i<dataCollection.length; i++){
+            var data = dataCollection[i].value;
+            var testimonial = appendHtml(jQuery('#testimonial'),'<div></div>');
+            var $firstDiv = appendHtml(jQuery('div:last-child',testimonial),'<span style="margin-right: 25px;">#' + ((page-1)*rowPerPage+(i+1)) + '&nbsp;</span>');
+            jQuery('span', $firstDiv).css({
+                'font-size': '18px',
+                'color': 'black'
+            });
+            appendHtml(jQuery($firstDiv), '<span>by&nbsp;&nbsp;</span>' +
+                    '<span>' + data.name + '</span>');
+            jQuery('span:last-child', $firstDiv).css({
+                'font-size': '16px',
+                'color': 'darkcyan'
+            });
+
+            appendHtml(jQuery(testimonial),'<div></div>');
+            var secondDiv = appendHtml(jQuery('div:last-child',testimonial),data.testimonial);
+            jQuery(secondDiv).css({
+                'color': 'gray',
+                'padding': '20px 0 10px 20px',
+                'width': '85%'
+            });
+
+            appendHtml(jQuery(testimonial),'<div></div>');
+            var dateTimeDiv = appendHtml(jQuery('div:last-child',testimonial),dataCollection[i].mtime);
+            jQuery(dateTimeDiv).css({
+                'padding-left': '20px'
+            });
+
+            if (i+1 < dataCollection.length) {
+                appendHtml(jQuery(testimonial),'<hr style="border: 1px dashed;width: 90%;" />');
+            }
+        }
+    });
+}
+
+function resetTable (selectorTarget) {
+    jQuery(selectorTarget).html('');
+}
+
+function resetPagination (page, totalPage) {
+    jQuery('.pagination').html(
+                    '<li class="leftArrow"><a aria-label="Previous" style="cursor: pointer;" onclick="changePage(event,' + (page-1) + ', 10)" style="cursor: pointer;"><span aria-hidden="true">&laquo;</span></a></li>' +
+                    '<li class="rightArrow"><a aria-label="Next" style="cursor: pointer;" onclick="changePage(event,' + (page+1) + ', 10)" style="cursor: pointer;"><span aria-hidden="true">&raquo;</span></a></li>'
+    );
+}
+
+function buildPagination (page, totalPage) {
+    resetPagination(page, totalPage);
+    jQuery('#currentPage').html(page);
+    for (var i = 0; i < totalPage; i++) {
+        jQuery('.rightArrow').before(
+            '<li><a onclick="changePage(event,' + (i+1) + ', 10)" style="cursor: pointer;">' + (i+1) + '</a></li>'
+        );
+    }
+}
+
+function getParameterByName(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
+function changePage (event, page, rowPerPage) {
+    event.preventDefault();
+    if (page < 1) {
+        return;
+    }
+    var currentPage = jQuery('#currentPage').html();
+    if (page == parseInt(currentPage)) {
+        return;
+    }
+    var totalPage = jQuery('#totalPage').html();
+    if (page > parseInt(totalPage)) {
+        return;
+    }
+    getTestimonial(page, rowPerPage);
+}
+
+// ]]></script>
+
+<div style="text-align: center;">
+    <b>Click <span style="text-decoration: underline;"><a href="http://rwpim.silksoftware.net/index.php/customer_testimonial/form/">here</a></span>&nbsp;to submit your own testimonial.</b>
+</div>
+
+<div style="border: 1px solid lightgray;padding: 3px 15px;text-align: right;">
+    <span style="color: black;">current page:&nbsp;</span>
+    <span id="currentPage" style="color: black;"></span>
+    <span style="color: black;">&nbsp;/&nbsp;</span>
+    <span style="color: black;">total page:&nbsp;</span>
+    <span id="totalPage" style="color: black;"></span>
+    <span style="color: black;">&nbsp;/&nbsp;</span>
+    <span style="color: black;">total number:&nbsp;</span>
+    <span id="dataCount" style="color: black;"></span>
+</div>
+
+<nav style="text-align: center;">
+    <ul class="pagination">
+        <li class="leftArrow">
+            <a href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        <li class="rightArrow">
+            <a href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
+<div id="testimonial" style="padding-left: 5%;padding-right: 5%;"></div>
+
+<nav style="text-align: center;">
+    <ul class="pagination">
+        <li class="leftArrow">
+            <a href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        <li class="rightArrow">
+            <a href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
+</body>
+</html>

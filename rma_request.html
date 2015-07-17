@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<script type="text/javascript">// <![CDATA[
+
+jQuery(document).ready(function () {
+    getUserName();
+    initDatePicker();
+});
+
+function initDatePicker () {
+    jQuery( "#dateOfPurchase" ).datepicker();
+}
+
+function create(event) {
+    event.preventDefault();
+    var requestBody = {form_name:'RmaRequest',value:JSON.stringify(jQuery('#form').serializeArray())};
+    jQuery.ajax({
+        url:"http://10.16.133.65/rosewill/rest/route.php/api/insertFormValue",
+        type:"POST",
+        data:JSON.stringify(requestBody),
+    }).done(function( msg ) {
+        alert(msg.message);
+    });
+}
+
+function getUserName () {
+    var userNameBlock = jQuery('.welcome-msg').text();
+    var splitArray = userNameBlock.split(',');
+    if (splitArray[0] == 'Welcome') {
+        var userName = splitArray[1].trim().split('!', 1);
+        jQuery('#name').val(userName );
+    } else {
+        if (confirm('Please Login before submission')) {
+            location.href = '/customer/account/login/';
+        } else {
+            location.href = '/customer/account/login/';
+        }
+    }
+}
+
+// ]]></script>
+
+<div style="background-color: #f8f8f8; margin: 10px; padding: 20px;">
+    <p><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333; font-weight: bold;">Please provide the following info to request RMA online ：</span></p>
+    <form id="form" action="#" method="post">
+        <table style="width: 600px; height: 800px;" border="0">
+            <tbody>
+            <tr><th><span style="color: #ff0000; font-family: arial black,avant garde; height: 26px;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333; width: 135px;">E-mail</span></th>
+                <td><input type="text" name="email" /></td>
+            </tr>
+            <tr><th><span style="color: #f8f8f8; font-family: arial black,avant garde; height: 26px;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Customer Type</span></th>
+                <td><select name="customerType">
+                    <option value="endUser">End User</option>
+                    <option value="solutionProvider">Solution Provider</option>
+                    <option value="reseller">Reseller</option>
+                    <option value="distributor">Distributor</option>
+                </select></td>
+            </tr>
+            <tr><th><span style="color: #ff0000; font-family: arial black,avant garde;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">First Name</span></th>
+                <td><input type="text" name="firstName" /></td>
+            </tr>
+            <tr><th><span style="color: #ff0000; font-family: arial black,avant garde;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Last Name</span></th>
+                <td><input type="text" name="lastName" /></td>
+            </tr>
+            <tr><th><span style="color: #f8f8f8; font-family: arial black,avant garde;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Company Name</span></th>
+                <td><input type="text" name="companyName" /></td>
+            </tr>
+            <tr><th><span style="color: #ff0000; font-family: arial black,avant garde;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Shipping Address</span></th>
+                <td><input type="text" name="shippingAddress" /></td>
+            </tr>
+            <tr><th><span style="color: #ff0000; font-family: arial black,avant garde;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">City</span></th>
+                <td><input type="text" name="firstName" /></td>
+            </tr>
+            <tr><th><span style="color: #f8f8f8; font-family: arial black,avant garde;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">State/Province</span></th>
+                <td><select name="stateProvince">
+                    <option selected="selected" value="0">-- Select a State --</option>
+                    <option value="AL-Alabama">AL-Alabama</option>
+                    <option value="AK-Alaska">AK-Alaska</option>
+                    <option value="AZ-Arizona">AZ-Arizona</option>
+                    <option value="AR-Arkansas">AR-Arkansas</option>
+                    <option value="CA-California">CA-California</option>
+                    <option value="CO-Colorado ">CO-Colorado</option>
+                    <option value="CT-Connecticut">CT-Connecticut</option>
+                    <option value="DC-Washington D.C.">DC-Washington D.C.</option>
+                    <option value="DE-Delaware">DE-Delaware</option>
+                    <option value="FL-Florida">FL-Florida</option>
+                    <option value="GA-Georgia">GA-Georgia</option>
+                    <option value="HI-Hawaii">HI-Hawaii</option>
+                    <option value="ID-Idaho">ID-Idaho</option>
+                    <option value="IL-Illinois">IL-Illinois</option>
+                    <option value="IN-Indiana">IN-Indiana</option>
+                    <option value="IA-Iowa">IA-Iowa</option>
+                    <option value="KS-Kansas">KS-Kansas</option>
+                    <option value="KY-Kentucky">KY-Kentucky</option>
+                    <option value="LA-Louisiana">LA-Louisiana</option>
+                    <option value="ME-Maine">ME-Maine</option>
+                    <option value="MD-Maryland">MD-Maryland</option>
+                    <option value="MA-Massachusetts">MA-Massachusetts</option>
+                    <option value="MI-Michigan">MI-Michigan</option>
+                    <option value="MN-Minnesota">MN-Minnesota</option>
+                    <option value="MS-Mississippi">MS-Mississippi</option>
+                    <option value="MO-Missouri">MO-Missouri</option>
+                    <option value="MT-Montana">MT-Montana</option>
+                    <option value="NE-Nebraska">NE-Nebraska</option>
+                    <option value="NV-Nevada">NV-Nevada</option>
+                    <option value="NH-New Hampshire">NH-New Hampshire</option>
+                    <option value="NJ-New Jersey">NJ-New Jersey</option>
+                    <option value="NM-New Mexico">NM-New Mexico</option>
+                    <option value="NY-New York">NY-New York</option>
+                    <option value="NC-North Carolina">NC-North Carolina</option>
+                    <option value="ND-North Dakota">ND-North Dakota</option>
+                    <option value="OH-Ohio">OH-Ohio</option>
+                    <option value="OK-Oklahoma">OK-Oklahoma</option>
+                    <option value="OR-Oregon">OR-Oregon</option>
+                    <option value="PA-Pennsylvania">PA-Pennsylvania</option>
+                    <option value="PR-Puerto">PR-Puerto</option>
+                    <option value="RI-Rhode Island">RI-Rhode Island</option>
+                    <option value="SC-South Carolina">SC-South Carolina</option>
+                    <option value="SD-South Dakota">SD-South Dakota</option>
+                    <option value="TN-Tennessee">TN-Tennessee</option>
+                    <option value="TX-Texas">TX-Texas</option>
+                    <option value="UT-Utah">UT-Utah</option>
+                    <option value="VT-Vermont">VT-Vermont</option>
+                    <option value="VA-Virginia">VA-Virginia</option>
+                    <option value="WA-Washington">WA-Washington</option>
+                    <option value="WV-West Virginia">WV-West Virginia</option>
+                    <option value="WI-Wisconsin">WI-Wisconsin</option>
+                    <option value="WY-Wyoming">WY-Wyoming</option>
+                    <option value="AA-Military Americas">AA-Military Americas</option>
+                    <option value="AE-Military Europe">AE-Military Europe</option>
+                    <option value="AP-Military Pacific">AP-Military Pacific</option>
+                </select></td>
+            </tr>
+            <tr><th><span style="color: #ff0000; font-family: arial black,avant garde;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Phone Number</span></th>
+                <td><input type="text" name="phoneNumber" /></td>
+            </tr>
+            <tr><th><span style="color: #f8f8f8; font-family: arial black,avant garde;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Alternative Number</span></th>
+                <td><input type="text" name="alternativeNumber" /></td>
+            </tr>
+            <tr><th><span style="color: #f8f8f8; font-family: arial black,avant garde;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Case ID(If known)</span></th>
+                <td><input type="text" name="caseId" /></td>
+            </tr>
+            <tr><th><span style="color: #ff0000; font-family: arial black,avant garde;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Model Number</span></th>
+                <td><input type="text" name="modelNumber" /></td>
+            </tr>
+            <tr><th><span style="color: #ff0000; font-family: arial black,avant garde;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">QTY for RMA request</span></th>
+                <td><input type="text" name="qtyForRmaRequest" /></td>
+            </tr>
+            <tr><th><span style="color: #ff0000; font-family: arial black,avant garde;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Date of Purchase</span></th>
+                <td><input type="text" name="dateOfPurchase" id="dateOfPurchase" /></td>
+            </tr>
+            <tr><th><span style="color: #ff0000; font-family: arial black,avant garde;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Place of Purchase</span></th>
+                <td><input type="text" name="placeOfPurchase" /></td>
+            </tr>
+            <tr><th><span style="color: #ff0000; font-family: arial black,avant garde;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Invoice Number</span></th>
+                <td><input type="text" name="invoiceNumber" /></td>
+            </tr>
+            <tr><th><span style="color: #ff0000; font-family: arial black,avant garde;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Sales Order number</span></th>
+                <td><input type="text" name="salesOrderNumber" /></td>
+            </tr>
+            <tr><th><span style="color: #f8f8f8; font-family: arial black,avant garde;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Serial Number</span></th>
+                <td><input type="text" name="serialNumber" /></td>
+            </tr>
+            <tr><th><span style="color: #ff0000; font-family: arial black,avant garde;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Refund (within 30 days) <br /> or Replacement</span></th>
+                <td><input type="text" name="firstName" /></td>
+            </tr>
+            <tr><th><span style="color: #ff0000; font-family: arial black,avant garde;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Reason for RMA</span></th>
+                <td><textarea name="reasonForRma" style="border: 1px solid darkgrey;"></textarea></td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td><button onclick="create(event)" type="submit">Submit</button> &nbsp;&nbsp; <button type="button">Reset</button></td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+
+</body>
+</html>
