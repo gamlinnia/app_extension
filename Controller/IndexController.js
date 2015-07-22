@@ -263,5 +263,21 @@ app.controller('indexController', function($scope, restService, $window, Utils) 
         $scope.productList = [];
     };
 
+    $scope.getRwProductList = function () {
+        $scope.authObject.action = 'getRwProductList';
+        restService.getRwProductList($scope.params.getRwProductList).success(function (response) {
+            $scope.rwFilteredItemList = response.DataCollection;
+        });
+    };
+
+    $scope.toggleDebugMode = function () {
+        $scope.pageSetup.debug = !$scope.pageSetup.debug;
+    };
+
+    var orderBy = $filter('orderBy');
+    $scope.order = function(predicate, reverse, objName) {
+        $scope[objName] = orderBy($scope[objName], predicate, reverse);
+    };
+
 });
 
