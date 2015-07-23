@@ -57,22 +57,32 @@ class Email{
     }
 
     function sendMail () {
-        $recipient_array_to = $this->recipient_array['to'];
         isset($this->recipient_array['cc']) ? $recipient_array_cc = $this->recipient_array['cc'] : $recipient_array_cc = array();
         isset($this->recipient_array['bcc']) ? $recipient_array_bcc = $this->recipient_array['bcc'] : $recipient_array_bcc = array();
 
-        $recipients = join(',', $recipient_array_to) .
-            empty($recipient_array_cc) ? '' : ', ' . join(',', $recipient_array_cc) .
-            empty($recipient_array_bcc) ? '' : ', ' . join(',', $recipient_array_bcc);
-
+        $recipients = join(',', $this->recipient_array['to']);
+        if (!empty($recipient_array_cc)) {
+            $recipients .= ',' . join(',', $recipient_array_cc);
+        }
+        if (!empty($recipient_array_bcc)) {
+            $recipients .= ',' . join(',', $recipient_array_bcc);
+        }
         $crlf = "\n";
         //mail content
         $subject = $this->getSubjectFromAction();
         $html = $this->getContent();
 
-        $headers = array("From" => "System@rosewill.com", "To" => join(',', $recipient_array_to), "Subject" => $subject);
-        if (!empty($recipient_array_cc)) $headers['Cc'] = join(',', $recipient_array_cc);
-        if (!empty($recipient_array_bcc)) $headers['Bcc'] = join(',', $recipient_array_bcc);
+        $headers = array(
+            "From" => "System@newegg.com",
+            "To" => join(',', $this->recipient_array['to']),
+            "Subject" => $subject
+        );
+        if (!empty($recipient_array_cc)) {
+            $headers['Cc'] = join(',', $recipient_array_cc);
+        }
+        if (!empty($recipient_array_bcc)) {
+            $headers['Bcc'] = join(',', $recipient_array_bcc);
+        }
 
         $mime = new Mail_mime($crlf);
         $mime->addHTMLimage('images/rosewilllogo.png', 'image/png');

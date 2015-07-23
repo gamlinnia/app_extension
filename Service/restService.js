@@ -43,4 +43,12 @@ app.service('restService', function($http) {
         });
     };
 
+    this.getRwProductList = function (queryStringObject) {
+        return $http({
+            method: 'GET',
+            url: urlBase + 'getRwProductList',
+            param: queryStringObject
+        });
+    }
+
 });
