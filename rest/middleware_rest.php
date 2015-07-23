@@ -119,6 +119,7 @@ $app->delete('/api/delForm/:id', function ($id) {
 });
 
 function sendMailByForm ($formName, $formData) {
+    global $config;
     $formToEmail = array('contactUs');
 
     if (!in_array($formName, $formToEmail)) {
@@ -128,47 +129,46 @@ function sendMailByForm ($formName, $formData) {
     $actionKeyByForm = array('contactUs' => 'Purpose for Contact');
     $action = isset($actionKeyByForm[$formName]) ? $formData[$actionKeyByForm[$formName]] : $formName;
 
-    switch ($action) {
-        case 'Request to Return Merchandise':
-            $recipient_array = array(
-                'to' => array('rma@rosewill.com'),
-//                'to' => array('Li.L.Liu@newegg.com'),
-                'bcc' => array('Li.L.Liu@newegg.com', 'Henry.H.Wu@newegg.com')
-            );
-            break;
-        case 'Request to Review Product':
-            $recipient_array = array(
-                'to' => array('review@rosewill.com'),
-//                'to' => array('Li.L.Liu@newegg.com'),
-                'bcc' => array('Li.L.Liu@newegg.com', 'Henry.H.Wu@newegg.com')
-            );
-            break;
-        case 'Sponsorship Request':
-            $recipient_array = array(
-                'to' => array('mkt@rosewill.com'),
-//                'to' => array('Li.L.Liu@newegg.com'),
-//                'cc' => array('Henry.H.Wu@newegg.com'),
-                'bcc' => array('Li.L.Liu@newegg.com', 'Henry.H.Wu@newegg.com')
-            );
-            break;
-        case 'Vendor or Business Contact':
-            $recipient_array = array(
-//                'to' => array('Elvis.K.Lin@newegg.com'),
-//                'cc' => array('Henry.H.Wu@newegg.com', 'Reyna.C.Chu@newegg.com')
-
-                'to' => array('sales@rosewill.com'),
-                'bcc' => array('Li.L.Liu@newegg.com', 'Henry.H.Wu@newegg.com')
-            );
-            break;
-        case 'Other':
-            $recipient_array = array(
-                'to' => array('mkt@rosewill.com'),
-//                'to' => array('Li.L.Liu@newegg.com'),
-                'bcc' => array('Li.L.Liu@newegg.com', 'Henry.H.Wu@newegg.com')
-            );
-            break;
-        default:
-            return false;
+    if ($config['debugMode']) {
+        $recipient_array = array(
+            'to' => array('Li.L.Liu@newegg.com'),
+            'bcc' => array('Reyna.C.Chu@newegg.com', 'Henry.H.Wu@newegg.com')
+        );
+    } else {
+        switch ($action) {
+            case 'Request to Return Merchandise':
+                $recipient_array = array(
+                    'to' => array('rma@rosewill.com'),
+                    'bcc' => array('Li.L.Liu@newegg.com', 'Henry.H.Wu@newegg.com')
+                );
+                break;
+            case 'Request to Review Product':
+                $recipient_array = array(
+                    'to' => array('review@rosewill.com'),
+                    'bcc' => array('Li.L.Liu@newegg.com', 'Henry.H.Wu@newegg.com')
+                );
+                break;
+            case 'Sponsorship Request':
+                $recipient_array = array(
+                    'to' => array('mkt@rosewill.com'),
+                    'bcc' => array('Li.L.Liu@newegg.com', 'Henry.H.Wu@newegg.com')
+                );
+                break;
+            case 'Vendor or Business Contact':
+                $recipient_array = array(
+                    'to' => array('sales@rosewill.com'),
+                    'bcc' => array('Li.L.Liu@newegg.com', 'Henry.H.Wu@newegg.com')
+                );
+                break;
+            case 'Other':
+                $recipient_array = array(
+                    'to' => array('mkt@rosewill.com'),
+                    'bcc' => array('Li.L.Liu@newegg.com', 'Henry.H.Wu@newegg.com')
+                );
+                break;
+            default:
+                return false;
+        }
     }
 
     require_once 'class/Email.class.php';
@@ -181,16 +181,17 @@ function sendMailByForm ($formName, $formData) {
     $emailFactory = EmailFactory::getEmailFactory($smtpInfo);
 
     /* $email = class Email */
-    $email = $emailFactory -> getEmail($action, $recipient_array);
+    $email = $emailFactory->getEmail($action, $recipient_array);
     $content = templateReplace($action, $formData);
     $email->setContent($content);
+    error_log('rw mail to ' . join(', ', $recipient_array['to']));
     $email->sendMail();
 
     if (isset($formData['sendACopyToMe']) && $formData['sendACopyToMe'] == 'yes') {
         if (!isset($formData['email'])) {
             return false;
         }
-        $copyEmail = $emailFactory -> getEmail($action,  array(
+        $copyEmail = $emailFactory->getEmail($action,  array(
             'to' => array($formData['email'])
         ));
         $copyEmail->setContent($content);
