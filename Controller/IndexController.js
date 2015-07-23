@@ -1,4 +1,4 @@
-app.controller('indexController', function($scope, restService, $window, Utils) {
+app.controller('indexController', function($scope, restService, $window, Utils, $filter) {
 
     $scope.getQueryParam = function(param) {
         var found;
