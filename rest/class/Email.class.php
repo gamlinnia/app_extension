@@ -73,7 +73,7 @@ class Email{
         $html = $this->getContent();
 
         $headers = array(
-            "From" => "System@newegg.com",
+            "From" => "System@rosewill.com",
             "To" => join(',', $this->recipient_array['to']),
             "Subject" => $subject
         );
