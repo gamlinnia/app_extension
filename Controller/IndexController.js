@@ -53,6 +53,11 @@ app.controller('indexController', function($scope, restService, $window, Utils, 
             intelligence: []
         };
         $scope.startTimeStamp = new Date().valueOf();
+        $scope.params = {
+            getRwProductList: {
+                ItemCreationDateFrom: '2015-01-01'
+            }
+        }
     };
     $scope.initValue();
 

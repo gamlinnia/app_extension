@@ -27,7 +27,7 @@ app.service('restService', function($http) {
     };
 
     this.getInformationFromIntelligence = function (itemNumber) {
-        paramsObject = {itemNumber: itemNumber};
+        var paramsObject = {itemNumber: itemNumber};
         return $http({
             method: 'GET',
             url: urlBase + 'getInformationFromIntelligence',
@@ -47,7 +47,7 @@ app.service('restService', function($http) {
         return $http({
             method: 'GET',
             url: urlBase + 'getRwProductList',
-            param: queryStringObject
+            params: queryStringObject
         });
     }
 
