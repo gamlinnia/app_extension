@@ -128,6 +128,102 @@ function proceedRestData () {
     }
 }
 
+$app->post('/api/uploadProductImages', function () {
+    global $input;
+    $apiUrl = $input['apiUrl'];
+    $itemObj = $input['itemObj'];
+    $restPostfix = '/products/' . $itemObj['entity_id'] . '/images';
+    error_log('processing ID: ' . $itemObj['entity_id']);
+    $currentTimestamp = currentTimeStamp();
+
+    preg_match('/[0-9]{2,3}-[0-9]{2,3}-[0-9]{2,3}/', $itemObj['sku'], $match);
+    if (count($match) < 1) {
+        echo json_encode(array(
+            'status' => 'danger',
+            'message' => 'NOT A VALID SKU number'
+        ));
+        return;
+    }
+
+    $magentoImages = getProductImages(true);
+    $base64ProductImages = getProductImageBase64($itemObj['sku'], true);
+
+
+    if ($base64ProductImages['count'] < 1) {
+        echo json_encode(array(
+            'status' => 'success',
+            'message' => 'NO IMAGE UPLOADED'
+        ));
+        return;
+    }
+
+    if (count($magentoImages['DataCollection']) > 0) {
+        $base64ProductImages['DataCollection'] = existImageComparison($magentoImages['DataCollection'], $base64ProductImages['DataCollection']);
+        error_log(count($base64ProductImages['DataCollection']) . ' to upload, Images exsit: ' . count($magentoImages['DataCollection']));
+        if (count($base64ProductImages['DataCollection']) < 1) {
+            error_log($itemObj['sku'] . ' checking duration: ' . totalSpendTime($currentTimestamp));
+            echo json_encode(array(
+                'status' => 'success',
+                'message' => 'NO IMAGE NEED TO BE UPLOADED'
+            ));
+            return;
+        }
+    }
+
+    try {
+        $authType = ($_SESSION['state'] == 2) ? OAUTH_AUTH_TYPE_AUTHORIZATION : OAUTH_AUTH_TYPE_URI;
+        $oauthClient = new OAuth($input['consumerKey'], $input['consumerSecret'], OAUTH_SIG_METHOD_HMACSHA1, $authType);
+        $oauthClient->enableDebug();
+
+        $oauthClient->setToken($_SESSION['token'], $_SESSION['secret']);
+        $result = array();
+        foreach ($base64ProductImages['DataCollection'] AS $index => $imageObject) {
+            $startUploadTimeStamp = currentTimeStamp();
+            $requestBody = array(
+                'file_mime_type' => 'image/jpeg',
+                'file_content' => $imageObject['base64Content'],
+                'file_name' => fileNamePrefix($imageObject['ImageName'])
+            );
+            $oauthClient->fetch(
+                $apiUrl . $restPostfix,
+                json_encode($requestBody),
+                OAUTH_HTTP_METHOD_POST,
+                array('Content-Type' => 'application/json', 'Accept' => 'application/json')
+            );
+            $responseInfo = $oauthClient->getLastResponseInfo();
+            array_push($result, $responseInfo);
+            if (isset($responseInfo['http_code']) && $responseInfo['http_code'] == 200) {
+                error_log(($index +1) . '/' . count($base64ProductImages['DataCollection']) . ' DONE item: ' . $imageObject['ImageName'] . ', elapsed: ' . totalSpendTime($startUploadTimeStamp));
+            } else {
+                error_log('Exception occur');
+            }
+        }
+        error_log($itemObj['sku'] . ' DONE' . ', duration: ' . totalSpendTime($currentTimestamp));
+        echo json_encode($result);
+    } catch (OAuthException $e) {
+        print_r($e);
+        echo $e->{'debugInfo'}->{'body_recv'};
+    }
+});
+
+$app->post('/api/checkServerItemStatus', function () {
+    global $input;
+    $response = array();
+    $count = 0;
+    foreach ($input AS $key => $itemObject) {
+        $response[$key] = compareLocalItemNumber($itemObject);
+        if (!$response[$key]['exists']) {
+            $count++;
+        }
+    }
+    echo json_encode(array(
+        'status' => 'success',
+        'count' => count($response),
+        'notExistsCount' => $count,
+        'DataCollection' => $response
+    ));
+});
+
 $app->get('/api/retrieveAttributeSetmappingTable', 'retrieveAttributeSetmappingTable');
 function retrieveAttributeSetmappingTable ($returnResponse = false) {
     global $config;
@@ -139,5 +235,5 @@ function retrieveAttributeSetmappingTable ($returnResponse = false) {
     if ($returnResponse) {
         return $response;
     }
-    var_dump($response);
+    echo json_encode($response);
 }
