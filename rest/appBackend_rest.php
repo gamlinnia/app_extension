@@ -127,3 +127,12 @@ function proceedRestData () {
         echo $e->{'debugInfo'}->{'body_recv'};
     }
 }
+
+function retrieveAttributeSetmappingTable () {
+    global $config;
+    $header = array(
+        'Content-Type: application/json',
+        'Accept: application/json'
+    );
+    $response = CallAPI('GET', $config['pimUrlBase'] . $config['pimAttributeSetRestPostfix'], $header);
+}
