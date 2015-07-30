@@ -734,3 +734,38 @@ function parseQueryString ($queryStringArray) {
     }
     return $queryString;
 }
+
+function writeItemNumberToLocal ($magentoProductList) {
+    global $config;
+    if (!file_exists($config['ItemNumberStoreDirectory'])) {
+        mkdir($config['ItemNumberStoreDirectory']);
+    }
+    foreach ($magentoProductList AS $itemArray) {
+        $fileName = $itemArray['sku'];
+        if (!empty($itemArray['sku'])) {
+            file_put_contents($config['ItemNumberStoreDirectory'] . $fileName, json_encode($itemArray));
+        }
+    }
+    return $magentoProductList;
+}
+
+function compareLocalItemNumber ($itemObject) {
+    global $config;
+    $ItemNumber = $itemObject['ItemNumber'];
+    $fileNameIncludeDir = $config['ItemNumberStoreDirectory'] . $ItemNumber;
+    if (file_exists($fileNameIncludeDir)) {
+        $fileContent = file_get_contents($fileNameIncludeDir);
+        $jsonDataArray = json_decode($fileContent, true);
+        foreach ($jsonDataArray AS $key => $value) {
+            if (isset($itemObject[$key])) {
+                echo $key . $value;
+                return false;
+            }
+            $itemObject[$key] = $value;
+        }
+        $itemObject['exists'] = true;
+    } else {
+        $itemObject['exists'] = false;
+    }
+    return $itemObject;
+}
