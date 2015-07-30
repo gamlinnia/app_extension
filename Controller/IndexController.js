@@ -284,5 +284,18 @@ app.controller('indexController', function($scope, restService, $window, Utils, 
         $scope[objName] = orderBy($scope[objName], predicate, reverse);
     };
 
+    $scope.filterJavascriptDate = function (javascriptDateObj) {
+        var dateArray = javascriptDateObj.match(/[0-9]+[-]{1}[0-9]+/);
+        var javascriptDate = parseInt(dateArray[0]);
+        return new Date(javascriptDate).toLocaleDateString();
+    };
+
+    $scope.checkServerItemStatus = function () {
+        restService.checkServerItemStatus($scope.rwFilteredItemList).success(function (response) {
+            $scope.rwFilteredItemList = response.DataCollection;
+            $scope.alert.msg = "count: " + response.count + ", notExistsCount: " + response.notExistsCount;
+        })
+    };
+
 });
 

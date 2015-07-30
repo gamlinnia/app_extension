@@ -24,18 +24,22 @@
     <alert type="{{alert.type}}" close="closeAlert()">{{alert.msg}}</alert>
 </div>
 
-<div>
+<div data-ng-click="toggleDebugMode()">
     <pre>
         {{errorObj}}
     </pre>
 </div>
 
 <div class="alignCenter">
-    <input type="button" value="Get RW Product List" data-ng-click="getRwProductList()" />
-    <label for="ItemCreationDateFrom">ItemCreationDateFrom</label>
-    <input type="text" id="ItemCreationDateFrom" data-ng-model="params.getRwProductList.ItemCreationDateFrom" />
-    <label for="ItemCreationDateFrom">ItemCreationDateTo</label>
-    <input type="text" id="ItemCreationDateTo" data-ng-model="params.getRwProductList.ItemCreationDateTo" />
+    <form data-ng-submit="getRwProductList()">
+        <input type="submit" value="Get RW Product List" />
+        <label for="ItemCreationDateFrom">Create From</label>
+        <input type="text" id="ItemCreationDateFrom" style="width: 80px;" data-ng-model="params.getRwProductList.ItemCreationDateFrom" />
+        <label for="ItemCreationDateTo">Create To</label>
+        <input type="text" id="ItemCreationDateTo" style="width: 80px;" data-ng-model="params.getRwProductList.ItemCreationDateTo" />
+        <span data-ng-bind="rwFilteredItemList.length"></span>
+        <input type="button" data-ng-click="checkServerItemStatus()" value="Item Status" />
+    </form>
 </div>
 <table class="navMenu">
     <tr>
@@ -108,6 +112,7 @@
             <tr>
                 <th data-ng-if="rwFilteredItemList[0].hasOwnProperty('exists')"></th>
                 <th data-ng-if="rwFilteredItemList[0].hasOwnProperty('exists')">attribute_set_id</th>
+                <th data-ng-if="rwFilteredItemList[0].hasOwnProperty('exists')">attribute_set_code</th>
                 <th>#</th>
                 <th><a href="" ng-click="reverse=!reverse;order('ItemNumber', reverse, 'rwFilteredItemList')">ItemNumber</a></th>
                 <th><a href="" ng-click="reverse=!reverse;order('Model', reverse, 'rwFilteredItemList')">Model</a></th>
@@ -118,6 +123,7 @@
             <tr data-ng-repeat="rwItem in rwFilteredItemList | orderBy:predicate:reverse">
                 <td data-ng-if="rwFilteredItemList[0].hasOwnProperty('exists')"><span class="glyphicon glyphicon-floppy-saved colorGreen" data-ng-if="rwItem.exists"></span></td>
                 <td data-ng-if="rwFilteredItemList[0].hasOwnProperty('exists')"><span data-ng-bind="rwItem.attribute_set_id"></span></td>
+                <td data-ng-if="rwFilteredItemList[0].hasOwnProperty('exists')"><span data-ng-bind="rwItem.attribute_set_code"></span></td>
                 <td data-ng-bind="$index+1"></td>
                 <td data-ng-bind="rwItem.ItemNumber"></td>
                 <td data-ng-bind="rwItem.Model"></td>
@@ -135,6 +141,7 @@
 <!--</div>-->
 
 <pre data-ng-if="pageSetup.debug">
+    {{rwItemNumberList}}
     {{authObject | json}}
 </pre>
 
