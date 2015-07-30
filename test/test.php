@@ -1,4 +1,7 @@
 <?php
+
+// add test
+
 /**
  * Example of simple product POST using Admin account via Magento REST API. OAuth authorization is used
  */
