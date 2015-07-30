@@ -128,11 +128,16 @@ function proceedRestData () {
     }
 }
 
-function retrieveAttributeSetmappingTable () {
+$app->get('/api/retrieveAttributeSetmappingTable', 'retrieveAttributeSetmappingTable');
+function retrieveAttributeSetmappingTable ($returnResponse = false) {
     global $config;
     $header = array(
         'Content-Type: application/json',
         'Accept: application/json'
     );
     $response = CallAPI('GET', $config['pimUrlBase'] . $config['pimAttributeSetRestPostfix'], $header);
+    if ($returnResponse) {
+        return $response;
+    }
+    var_dump($response);
 }
