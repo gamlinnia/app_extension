@@ -757,11 +757,17 @@ function compareLocalItemNumber ($itemObject) {
         $fileContent = file_get_contents($fileNameIncludeDir);
         $jsonDataArray = json_decode($fileContent, true);
         foreach ($jsonDataArray AS $key => $value) {
+            // 判斷現有的資訊與檔案(PIM)中是否有重覆
             if (isset($itemObject[$key])) {
                 echo $key . $value;
                 return false;
             }
             $itemObject[$key] = $value;
+            preg_match('/^[a-z]{1}[0-9]{2}/', $key, $matches);
+            if (isset($matches[0]) && !isset($itemObject['attribute_set_code'])) {
+                $attribute_set_code = $matches[0];
+                $itemObject['attribute_set_code'] = $attribute_set_code;
+            }
         }
         $itemObject['exists'] = true;
     } else {

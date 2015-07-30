@@ -104,8 +104,10 @@
         createNewProduct
     </div>
     <div ng-switch-when="getRwProductList">
-        <table class="infoTable" data-ng-show="rwFilteredItemList.length>0">
+        <table class="infoTable marginAuto" data-ng-show="rwFilteredItemList.length>0">
             <tr>
+                <th data-ng-if="rwFilteredItemList[0].hasOwnProperty('exists')"></th>
+                <th data-ng-if="rwFilteredItemList[0].hasOwnProperty('exists')">attribute_set_id</th>
                 <th>#</th>
                 <th><a href="" ng-click="reverse=!reverse;order('ItemNumber', reverse, 'rwFilteredItemList')">ItemNumber</a></th>
                 <th><a href="" ng-click="reverse=!reverse;order('Model', reverse, 'rwFilteredItemList')">Model</a></th>
@@ -114,12 +116,14 @@
                 <th><a href="" ng-click="reverse=!reverse;order('ItemCreationDate', reverse, 'rwFilteredItemList')">ItemCreationDate</a></th>
             </tr>
             <tr data-ng-repeat="rwItem in rwFilteredItemList | orderBy:predicate:reverse">
+                <td data-ng-if="rwFilteredItemList[0].hasOwnProperty('exists')"><span class="glyphicon glyphicon-floppy-saved colorGreen" data-ng-if="rwItem.exists"></span></td>
+                <td data-ng-if="rwFilteredItemList[0].hasOwnProperty('exists')"><span data-ng-bind="rwItem.attribute_set_id"></span></td>
                 <td data-ng-bind="$index+1"></td>
                 <td data-ng-bind="rwItem.ItemNumber"></td>
                 <td data-ng-bind="rwItem.Model"></td>
                 <td data-ng-bind="rwItem.Description"></td>
                 <td data-ng-bind="rwItem.UnitPrice"></td>
-                <td data-ng-bind="rwItem.ItemCreationDate"></td>
+                <td data-ng-bind="filterJavascriptDate(rwItem.ItemCreationDate)"></td>
             </tr>
         </table>
     </div>
