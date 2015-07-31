@@ -1,5 +1,9 @@
 app.controller('indexController', function($scope, restService, $window, Utils, $filter) {
 
+    $scope.pageSetup = {
+        debugMode: false
+    };
+
     $scope.getQueryParam = function(param) {
         var found;
         $window.location.search.substr(1).split("&").forEach(function(item) {
