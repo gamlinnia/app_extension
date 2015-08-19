@@ -49,6 +49,53 @@ app.service('restService', function($http) {
             url: urlBase + 'getRwProductList',
             params: queryStringObject
         });
-    }
+    };
+
+    this.checkServerItemStatus = function (rwFilteredItemList) {
+        return $http({
+            method: 'POST',
+            url: urlBase + 'checkServerItemStatus',
+            data: rwFilteredItemList
+        });
+    };
+
+    this.uploadExcelAndImport = function (uploadFileInfo) {
+        return $http({
+            method: 'POST',
+            url: urlBase + 'uploadExcelAndImport',
+            data: uploadFileInfo
+        });
+    };
+
+    this.retrieveAttributeSetmappingTable = function () {
+        return $http({
+            method: 'GET',
+            url: urlBase + 'retrieveAttributeSetmappingTable'
+        });
+    };
+
+    this.getCombinationInfo = function (rwItem) {
+        return $http({
+            method: 'POST',
+            url: urlBase + 'getCombinationInfo',
+            data: rwItem
+        });
+    };
+
+    this.getAttributesById = function (attribute_set_id) {
+        return $http({
+            method: 'GET',
+            url: urlBase + 'getAttributesById',
+            params: {id: attribute_set_id}
+        });
+    };
+
+    this.getAttributeOptions = function (attributeCodes) {
+        return $http({
+            method: 'GET',
+            url: urlBase + 'getAttributeOptionsByAttrCode',
+            params: {attributeCodes: attributeCodes}
+        });
+    };
 
 });

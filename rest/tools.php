@@ -142,6 +142,9 @@ function message ($code, $message) {
 }
 
 function parseCsvIntoArray ($inputFileName) {
+    require_once 'lib/PHPExcel/Classes/PHPExcel.php';
+    $objPHPExcel = new PHPExcel();
+
     date_default_timezone_set('Asia/Taipei');
     try {
         $inputFileType = PHPExcel_IOFactory::identify($inputFileName);

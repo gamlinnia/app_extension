@@ -17,3 +17,20 @@ table.navMenu td {
 .alignCenter {
     text-align: center;
 }
+
+.fullWidth {
+    width: 100%;
+}
+
+.cursorPointer {
+    cursor: pointer;
+}
+
+.attrNameClickable {
+    color: blue;
+    cursor: pointer;
+}
+
+.colorGreen {
+    color: green;
+}

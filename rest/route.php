@@ -27,7 +27,6 @@ require_once 'config.inc.php';
 $app->get('/api/destroySession', 'destroySession');
 $app->get('/api/checkSessionState', 'checkSessionState');
 
-$app->get('/api/getInformationFromIntelligence', 'getInformationFromIntelligence');
 
 $app->get('/api/getProductImageBase64/:itemNumber', 'getProductImageBase64');
 $app->get('/api/getProductImageListFromNE/:itemNumber', 'getProductImageListFromNE');
@@ -103,37 +102,6 @@ function checkSessionState () {
     } catch (OAuthException $e) {
         print_r($e);
     }
-}
-
-function getInformationFromIntelligence ($returnResponse = false) {
-    global $app;
-    global $intelligenceBaseUrl;
-    $itemNumber = $app->request->get('itemNumber');
-    $restPostfix = '/itemservice/detail';
-    $data = array(
-        "CompanyCode" => 1003,
-        "CountryCode" => "USA",
-        "Fields" => null,
-        "Items" => array(
-            array("ItemNumber" => $itemNumber)
-        ),
-        "RequestModel" => "RW"
-    );
-    $header = array('Content-Type: application/json', 'Accept: application/json');
-    $response = CallAPI('POST', $intelligenceBaseUrl . $restPostfix, $header, $data);
-    if ($returnResponse) {
-        return $response;
-    }
-    echo json_encode(array(
-        'status' => 'success',
-        'DataCollection' => array(
-            'ItemNumber' => $response['detailinfo'][0]['ItemNumber'],
-            'DetailSpecification' => $response['detailinfo'][0]['DetailSpecification'],
-            'Introduction' => $response['detailinfo'][0]['Introduction'],
-            'IntroductionImage' => $response['detailinfo'][0]['IntroductionImage'],
-            'Intelligence' => $response['detailinfo'][0]['Intelligence']
-        )
-    ));
 }
 
 function updateProductInfo () {

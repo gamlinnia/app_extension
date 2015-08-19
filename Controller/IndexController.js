@@ -1,7 +1,9 @@
 app.controller('indexController', function($scope, restService, $window, Utils, $filter) {
 
     $scope.pageSetup = {
-        debugMode: false
+        debugMode: false,
+        loading: false,
+        enableSubmit: true
     };
 
     $scope.getQueryParam = function(param) {
@@ -12,6 +14,12 @@ app.controller('indexController', function($scope, restService, $window, Utils, 
             }
         });
         return found;
+    };
+
+    $scope.retrieveAttributeSetmappingTable = function () {
+        restService.retrieveAttributeSetmappingTable().success(function (response) {
+            $scope.attributeSetTable = response;
+        })
     };
 
     $scope.initValue = function () {
@@ -61,7 +69,8 @@ app.controller('indexController', function($scope, restService, $window, Utils, 
             getRwProductList: {
                 ItemCreationDateFrom: '2015-01-01'
             }
-        }
+        };
+        $scope.retrieveAttributeSetmappingTable();
     };
     $scope.initValue();
 
@@ -276,6 +285,7 @@ app.controller('indexController', function($scope, restService, $window, Utils, 
         $scope.authObject.action = 'getRwProductList';
         restService.getRwProductList($scope.params.getRwProductList).success(function (response) {
             $scope.rwFilteredItemList = response.DataCollection;
+            $scope.checkServerItemStatus();
         });
     };
 
@@ -289,6 +299,9 @@ app.controller('indexController', function($scope, restService, $window, Utils, 
     };
 
     $scope.filterJavascriptDate = function (javascriptDateObj) {
+        if (!javascriptDateObj) {
+            return typeof javascriptDateObj;
+        }
         var dateArray = javascriptDateObj.match(/[0-9]+[-]{1}[0-9]+/);
         var javascriptDate = parseInt(dateArray[0]);
         return new Date(javascriptDate).toLocaleDateString();
@@ -297,8 +310,105 @@ app.controller('indexController', function($scope, restService, $window, Utils, 
     $scope.checkServerItemStatus = function () {
         restService.checkServerItemStatus($scope.rwFilteredItemList).success(function (response) {
             $scope.rwFilteredItemList = response.DataCollection;
+            angular.forEach($scope.rwFilteredItemList, function (obj, index) {
+                if (Utils.isDefinedAndNotNull(obj.attribute_set_id)) {
+//                    console.log(Utils.mapAttributeSetIdToName(obj.attribute_set_id, $scope.attributeSetTable));
+                    $scope.rwFilteredItemList[index].attribute_set_name = Utils.mapAttributeSetIdToName(obj.attribute_set_id, $scope.attributeSetTable);
+                }
+            });
             $scope.alert.msg = "count: " + response.count + ", notExistsCount: " + response.notExistsCount;
-        })
+        });
+    };
+
+    $scope.uploadExcelAndImport = function (uploadFile) {
+        $scope.authObject.action = 'importXlsx';
+        $scope.deleteObject($scope, 'response');
+        restService.uploadExcelAndImport(uploadFile).success(function (response) {
+            $scope.response = response.DataCollection;
+            $scope.test = {};
+            for (var key in $scope.response) {
+                console.log($scope.response[key]['NE Item Maintain Subcategory\n(by Code & Name)'], $scope.response[key]['RWPIM Subcategory Name']);
+                $scope.test[$scope.response[key]['NE Item Maintain Subcategory\n(by Code & Name)']] = $scope.response[key]['RWPIM Subcategory Name'];
+            }
+        });
+    };
+
+    $scope.deleteObject = function (obj, key) {
+        if (Utils.isDefinedAndNotNull(obj[key])) {
+            delete obj[key];
+        }
+    };
+
+    $scope.createProduct = function (createProductObj) {
+        var createObj = {
+            action: 'createProduct',
+            method: 'POST',
+            restPostfix: '/products',
+            apiUrl: $scope.authObject.apiUrl,
+            consumerKey: $scope.authObject.consumerKey,
+            consumerSecret: $scope.authObject.consumerSecret,
+            requestBody: createProductObj
+        };
+        restService.proceedRestData(createObj).success(function (response) {
+            console.log(response);
+        });
+    };
+
+    $scope.getInfoThroughAPI = function ($event, rwItem, idx) {
+        $scope.clickedTr($event);
+        restService.getCombinationInfo(rwItem).success(function (response) {
+            $scope.rwFilteredItemList[idx] = response;
+            if (Utils.isDefinedAndNotNull($scope.rwFilteredItemList[idx]['baseinfo'])) {
+                if (Utils.isDefinedAndNotNull($scope.rwFilteredItemList[idx]['baseinfo']['SubcategoryName'])) {
+                    var subCategoryObj = Utils.neSubcategoryToMagentoSubcategory($scope.rwFilteredItemList[idx].baseinfo.SubcategoryName);
+                }
+            } else {
+                alert('no subcategory' + $scope.rwFilteredItemList[idx].ItemNumber);
+            }
+            $scope.rwFilteredItemList[idx].attribute_set_name = subCategoryObj.status == 'success' ? subCategoryObj.attr_names : ['No Matching'];
+//            console.log($scope.rwFilteredItemList[idx]);
+//            Utils.formatProductCreateObjectFromApi(response, $scope.attributeSetTable);
+//            console.log(response, idx);
+        });
+    };
+
+    $scope.clickedTr = function ($event) {
+        $($event.target).parents('tr').css({
+            'background-color': 'yellow'
+        });
+    };
+
+    $scope.chooseAttrAndUploadNewProduct = function (idx, attr_name, rwItem) {
+        if (rwItem.exists) {
+            return;
+        }
+        if (confirm(
+                'Sure to choose ' + attr_name + '\n' +
+                'for\n' +
+                rwItem.Description + '?'
+        )) {
+            rwItem.attribute_set_name = attr_name;
+            rwItem.attribute_set_id = Utils.mapAttributeSetNameToId(rwItem.attribute_set_name, $scope.attributeSetTable);
+            restService.getAttributesById(rwItem.attribute_set_id).success(function (response) {
+                var is_visible_on_frontAttributesArray = response.is_visible_on_front;
+                var specAttributesValueMappingObject = Utils.mapMagentoSpecAndProperty(rwItem.property, is_visible_on_frontAttributesArray);
+                Utils.mapMagentoOptions(specAttributesValueMappingObject, function(specAttributesOptionMappingObject) {
+                    var parseProcess = Utils.formatProductCreateObjectFromApi(idx, rwItem, $scope.attributeSetTable, specAttributesOptionMappingObject);
+                    console.log(parseProcess);
+//                    $scope.createProduct(parseProcess.transformedData);
+                });
+            });
+        }
+    };
+
+    $scope.attrClass = function (attrName, existsInLocal) {
+        if (attrName != 'No Matching' && !existsInLocal) {
+            return 'attrNameClickable';
+        }
+    };
+
+    $scope.containsComma = function (attr_name) {
+        return typeof attr_name == 'string' && attr_name.indexOf(',') > -1;
     };
 
 });
