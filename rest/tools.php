@@ -663,6 +663,7 @@ function getAssetPriceType ($assetId) {
 }
 
 function parseMagentoJson ($magentoObject) {
+    var_dump($magentoObject);
     $result = array();
     foreach ($magentoObject AS $value) {
         array_push($result, $value);

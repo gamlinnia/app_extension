@@ -171,13 +171,21 @@ function proceedRestData () {
                     echo $oauthClient->getLastResponse();
                     return;
                 }
-                $magentoProductList = parseMagentoJson(json_decode($oauthClient->getLastResponse(), true));
-                if (count($magentoProductList) > 0) {
-                    $magentoProductList = writeItemNumberToLocal($magentoProductList);
+
+                switch ($action) {
+                    case 'getProductList' :
+                        $response = parseMagentoJson(json_decode($oauthClient->getLastResponse(), true));
+                        if (count($response) > 0) {
+                            $response = writeItemNumberToLocal($response);
+                        }
+                        break;
+                    default :
+                        $response = json_decode(json_decode($oauthClient->getLastResponse(), true), true);
                 }
+
                 echo json_encode(array(
                     'status' => 'success',
-                    'DataCollection' => $magentoProductList
+                    'DataCollection' => $response
                 ));
                 break;
             case 'PUT':

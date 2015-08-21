@@ -351,6 +351,11 @@ app.controller('indexController', function($scope, restService, $window, Utils, 
         };
         restService.proceedRestData(createObj).success(function (response) {
             console.log(response);
+            if (Utils.isDefinedAndNotNull(response.http_code) && response.http_code == 200) {
+                $window.alert('Product ' + createProductObj.sku + ' has been Inserted.');
+            } else {
+                $window.alert('Error occur');
+            }
         });
     };
 
@@ -395,7 +400,7 @@ app.controller('indexController', function($scope, restService, $window, Utils, 
                 Utils.mapMagentoOptions(specAttributesValueMappingObject, function(specAttributesOptionMappingObject) {
                     var parseProcess = Utils.formatProductCreateObjectFromApi(idx, rwItem, $scope.attributeSetTable, specAttributesOptionMappingObject);
                     console.log(parseProcess);
-//                    $scope.createProduct(parseProcess.transformedData);
+                    $scope.createProduct(parseProcess.transformedData);
                 });
             });
         }
@@ -409,6 +414,40 @@ app.controller('indexController', function($scope, restService, $window, Utils, 
 
     $scope.containsComma = function (attr_name) {
         return typeof attr_name == 'string' && attr_name.indexOf(',') > -1;
+    };
+
+    $scope.createCustomer = function () {
+        var createObj = {
+            action: 'createCustomer',
+            method: 'POST',
+            restPostfix: '/customer',
+            apiUrl: $scope.authObject.apiUrl,
+            consumerKey: $scope.authObject.consumerKey,
+            consumerSecret: $scope.authObject.consumerSecret,
+            requestBody: {
+                "firstname": "fdsjlkfds",
+                "lastname": "djfkldsjdkfls",
+                "email": "gamlinnia@icloud.com",
+                "password": "fjdkfdsjf"
+            }
+        };
+        restService.proceedRestData(createObj).success(function (response) {
+            console.log(response);
+        });
+    };
+
+    $scope.retrieveCustomer = function () {
+        var createObj = {
+            action: 'retrieveCustomer',
+            method: 'GET',
+            restPostfix: '/customer',
+            apiUrl: $scope.authObject.apiUrl,
+            consumerKey: $scope.authObject.consumerKey,
+            consumerSecret: $scope.authObject.consumerSecret
+        };
+        restService.proceedRestData(createObj).success(function (response) {
+            console.log(response);
+        });
     };
 
 });
