@@ -185,6 +185,7 @@ function proceedRestData () {
 
                 echo json_encode(array(
                     'status' => 'success',
+                    'url' => $apiUrl . $restPostfix,
                     'DataCollection' => $response
                 ));
                 break;

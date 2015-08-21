@@ -440,7 +440,7 @@ app.controller('indexController', function($scope, restService, $window, Utils, 
         var createObj = {
             action: 'retrieveCustomer',
             method: 'GET',
-            restPostfix: '/customer',
+            restPostfix: '/customer/1',
             apiUrl: $scope.authObject.apiUrl,
             consumerKey: $scope.authObject.consumerKey,
             consumerSecret: $scope.authObject.consumerSecret
