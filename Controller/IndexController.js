@@ -400,7 +400,9 @@ app.controller('indexController', function($scope, restService, $window, Utils, 
                 Utils.mapMagentoOptions(specAttributesValueMappingObject, function(specAttributesOptionMappingObject) {
                     var parseProcess = Utils.formatProductCreateObjectFromApi(idx, rwItem, $scope.attributeSetTable, specAttributesOptionMappingObject);
                     console.log(parseProcess);
-                    $scope.createProduct(parseProcess.transformedData);
+                    if (!$scope.pageSetup.debugMode) {
+                        $scope.createProduct(parseProcess.transformedData);
+                    }
                 });
             });
         }

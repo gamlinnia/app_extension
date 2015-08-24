@@ -135,6 +135,7 @@
                 <th>Model</th>
                 <th>Description</th>
                 <th>UnitPrice</th>
+                <th>ItemCreationDate</th>
                 <th>attr_name</th>
                 <th></th>
             </tr>
@@ -147,6 +148,7 @@
                 <td data-ng-bind="rwItem.Model"></td>
                 <td data-ng-bind="rwItem.Description"></td>
                 <td data-ng-bind="rwItem.UnitPrice"></td>
+                <td data-ng-bind="filterJavascriptDate(rwItem.ItemCreationDate)"></td>
                 <td>    <!--attr_name-->
                     <span data-ng-if="containsComma(rwItem.attribute_set_name)" data-ng-repeat="attr_name in rwItem.attribute_set_name.split(',')">
                         <span data-ng-bind="attr_name" data-ng-class="attrClass(attr_name.trim())" data-ng-click="chooseAttrAndUploadNewProduct($parent.$parent.$index, attr_name.trim(), rwItem)"></span>
