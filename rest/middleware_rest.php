@@ -225,7 +225,7 @@ $app->get('/api/test', function () {
     $actionKeyByForm = array('contactUs' => 'Purpose for Contact');
     $action = 'Request to Return Merchandise';
     $recipient_array = array(
-        'to' => array('Li.L.Liu@newegg.com'),
+        'to' => array('Li.L.Liu@newegg.com', 'gamlinnia@hotmail.com', 'gamlinnia@gmail.com'),
         'bcc' => array('Reyna.C.Chu@newegg.com', 'Henry.H.Wu@newegg.com')
     );
 
