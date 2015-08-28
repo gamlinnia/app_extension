@@ -219,6 +219,16 @@ function templateReplace ($action, $formData) {
 }
 
 $app->get('/api/test', function () {
+    global $config;
+    $formToEmail = array('contactUs');
+
+    $actionKeyByForm = array('contactUs' => 'Purpose for Contact');
+    $action = 'Request to Return Merchandise';
+    $recipient_array = array(
+        'to' => array('Li.L.Liu@newegg.com'),
+        'bcc' => array('Reyna.C.Chu@newegg.com', 'Henry.H.Wu@newegg.com')
+    );
+
     require_once 'class/Email.class.php';
     require_once 'class/EmailFactory.class.php' ;
 
@@ -229,9 +239,11 @@ $app->get('/api/test', function () {
     $emailFactory = EmailFactory::getEmailFactory($smtpInfo);
 
     /* $email = class Email */
-    $email = $emailFactory->getEmail('Request to Return Merchandise', array('to' => array('Li.L.Liu@newegg.com')));
-    $content = 'test';
+    $email = $emailFactory->getEmail('Request to Return Merchandise', $recipient_array);
+    $email = $emailFactory->getEmail($action, $recipient_array);
+    $content = templateReplace($action, array('test' => 'this is a test'));
     $email->setContent($content);
     $email->sendMail();
+    error_log('rw mail to ' . join(', ', $recipient_array['to']));
     echo 'test';
 });
