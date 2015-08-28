@@ -175,7 +175,7 @@ function sendMailByForm ($formName, $formData) {
     require_once 'class/EmailFactory.class.php' ;
 
     /* SMTP server name, port, user/passwd */
-    $smtpInfo = array("host" => "10.16.11.68",
+    $smtpInfo = array("host" => "172.25.132.21",
         "port" => "25",
         "auth" => false);
     $emailFactory = EmailFactory::getEmailFactory($smtpInfo);
@@ -216,4 +216,22 @@ function templateReplace ($action, $formData) {
     $doc['.description'] = join('', $emailContent);
     $doc['.logoImage']->attr('src', 'images/rosewilllogo.png');
     return $doc;
+}
+
+function test () {
+    require_once 'class/Email.class.php';
+    require_once 'class/EmailFactory.class.php' ;
+
+    /* SMTP server name, port, user/passwd */
+    $smtpInfo = array("host" => "172.25.132.21",
+        "port" => "25",
+        "auth" => false);
+    $emailFactory = EmailFactory::getEmailFactory($smtpInfo);
+
+    /* $email = class Email */
+    $email = $emailFactory->getEmail('dotest', array('to' => 'Li.L.Liu@newegg.com'));
+    $content = 'test';
+    $email->setContent($content);
+    $email->sendMail();
+
 }
