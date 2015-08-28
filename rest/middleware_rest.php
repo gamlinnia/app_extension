@@ -229,9 +229,9 @@ $app->get('/api/test', function () {
     $emailFactory = EmailFactory::getEmailFactory($smtpInfo);
 
     /* $email = class Email */
-    $email = $emailFactory->getEmail('dotest', array('to' => 'Li.L.Liu@newegg.com'));
+    $email = $emailFactory->getEmail('Request to Return Merchandise', array('to' => array('Li.L.Liu@newegg.com')));
     $content = 'test';
     $email->setContent($content);
     $email->sendMail();
-
+    echo 'test';
 });
