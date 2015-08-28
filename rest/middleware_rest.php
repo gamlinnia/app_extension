@@ -218,7 +218,7 @@ function templateReplace ($action, $formData) {
     return $doc;
 }
 
-function test () {
+$app->get('/api/test', function () {
     require_once 'class/Email.class.php';
     require_once 'class/EmailFactory.class.php' ;
 
@@ -234,4 +234,4 @@ function test () {
     $email->setContent($content);
     $email->sendMail();
 
-}
+});
