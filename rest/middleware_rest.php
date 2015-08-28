@@ -233,7 +233,7 @@ $app->get('/api/test', function () {
     require_once 'class/EmailFactory.class.php' ;
 
     /* SMTP server name, port, user/passwd */
-    $smtpInfo = array("host" => "172.25.132.21",
+    $smtpInfo = array("host" => "127.0.0.1",
         "port" => "25",
         "auth" => false);
     $emailFactory = EmailFactory::getEmailFactory($smtpInfo);
