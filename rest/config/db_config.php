@@ -6,7 +6,7 @@ $dsn = array(
     'phptype'  => 'mysqli',
     'username' => 'rwpim',
     'password' => 'rwpim',
-    'hostspec' => 'localhost',
+    'hostspec' => 'rosewill-mysql-db.csjbcd5fluqw.us-west-1.rds.amazonaws.com',
     'database' => 'rwpim'
 );
 
