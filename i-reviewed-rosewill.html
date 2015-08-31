@@ -1,0 +1,103 @@
+<div style="background-color: #f8f8f8; margin: 10px; padding: 20px;">
+    <form id="form" action="javascript:createContactUs()">
+        <table>
+            <tbody>
+            <tr>
+                <th style="height: 80px;width: 200px;vertical-align: middle;">
+                    <span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Order Number</span>
+                </th>
+                <td style="vertical-align: middle;"><input class="required" type="text" name="Order Number" maxlength="100" /></td>
+            </tr>
+            <tr>
+                <th style="height: 80px;width: 200px;vertical-align: middle;">
+                    <span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">My E-Mail Address</span></th>
+                <td style="vertical-align: middle;"><input class="required email" type="text" name="My E-Mail Address" maxlength="100" /></td>
+            </tr>
+            <tr id="purpose">
+                <th style="height: 80px;width: 200px;vertical-align: middle;">
+                    <span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Where Purchased</span></th>
+                <td style="vertical-align: middle;">
+                    <select id="purposeForContact" name="Where Purchased" style="border: 1px inset;">
+                        <option selected="selected">-- Please Select One --</option>
+                        <option value="Amazon.com">Amazon.com</option>
+                        <option value="Bestbuy.com">Bestbuy.com</option>
+                        <option value="eBay.com">eBay.com</option>
+                        <option value="Homedepot.com">Homedepot.com</option>
+                        <option value="Newegg.com">Newegg.com</option>
+                        <option value="Rakuten.com">Rakuten.com</option>
+                        <option value="Sears.com">Sears.com</option>
+                        <option value="Wayfair.com">Wayfair.com</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>
+                    <button type="submit" style="padding: 4px 20px;border-radius: 5px;">Submit</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+
+
+<script type="text/javascript">// <![CDATA[
+jQuery(document).ready(
+        function () {
+            formValidation();
+        }
+);
+function formValidation () {
+    jQuery("#form").validate();
+}
+
+jQuery('#purposeForContact').change(
+        function () {
+            changePurposeForContact(jQuery(this).val(),jQuery('#purpose'));
+        }
+);
+
+function createContactUs() {
+    var href = window.location.href;
+    var urlWithoutPage = href.replace(href.match(/\/[a-z-_\.]+$/), '/');
+    var requestBody = {form_name:'i-reviewed-rosewill',value:JSON.stringify(jQuery('#form').serializeArray())};
+    jQuery.ajax({
+        url:urlWithoutPage + "rosewill/rest/route.php/api/insertFormValue",
+        type:"POST",
+        data:JSON.stringify(requestBody),
+        success: function(msg){
+            alert(msg.message);
+            window.location.reload();
+        },
+        error:function(xhr, ajaxOptions, thrownError){
+            alert(xhr.status);
+            alert(thrownError);
+        }
+    });
+}
+
+function changePurposeForContact (value, anchor) {
+    jQuery('.purposeContent').remove();
+    switch (value) {
+        case 'Other':
+            var content = '<tr class="purposeContent">' +
+                    '<th style="height: 80px;width: 200px;vertical-align: middle;">' +
+                    '<span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Please tell us where did you buy it from</span>' +
+                    '</th>' +
+                    '<td style="vertical-align: middle;">' +
+                    '<textarea name="Please tell us where did you buy it from" style="border: 1px solid gray;"></textarea>' +
+                    '</td>' +
+                    '</tr>';
+            anchor = insertHtmlContent(anchor, content);
+            break;
+    }
+    formValidation();
+}
+
+function insertHtmlContent (anchor, content) {
+    anchor = jQuery(anchor).after(content);
+    return jQuery(anchor).next();
+}
+// ]]></script>
