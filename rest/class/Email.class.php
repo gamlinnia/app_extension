@@ -105,9 +105,13 @@ class Email{
             'Request to Review Product' => 'Request to Review Product',
             'Sponsorship Request' => 'Sponsorship Request',
             'Vendor or Business Contact' => 'Vendor or Business Contact',
-            'Other' => 'Uncategorized Contact'
+            'Other' => 'Uncategorized Contact',
+            'i-reviewed-rosewill' => 'I Reviewed a Rosewill Product!'
         );
 //        return $this->getAction();
+        if (!isset($subjectArray[$this->getAction()])) {
+            return $this->getAction();
+        }
         return $subjectArray[$this->getAction()];
     }
 
