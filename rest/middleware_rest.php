@@ -168,7 +168,7 @@ function sendMailByForm ($formName, $formData) {
                 break;
             case 'i-reviewed-rosewill' :
                 $recipient_array = array(
-                    'to' => array('Li.L.Liu@newegg.com'),
+                    'to' => array('mkt@rosewill.com', 'sales@rosewill.com', 'consumerreviews@rosewill.com'),
                     'bcc' => array('Reyna.C.Chu@newegg.com', 'Henry.H.Wu@newegg.com')
                 );
                 break;
@@ -181,7 +181,7 @@ function sendMailByForm ($formName, $formData) {
     require_once 'class/EmailFactory.class.php' ;
 
     /* SMTP server name, port, user/passwd */
-    $smtpInfo = array("host" => "172.25.132.21",
+    $smtpInfo = array("host" => "127.0.0.1",
         "port" => "25",
         "auth" => false);
     $emailFactory = EmailFactory::getEmailFactory($smtpInfo);
@@ -223,33 +223,3 @@ function templateReplace ($action, $formData) {
     $doc['.logoImage']->attr('src', 'images/rosewilllogo.png');
     return $doc;
 }
-
-$app->get('/api/test', function () {
-    global $config;
-    $formToEmail = array('contactUs');
-
-    $actionKeyByForm = array('contactUs' => 'Purpose for Contact');
-    $action = 'Request to Return Merchandise';
-    $recipient_array = array(
-        'to' => array('Li.L.Liu@newegg.com', 'gamlinnia@hotmail.com', 'gamlinnia@gmail.com'),
-        'bcc' => array('Reyna.C.Chu@newegg.com', 'Henry.H.Wu@newegg.com')
-    );
-
-    require_once 'class/Email.class.php';
-    require_once 'class/EmailFactory.class.php' ;
-
-    /* SMTP server name, port, user/passwd */
-    $smtpInfo = array("host" => "127.0.0.1",
-        "port" => "25",
-        "auth" => false);
-    $emailFactory = EmailFactory::getEmailFactory($smtpInfo);
-
-    /* $email = class Email */
-    $email = $emailFactory->getEmail('Request to Return Merchandise', $recipient_array);
-    $email = $emailFactory->getEmail($action, $recipient_array);
-    $content = templateReplace($action, array('test' => 'this is a test'));
-    $email->setContent($content);
-    $email->sendMail();
-    error_log('rw mail to ' . join(', ', $recipient_array['to']));
-    echo 'test';
-});
