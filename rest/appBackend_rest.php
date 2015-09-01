@@ -110,6 +110,17 @@ function getInformationFromIM ($paramsObj = array(), $returnResponse = false) {
             }
             echo jsonResult($response);
             break;
+        case 'inventory' :
+            $restPostfix = '/pricing/v1/item/listinginfo' . parseQueryString(array(
+                    'ItemNumbers' => $params['itemNumber']
+                ));
+            /*curl https 會出現問題*/
+            $response = CallAPI('GET', $IMBaseUrl . $restPostfix, $header);
+            if ($returnResponse) {
+                return $response;
+            }
+            echo jsonResult($response);
+            break;
         default:
             echo 'Action Exception';
             return null;
@@ -418,7 +429,7 @@ $app->post('/api/getCombinationInfo', function () {
     global $input;
     $response = $input;
 
-    $actionsArray = array('baseinfo', 'property', 'dimension', 'getImages', 'product', 'description', 'intelligence', 'price');
+    $actionsArray = array('baseinfo', 'property', 'dimension', 'getImages', 'product', 'description', 'intelligence', 'price', 'inventory');
     foreach ($actionsArray AS $action) {
         $params = array(
             'itemNumber' => $input['ItemNumber'],
@@ -476,6 +487,10 @@ $app->post('/api/getCombinationInfo', function () {
                 if (isset($responsePrice['ItemPrices'][0])) {
                     $response['price'] = $responsePrice['ItemPrices'][0];
                 }
+                break;
+            case 'inventory' :
+                $responseInventory = getInformationFromIM($params, true);
+                $response['inventory'] = $responseInventory;
                 break;
         }
     }
