@@ -169,7 +169,7 @@ function sendMailByForm ($formName, $formData) {
             case 'i-reviewed-rosewill' :
                 $recipient_array = array(
                     'to' => array('mkt@rosewill.com', 'sales@rosewill.com', 'consumerreviews@rosewill.com'),
-                    'bcc' => array('Reyna.C.Chu@newegg.com', 'Henry.H.Wu@newegg.com')
+                    'bcc' => array('Reyna.C.Chu@newegg.com', 'Henry.H.Wu@newegg.com', 'Li.L.Liu@newegg.com')
                 );
                 break;
             default:
@@ -211,7 +211,10 @@ function templateReplace ($action, $formData) {
     $content = file_get_contents('email/content/template.html');
     $doc = phpQuery::newDocumentHTML($content);
 
-    $doc['.descriptionTitle'] = $action;
+    $contentTitle = array(
+        'i-reviewed-rosewill' => 'I reviewed a Rosewill product!'
+    );
+    (isset($contentTitle[$action])) ? $doc['.descriptionTitle'] = $contentTitle[$action] : $doc['.descriptionTitle'] = $action;
 
     $emailContent = array();
     foreach ($formData AS $key => $value) {
