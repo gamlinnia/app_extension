@@ -490,7 +490,9 @@ $app->post('/api/getCombinationInfo', function () {
                 break;
             case 'inventory' :
                 $responseInventory = getInformationFromIM($params, true);
-                $response['inventory'] = $responseInventory;
+                if (isset($responseInventory['Items'][0])) {
+                    $response['inventory'] = $responseInventory['Items'][0];
+                }
                 break;
         }
     }

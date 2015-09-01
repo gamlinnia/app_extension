@@ -1,9 +1,54 @@
 app.controller('indexController', function($scope, restService, $window, Utils, $filter) {
 
+    /*page setup ↓*/
+    $scope.bigCurrentPage = 1;
+    $scope.rowsPerPage = 100;
+
+    $scope.setPage = function (pageNo) {
+        $scope.bigCurrentPage = pageNo;
+    };
+    /*page setup ↑*/
+
     $scope.pageSetup = {
         debugMode: false,
         loading: false,
-        enableSubmit: true
+        enableSubmit: false
+    };
+
+    $scope.authenticated = false;
+    $scope.startTimeStamp = new Date().valueOf();
+
+    $scope.getConfigJson = function (modifyObject) {
+        restService.getConfigJson(modifyObject).success(function (response) {
+            Utils.assignObjToAntoher($scope, response);
+            if (Utils.isDefinedAndNotNull($scope.host)) {
+                Utils.assignObjToAntoher($scope, $scope.magentoConfig[$scope.host]);
+            }
+            $scope.pageSetup.enableSubmit = true;
+        });
+    };
+    $scope.getConfigJson();
+
+    $scope.changeMagentoHost = function () {
+        $scope.postConfigJson({host: $scope.host});
+        Utils.assignObjToAntoher($scope, $scope.magentoConfig[$scope.host]);
+    };
+
+    $scope.postConfigJson = function (modifyObject, type) {
+        switch (type) {
+            case 'dateString' :
+                var theDateString = Utils.downToLastElement(modifyObject);
+                if (theDateString.match(/^[0-9]{4}-[0-1][0-9]-[0-1][0-9]$/)) {
+                    restService.postConfigJson(modifyObject).success(function (response) {
+                        console.log(response);
+                    });
+                }
+                break;
+            default :
+                restService.postConfigJson(modifyObject).success(function (response) {
+                    console.log(response);
+                });
+        }
     };
 
     $scope.getQueryParam = function(param) {
@@ -22,65 +67,8 @@ app.controller('indexController', function($scope, restService, $window, Utils, 
         })
     };
 
-    $scope.initValue = function () {
-        /*page setup ↓*/
-        $scope.bigCurrentPage = 1;
-        $scope.rowsPerPage = 100;
-
-        $scope.setPage = function (pageNo) {
-            $scope.bigCurrentPage = pageNo;
-        };
-
-        $scope.pageChanged = function() {
-            $scope.listAllAssets();
-        };
-        /*page setup ↑*/
-
-        $scope.authenticated = false;
-        var host = 'rwpim.silksoftware.net';
-        var magentoDirectory = '';
-        /*var host = $window.location.hostname;*/
-        /*var magentoDirectory = '/magento';*/
-        var callbackUrl = $window.location.origin + $window.location.pathname;
-        $scope.authObject = {
-            callbackUrl: callbackUrl,
-            apiUrl: 'http://' + host + magentoDirectory + '/api/rest',
-            temporaryCredentialsRequestUrl: 'http://' + host + magentoDirectory + '/index.php/oauth/initiate?oauth_callback=' + encodeURIComponent(callbackUrl),
-            adminAuthorizationUrl: 'http://' + host + magentoDirectory + '/index.php/admin/oauth_authorize',
-            accessTokenRequestUrl: 'http://' + host + magentoDirectory + '/index.php/oauth/token',
-            consumerKey: 'eefc539175f5024958c657c1aa93c879',
-            consumerSecret: 'a9df3a118519c28ca36007f70e039240'
-            /*consumerKey: 'f5d00e14c41ee9632d528f59b243d2e1',*/
-            /*consumerSecret: 'bdbd0843217e0189a4f812961ed6b52e'*/
-        };
-        var oauth_token = $scope.getQueryParam('oauth_token');
-        var oauth_verifier = $scope.getQueryParam('oauth_verifier');
-        if (oauth_token) {
-            $scope.authObject.oauth_token = oauth_token;
-        }
-        if (oauth_verifier) {
-            $scope.authObject.oauth_verifier = oauth_verifier;
-        }
-        $scope.responseData = {
-            intelligence: []
-        };
-        $scope.startTimeStamp = new Date().valueOf();
-        $scope.params = {
-            getRwProductList: {
-                ItemCreationDateFrom: '2015-01-01'
-            }
-        };
-        $scope.retrieveAttributeSetmappingTable();
-    };
-    $scope.initValue();
-
-    $scope.destroySession = function () {
-        restService.destroySession().success(function (data) {
-            $window.location.reload();
-        });
-    };
-
     $scope.checkSessionState = function () {
+        $scope.parseAuthParams();
         restService.checkSessionState($scope.authObject).success(function (data) {
             if (data.status == 'success') {
                 switch (data.state) {
@@ -96,12 +84,42 @@ app.controller('indexController', function($scope, restService, $window, Utils, 
                             type: 'success',
                             msg: 'AUTHENTICATION SUCCESS'
                         };
+                        $scope.retrieveAttributeSetmappingTable();
                         break;
                 }
             }
         });
     };
-    $scope.checkSessionState();
+
+    $scope.parseAuthParams = function () {
+        var callbackUrl = $window.location.origin + $window.location.pathname;
+        $scope.authObject = {
+            callbackUrl: callbackUrl,
+            apiUrl: 'http://' + $scope.host + $scope.magentoDirectory + '/api/rest',
+            temporaryCredentialsRequestUrl: 'http://' + $scope.host + $scope.magentoDirectory + '/index.php/oauth/initiate?oauth_callback=' + encodeURIComponent(callbackUrl),
+            adminAuthorizationUrl: 'http://' + $scope.host + $scope.magentoDirectory + '/index.php/admin/oauth_authorize',
+            accessTokenRequestUrl: 'http://' + $scope.host + $scope.magentoDirectory + '/index.php/oauth/token',
+            consumerKey: $scope.consumerKey,
+            consumerSecret: $scope.consumerSecret
+        };
+        var oauth_token = $scope.getQueryParam('oauth_token');
+        var oauth_verifier = $scope.getQueryParam('oauth_verifier');
+        if (oauth_token) {
+            $scope.authObject.oauth_token = oauth_token;
+        }
+        if (oauth_verifier) {
+            $scope.authObject.oauth_verifier = oauth_verifier;
+        }
+        $scope.responseData = {
+            intelligence: []
+        };
+    };
+
+    $scope.destroySession = function () {
+        restService.destroySession().success(function (data) {
+            $window.alert('Session Destroyed');
+        });
+    };
 
     $scope.backHome = function () {
         $window.location.assign($scope.authObject.callbackUrl);
@@ -277,11 +295,16 @@ app.controller('indexController', function($scope, restService, $window, Utils, 
         $scope.proceedUploading($scope.productList[$scope.count.uploadImage.count]);
     };
 
+    $scope.uploadSingleProductImage = function (rwItem) {
+        $scope.proceedUploading(rwItem);
+    };
+
     $scope.resetProductList = function () {
         $scope.productList = [];
     };
 
     $scope.getRwProductList = function () {
+        $scope.parseAuthParams();
         $scope.authObject.action = 'getRwProductList';
         restService.getRwProductList($scope.params.getRwProductList).success(function (response) {
             $scope.rwFilteredItemList = response.DataCollection;
@@ -316,7 +339,10 @@ app.controller('indexController', function($scope, restService, $window, Utils, 
                     $scope.rwFilteredItemList[index].attribute_set_name = Utils.mapAttributeSetIdToName(obj.attribute_set_id, $scope.attributeSetTable);
                 }
             });
-            $scope.alert.msg = "count: " + response.count + ", notExistsCount: " + response.notExistsCount;
+            $scope.alert = {
+                type: 'success',
+                msg: "count: " + response.count + ", notExistsCount: " + response.notExistsCount
+            };
         });
     };
 
@@ -451,6 +477,24 @@ app.controller('indexController', function($scope, restService, $window, Utils, 
             console.log(response);
         });
     };
+
+    $scope.exportAction = function(){
+        $scope.export_action = 'excel';
+        switch($scope.export_action){
+            case 'pdf':
+                $scope.$broadcast('export-pdf', {});
+                break;
+            case 'excel':
+                console.log('export to excel');
+                $scope.$broadcast('export-excel', {});
+                break;
+            case 'doc':
+                $scope.$broadcast('export-doc', {});
+                break;
+            default:
+                console.log('no event caught');
+        }
+    }
 
 });
 

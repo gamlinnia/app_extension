@@ -16,6 +16,15 @@
     <script type="text/javascript" src="Factory/Utils.js"></script>
     <!--Service-->
     <script type="text/javascript" src="Service/restService.js"></script>
+    <!--jQuery plugin-->
+    <!--tableExport-->
+    <script type="text/javascript" src="bower_components/tableExport.jquery.plugin/tableExport.js"></script>
+    <script type="text/javascript" src="bower_components/tableExport.jquery.plugin/jquery.base64.js"></script>
+    <script type="text/javascript" src="bower_components/tableExport.jquery.plugin/jspdf/libs/sprintf.js"></script>
+    <script type="text/javascript" src="bower_components/tableExport.jquery.plugin/jspdf/jspdf.js"></script>
+    <script type="text/javascript" src="bower_components/tableExport.jquery.plugin/jspdf/libs/base64.js"></script>
+    <!--tableExport Directive-->
+    <script type="text/javascript" src="Directive/ExportTable.js"></script>
     <!--Style-->
     <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="css/default.css" />
@@ -41,9 +50,17 @@
     </form>
 </div>
 <div class="alignCenter">
-    <button data-ng-click="createProduct()">測試新增產品</button>
-    <button data-ng-click="createCustomer()">測試新API</button>
-    <button data-ng-click="retrieveCustomer()">Get Customer List</button>
+    <label for="magentoHost">Magento Host</label>
+    <select id="magentoHost" data-ng-model="host" data-ng-change="changeMagentoHost()">
+        <option value="114.34.186.208">114.34.186.208</option>
+        <option value="rwpim.silksoftware.net">rwpim.silksoftware.net</option>
+    </select>
+    <label for="magentoDirectory">Magento Directory</label>
+    <select id="magentoDirectory" data-ng-model="magentoDirectory">
+        <option>/community</option>
+        <option value="">root</option>
+    </select>
+    <input type="button" data-ng-click="checkSessionState()" value="Start AUTH" />
 </div>
 <div class="alignCenter">
     <form data-ng-submit="getRwProductList()">
@@ -51,10 +68,11 @@
             <legend style="width: inherit;border-bottom: none;">Get RW Product List and Import</legend>
             <input type="submit" value="Get RW Product List" />
             <label for="ItemCreationDateFrom">Create From</label>
-            <input type="text" id="ItemCreationDateFrom" style="width: 80px;" data-ng-model="params.getRwProductList.ItemCreationDateFrom" />
+            <input type="text" id="ItemCreationDateFrom" style="width: 80px;" data-ng-model="params.getRwProductList.ItemCreationDateFrom" ng-blur="postConfigJson({params: params}, 'dateString')" />
             <label for="ItemCreationDateTo">Create To</label>
             <input type="text" id="ItemCreationDateTo" style="width: 80px;" data-ng-model="params.getRwProductList.ItemCreationDateTo" />
             <span data-ng-bind="rwFilteredItemList.length"></span>
+            <input type="button" value="Export to Excel" data-ng-click="exportAction()" />
         </fieldset>
     </form>
 </div>
@@ -79,9 +97,6 @@
         </td>
         <td data-ng-if="authenticated">
             <input type="button" value="Get From Intelligence" data-ng-click="getInformationFromIntelligence()" />
-        </td>
-        <td data-ng-if="authenticated">
-            <input type="button" value="Create New Product" data-ng-click="createNewProduct()" />
         </td>
         <td>
             <input type="button" value="Update Product Info" data-ng-click="updateAllInfo()" />
@@ -125,7 +140,7 @@
         createNewProduct
     </div>
     <div ng-switch-when="getRwProductList">
-        <table class="infoTable marginAuto fullWidth" data-ng-show="rwFilteredItemList.length>0">
+        <table class="infoTable marginAuto fullWidth export-table" data-ng-show="rwFilteredItemList.length>0">
             <tr>
                 <th data-ng-if="rwFilteredItemList[0].hasOwnProperty('exists')"></th>
                 <!--<th data-ng-if="rwFilteredItemList[0].hasOwnProperty('exists')">attribute_set_id</th>-->
@@ -163,6 +178,7 @@
                 </td>
                 <td>
                     <span class="glyphicon glyphicon-log-in cursorPointer" data-ng-click="getInfoThroughAPI($event, rwItem, $index)"></span>
+                    <span class="glyphicon glyphicon-log-in cursorPointer" data-ng-click="uploadSingleProductImage(rwItem)"></span>
                 </td>
             </tr>
         </table>
