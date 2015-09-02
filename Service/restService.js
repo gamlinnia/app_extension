@@ -98,6 +98,19 @@ app.service('restService', function($http) {
         });
     };
 
+    this.getConfigJson = function () {
+        return $http({
+            method: 'GET',
+            url: urlBase + 'configJson'
+        })
+    };
 
+    this.postConfigJson = function (postData) {
+        return $http({
+            method: 'POST',
+            url: urlBase + 'configJson',
+            data: postData
+        })
+    };
 
 });

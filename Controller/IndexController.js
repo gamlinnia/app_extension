@@ -296,7 +296,70 @@ app.controller('indexController', function($scope, restService, $window, Utils, 
     };
 
     $scope.uploadSingleProductImage = function (rwItem) {
-        $scope.proceedUploading(rwItem);
+        var uploadObj = {
+            apiUrl: $scope.authObject.apiUrl,
+            consumerKey: $scope.authObject.consumerKey,
+            consumerSecret: $scope.authObject.consumerSecret,
+            itemObj: {
+                entity_id: rwItem.entity_id,
+                sku: rwItem.sku
+            }
+        };
+        console.log(rwItem);
+        console.log(uploadObj);
+        return;
+        restService.uploadProductImages(uploadObj).success(function (response) {
+            console.log(response);
+            if (response.length > 0) {
+                $scope.count.uploadImage.success++;
+            } else {
+                if (response.message && response.message == 'NO IMAGE NEED TO BE UPLOADED') {
+                    $scope.count.uploadImage.success++;
+                } else {
+                    $scope.count.uploadImage.fail++;
+                    $scope.errorObj.push({
+                        entity_id: obj.entity_id,
+                        sku: obj.sku
+                    });
+                }
+            }
+            $scope.alert = {
+                type: 'success',
+                msg: 'sucess: ' + $scope.count.uploadImage.success + ', fail: ' + $scope.count.uploadImage.fail + ', count: ' + ($scope.count.uploadImage.count +1)
+            };
+            if ($scope.count.uploadImage.count < $scope.rowsPerPage) {
+                $scope.count.uploadImage.count++;
+                $scope.proceedUploading($scope.productList[$scope.count.uploadImage.count]);
+            } else {
+                console.log('DONE');
+                $scope.alert = {
+                    type: 'success',
+                    msg: 'DONE UPLOADING' + ', sucess: ' + $scope.count.uploadImage.success + ', fail: ' + $scope.count.uploadImage.fail
+                };
+                $window.alert('DONE');
+            }
+        }).error(function () {
+            $scope.count.uploadImage.fail++;
+            $scope.errorObj.push({
+                entity_id: obj.entity_id,
+                sku: obj.sku
+            });
+
+            $scope.alert = {
+                type: 'success',
+                msg: 'sucess: ' + $scope.count.uploadImage.success + ', fail: ' + $scope.count.uploadImage.fail + ', count: ' + ($scope.count.uploadImage.count +1)
+            };
+
+            if ($scope.count.uploadImage.count < $scope.rowsPerPage) {
+                $scope.proceedUploading($scope.productList[$scope.count.uploadImage.count]);
+            } else {
+                $scope.alert = {
+                    type: 'success',
+                    msg: 'DONE UPLOADING' + ', sucess: ' + $scope.count.uploadImage.success + ', fail: ' + $scope.count.uploadImage.fail
+                };
+                $window.alert('DONE');
+            }
+        });
     };
 
     $scope.resetProductList = function () {
@@ -494,7 +557,7 @@ app.controller('indexController', function($scope, restService, $window, Utils, 
             default:
                 console.log('no event caught');
         }
-    }
+    };
 
 });
 

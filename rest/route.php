@@ -24,6 +24,30 @@ if (session_id() == '') {
 
 require_once 'config.inc.php';
 
+$app->get('/api/configJson', function () {
+    global $config;
+    $configJsonRaw = file_get_contents($config['configJson']);
+    echo $configJsonRaw;
+});
+$app->post('/api/configJson', function () {
+    global $config;
+    global $input;
+    $configJsonRaw = file_get_contents($config['configJson']);
+    $configJson = json_decode($configJsonRaw, true);
+    $configJson = recursiveWriteConfig($input, $configJson);
+    file_put_contents($config['configJson'], json_encode($configJson));
+    echo jsonMessage('success', 'Success Changed Config');
+});
+function recursiveWriteConfig ($input, $configJson) {
+    foreach ($input as $key => $value) {
+        if (is_array($value)) {
+            $configJson[$key] = recursiveWriteConfig($value, $configJson[$key]);
+        } else {
+            $configJson[$key] = $value;
+        }
+    }
+    return $configJson;
+}
 $app->get('/api/destroySession', 'destroySession');
 $app->get('/api/checkSessionState', 'checkSessionState');
 
@@ -36,6 +60,7 @@ require_once 'middleware_rest.php';
 require_once 'appBackend_rest.php';
 
 $app->run();
+
 
 function destroySession () {
     session_destroy();

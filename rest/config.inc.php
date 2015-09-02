@@ -4,6 +4,7 @@ ini_set('max_execution_time', 2400);
 
 $config = array(
     'debugMode' => false,
+    'configJson' => 'config/config.json',
     'ItemNumberStoreDirectory' => 'itemNumbers/',
     'tempFileDirectory' => 'tempFiles',
     'rwListUrl' => 'http://api.newegg.org/ExternalMarketplace/v1/RosewillItem',

@@ -18,7 +18,7 @@ function createContactUs(event) {
     jQuery.ajax({
         url:"http://10.16.133.65/rosewill/rest/route.php/api/insertFormValue",
         type:"POST",
-        data:JSON.stringify(requestBody),
+        data:JSON.stringify(requestBody)
     }).done(function( msg ) {
         alert(msg.message);
     });

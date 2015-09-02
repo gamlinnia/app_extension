@@ -7,6 +7,12 @@
 </head>
 <body>
 
+<!-- not sure -->
+<div id="testmonialList">
+
+</div>
+<!-- not sure-->
+
 <div style="margin: 5%;">
     <!--<p><span style="color: black; font-size: 16px; font-weight: bold;">SUBMIT YOUR TESTIMONIAL</span></p>-->
     <form id="testimonialForm" action="javascript:submitTestimonial()">
@@ -51,7 +57,20 @@ function submitTestimonial () {
         data: JSON.stringify(requestBody),
         success: function( msg ) {
             if (msg.status == 'success') {
-                redirectAfterAlert('Form has been successfully submitted', redirectToPage('http://' + window.location.hostname + '/customer_testimonial/'));
+                var testmonial =jQuery('#testimonialForm').serializeArray();
+                var testmonialHtml = '';
+                for(var i=0; i<testmonial.length; i++){
+                    var name = testmonial[i].name;
+                    if(name == 'name') {
+                        testmonialHtml = testmonialHtml+'<div><span style="margin-right: 25px; font-size: 18px; color: rgb(0, 0, 0);">&nbsp;-&nbsp;undefined</span><span>by&nbsp;&nbsp;</span><span style="font-size: 16px; color: darkcyan;">'+testmonial[i].name+'</span></div>';
+                    } else if (name == 'email') {
+
+                    } else if (name == 'testimonial') {
+                        testmonialHtml = testmonialHtml + '<div style="color: rgb(128, 128, 128); padding: 20px 0px 5px 20px;">'+testmonial[i].value+'</div>';
+                    }
+                };
+                jQuery('#testmonialList').append(testmonialHtml);
+                //redirectAfterAlert('Form has been successfully submitted', redirectToPage('http://' + window.location.hostname + '/customer_testimonial/'));
             } else {
                 redirectAfterAlert('Error occured, please try again', refreshPage);
             }

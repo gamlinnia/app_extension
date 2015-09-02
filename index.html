@@ -12,6 +12,7 @@
     <script type="text/javascript" src="Controller/IndexController.js"></script>
     <!--AngularJS Packages-->
     <script type="text/javascript" src="bower_components/angular-base64-upload/dist/angular-base64-upload.js"></script>
+    <script type="text/javascript" src="bower_components/json-formatter/dist/json-formatter.min.js"></script>
     <!--Factory-->
     <script type="text/javascript" src="Factory/Utils.js"></script>
     <!--Service-->
@@ -55,11 +56,7 @@
         <option value="114.34.186.208">114.34.186.208</option>
         <option value="rwpim.silksoftware.net">rwpim.silksoftware.net</option>
     </select>
-    <label for="magentoDirectory">Magento Directory</label>
-    <select id="magentoDirectory" data-ng-model="magentoDirectory">
-        <option>/community</option>
-        <option value="">root</option>
-    </select>
+    <span id="magentoDirectory" data-ng-bind="magentoDirectory"></span>
     <input type="button" data-ng-click="checkSessionState()" value="Start AUTH" />
 </div>
 <div class="alignCenter">
@@ -124,6 +121,7 @@
                 <th>#</th>
                 <th>SKU#</th>
                 <th>RAW data</th>
+                <th></th>
             </tr>
             <tr data-ng-repeat="entity in productList">
                 <td class="alignCenter" data-ng-bind="$index+1"></td>
@@ -132,6 +130,9 @@
                 </td>
                 <td>
                     <span data-ng-bind="entity | json"></span>
+                </td>
+                <td>
+                    <span class="glyphicon glyphicon-picture cursorPointer padding5px" data-ng-click="uploadSingleProductImage(rwItem)"></span>
                 </td>
             </tr>
         </table>
@@ -176,9 +177,8 @@
                         attr_id: {{rwItem.attribute_set_id}}
                     </div>
                 </td>
-                <td>
-                    <span class="glyphicon glyphicon-log-in cursorPointer" data-ng-click="getInfoThroughAPI($event, rwItem, $index)"></span>
-                    <span class="glyphicon glyphicon-log-in cursorPointer" data-ng-click="uploadSingleProductImage(rwItem)"></span>
+                <td class="alignCenter">
+                    <span class="glyphicon glyphicon-log-in cursorPointer padding5px" data-ng-click="getInfoThroughAPI($event, rwItem, $index)"></span>
                 </td>
             </tr>
         </table>

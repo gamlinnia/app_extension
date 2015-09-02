@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        td{white-space: nowrap}
+        th{white-space: nowrap}
+        textarea{resize: both}
+
+    </style>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+</head>
+<body>
+<div style="background-color: #f8f8f8; margin: 10px; padding: 20px;"><form id="form" action="javascript:createContactUs()">
+    <table style="width: 600px; height: 400px;" border="0">
+        <tbody>
+        <tr><th><span></span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Personal Information</span></th>
+        <tr><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">First Name</span></th>
+            <td><input type="text" name="First Name" class="required"/></td>
+        </tr>
+        <tr><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Last Name</span></th>
+            <td><input type="text" name="Last Name" class="required"/></td>
+        </tr>
+        <tr><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;white-space: nowrap;">Your Location (Region/Country)</span></th>
+            <td><input type="text" name="Your Location (Region/Country)" class="required"/></td>
+        </tr>
+        <tr><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Your E-Mail Address</span></th>
+            <td><input type="text" name="email" class="required email"/><span style="color:black">sendACopyToMe: <input type="radio" name="sendACopyToMe" value="yes" checked="checked">yes <input type="radio" name="sendACopyToMe" value="no">no</span></td>
+        </tr>
+        <tr><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Telephone Number</span></th>
+            <td><input type="text" name="Phone Number" class="required"/></td>
+        </tr>
+        <tr><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Preferred Contact Method</span></th>
+            <td><span style="color:black"><input type="radio" name="Preferred Contact Method" checked="checked" value="E-Mail"/>E-Mail
+            <input type="radio" name="Preferred Contact Method" value="Phone"/>Phone</span></td>
+        </tr>
+        <tr><td><br></td></tr>
+
+        <tr id="purpose"><th><span style="color: #f8f8f8;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Purpose for Contact</span></th>
+            <td><select name="Purpose for Contact" id="purposeForContact">
+                <option selected="selected">-- please select one --</option>
+                <option value="Request to Return Merchandise">Request to Return Merchandise</option>
+                <option value="Request to Review Product">Request to Review Product</option>
+                <option value="Sponsorship Request">Sponsorship Request</option>
+                <option value="Vendor or Business Contact">Vendor or Business Contact</option>
+                <option value="Other">Other (Please Specify in Comments)</option>
+        </select></td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td><button type="submit">Submit</button></td>
+        </tr>
+        </tbody>
+    </table>
+    <script type="text/javascript">// <![CDATA[
+    jQuery(document).ready(
+            function () {
+                formValidation();
+            }
+    );
+    function formValidation () {
+        jQuery("#form").validate();
+    }
+
+    jQuery('#purposeForContact').change(
+            function () {
+                changePurposeForContact(jQuery(this).val(),jQuery('#purpose'));
+            }
+    );
+
+    function createContactUs() {
+        var requestBody = {form_name:'contactUs',value:JSON.stringify(jQuery('#form').serializeArray())};
+        jQuery.ajax({
+            url:"http://10.16.133.65/rosewill/rest/route.php/api/insertFormValue",
+            type:"POST",
+            data:JSON.stringify(requestBody),
+            success: function(msg){
+                alert(msg.message);
+                window.location.reload();
+            },
+            error:function(xhr, ajaxOptions, thrownError){
+                alert(xhr.status);
+                alert(thrownError);
+            }
+        });
+    }
+
+    function changePurposeForContact (value, anchor) {
+        jQuery('.purposeContent').remove();
+        switch (value) {
+            case 'Request to Return Merchandise':
+                //Product Information – Please Complete All Fields
+                var content = '<tr class="purposeContent"><th colspan="2" scope="row"><h2><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #ff0000;">Product Information – Please Complete All Fields</span></h2></th>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Street Address Line 1</span></th><td><input type="text" name="Street Address Line 1" class="required"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Street Address Line 2</span></th><td><input type="text" name="Street Address Line 2"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">City</span></th><td><input type="text" name="city" class="required"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">State/Region</span></th><td><input type="text" name="State/Region" class="required"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Country</span></th><td><input type="text" name="Country" class="required"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Postal Code</span></th><td><input type="text" name="Postal Code" class="required"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                //Shipping Address
+                content = '<tr class="purposeContent"><th colspan="2" scope="row"><h2><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #ff0000;">Shipping Address</span></h2></th>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Street Address Line 1</span></th><td><input type="text" name="Street Address Line 1" class="required"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Street Address Line 2</span></th><td><input type="text" name="Street Address Line 2"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">City</span></th><td><input type="text" name="City" class="required"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">State/Region</span></th><td><input type="text" name="State/Region" class="required"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Country</span></th><td><input type="text" name="Country" class="required"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Postal Code</span></th><td><input type="text" name="Postal Code" class="required"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                //Product Information
+                content = '<tr class="purposeContent"><th colspan="2" scope="row"><h2><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #ff0000;">Product Information</span></h2></th>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Name of Product</span></th><td><input type="text" name="Name of Product" class="required"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Model Number</span></th><td><input type="text" name="Model Number" class="required"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">RMA Number</span></th><td><input type="text" name="RMA Number" class="required"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Quantity</span></th><td><input type="text" name="Quantity" class="required"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Purchase Date</span></th><td><input type="text" name="Purchase Date" class="required"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Sales Order Number</span></th><td><input type="text" name="Sales Order Number" class="required"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">UPS Number</span></th><td><input type="text" name="UPS Number" class="required"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Sold By</span></th><td><input type="text" name="Sold By" class="required"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th colspan="6" scope="row"><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color:#333333;">Note: The product retailer will designate where to return your Rosewill product. Please check your sales confirmation e-mail.</span></th>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Request</span></th><td><input type="radio" name="Request" checked="checked"/>Refund<input type="radio" name="Request" />Replacement</td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                    //details
+                content = '<tr class="purposeContent"><th colspan="2" scope="row" style="vertical-align: top;"><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #ff0000;">Details</span></th><td><textarea name="Details" rows="8" cols="30" style="border: 1px solid darkgrey; overflow-y:scroll"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+                break;
+            case 'Request to Review Product':
+                var content = '<tr class="purposeContent"><th colspan="2" scope="row"><h2><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #ff0000;">Business Information – Please Complete All Fields</span></h2></th></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Company Name</span></th><td><input type="text" name="Company Name" class="required"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Type of Business</span></th><td><input type="text" name="Type of Business" class="required"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Name of Contact Person</span></th><td><input type="text" name="Name of Contact Person" class="required"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Business Location</span></th><td><input type="text" name="Business Location" class="required"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                //shipping address
+                content = '<tr class="purposeContent"><th colspan="2" scope="row"><h2><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #ff0000;">Shipping Address</span></h2></th>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Street Address Line 1</span></th><td><input type="text" name="Street Address Line 1" class="required"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Street Address Line 2</span></th><td><input type="text" name="Street Address Line 2"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">City</span></th><td><input type="text" name="City" class="required"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">State/Region</span></th><td><input type="text" name="State/Region" class="required"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Country</span></th><td><input type="text" name="Country" class="required"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Postal Code</span></th><td><input type="text" name="Postal Code" class="required"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                //Product Information
+                content = '<tr class="purposeContent"><th colspan="2" scope="row"><h2><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #ff0000;">Product Information</span></h2></th></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Name of Product</span></th><td><input type="text" name="Name of Product" class="required"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Model Number</span></th><td><input type="text" name="Model Number" class="required"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Quantity</span></th><td><input type="text" name="Quantity" class="required"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                    //details
+                content = '<tr class="purposeContent"><th colspan="2" scope="row" style="vertical-align: top;"><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #ff0000;">Details</span></th><td><textarea name="Details" rows="8" cols="30" style="border: 1px solid darkgrey; overflow-y:scroll"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+                break;
+            case 'Sponsorship Request':
+                //Organizer Information – Please Complete All Fields
+                var content = '<tr class="purposeContent"><th colspan="2" scope="row"><h2><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #ff0000;">Organizer Information – Please Complete All Fields</span></h2></th></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Name of Organizer</span></th><td><input type="text" name="Name of Organizer" class="required"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Type of Organization</span></th><td><input type="text" name="Type of Organization" class="required"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Name of Contact Person</span></th><td><input type="text" name="Name of Contact Person" class="required"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                //Shipping Address
+                content = '<tr class="purposeContent"><th colspan="2" scope="row"><h2><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #ff0000;">Shipping Address</span></h2></th>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Street Address Line 1</span></th><td><input type="text" name="Street Address Line 1" class="required"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Street Address Line 2</span></th><td><input type="text" name="Street Address Line 2"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">City</span></th><td><input type="text" name="City" class="required"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">State/Region</span></th><td><input type="text" name="State/Region" class="required"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Country</span></th><td><input type="text" name="Country" class="required"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Postal Code</span></th><td><input type="text" name="Postal Code" class="required"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                //Product Information
+                content = '<tr class="purposeContent"><th colspan="2" scope="row"><h2><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #ff0000;">Product Information </span></h2></th></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Name of Product</span></th><td><input type="text" name="Name of Product" class="required"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Model Number</span></th><td><input type="text" name="Model Number" class="required"></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Quantity</span></th><td><input type="text" name="Quantity" class="required"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                //details
+                content = '<tr class="purposeContent"><th colspan="2" scope="row" style="vertical-align: top;"><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #ff0000;">Details</span></th><td><textarea name="Details" rows="8" cols="30" style="border: 1px solid darkgrey; overflow-y:scroll"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+                break;
+            case 'Vendor or Business Contact':
+                var content = '<tr class="purposeContent"><th colspan="2" scope="row"><h2><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #ff0000;">Contact Information – Please Complete All Fields</span></h2></th></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Company Name</span></th><td><input type="text" name="Company Name" class="required"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Type of Business</span></th><td><input type="text" name="Type of Business" class="required"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Name of Contact Person</span></th><td><input type="text" name="Name of Contact Person" class="required"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                //Shipping Address
+                content = '<tr class="purposeContent"><th colspan="2" scope="row"><h2><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #ff0000;">Shipping Address</span></h2></th>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Street Address Line 1</span></th><td><input type="text" name="Street Address Line 1" class="required"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Street Address Line 2</span></th><td><input type="text" name="Street Address Line 2"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">City</span></th><td><input type="text" name="City" class="required"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">State/Region</span></th><td><input type="text" name="State/Region" class="required"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Country</span></th><td><input type="text" name="Country" class="required"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Postal Code</span></th><td><input type="text" name="Postal Code" class="required"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+
+                //details
+                content = '<tr class="purposeContent"><th colspan="2" scope="row" style="vertical-align: top;"><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #ff0000;">Details</span></th><td><textarea name="Details" rows="8" cols="30" style="border: 1px solid darkgrey; overflow-y:scroll"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+                break;
+            case 'Other':
+                //details
+                content = '<tr class="purposeContent"><th colspan="2" scope="row" style="vertical-align: top;"><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #ff0000;">Details</span></th><td><textarea name="Details" rows="8" cols="30" style="border: 1px solid darkgrey; overflow-y:scroll"/></td></tr>';
+                anchor = insertHtmlContent(anchor, content);
+                break;
+        }
+        formValidation();
+    }
+
+    function insertHtmlContent (anchor, content) {
+        anchor = jQuery(anchor).after(content);
+        return jQuery(anchor).next();
+    }
+    // ]]></script>
+</form></div>
+
+</body>
+</html>

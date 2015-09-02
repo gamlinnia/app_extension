@@ -13,7 +13,7 @@
                 <th>
                     <span style="color: #ff0000; font-family: arial black,avant garde;">*</span>
                 </th>
-                <th>
+                <th style="padding: 3px 20px 3px 5px;">
                     <span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Customer Type</span>
                 </th>
                 <td>
@@ -29,7 +29,7 @@
                 <th>
                     <span style="color: #ff0000; font-family: arial black,avant garde;">*</span>
                 </th>
-                <th>
+                <th style="padding: 3px 20px 3px 5px;">
                     <span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">E-mail</span>
                 </th>
                 <td>
@@ -40,7 +40,7 @@
                 <th>
                     <span style="color: #ff0000; font-family: arial black,avant garde;">*</span>
                 </th>
-                <th>
+                <th style="padding: 3px 20px 3px 5px;">
                     <span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">First Name</span>
                 </th>
                 <td>
@@ -51,7 +51,7 @@
                 <th>
                     <span style="color: #ff0000; font-family: arial black,avant garde;">*</span>
                 </th>
-                <th>
+                <th style="padding: 3px 20px 3px 5px;">
                     <span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Last Name</span>
                 </th>
                 <td>
@@ -62,7 +62,7 @@
                 <th>
                     <span style="color: #f8f8f8; font-family: arial black,avant garde;">*</span>
                 </th>
-                <th>
+                <th style="padding: 3px 20px 3px 5px;">
                     <span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Zip / Postal Code</span>
                 </th>
                 <td>
@@ -73,7 +73,7 @@
                 <th>
                     <span style="color: #f8f8f8; font-family: arial black,avant garde;">*</span>
                 </th>
-                <th>
+                <th style="padding: 3px 20px 3px 5px;">
                     <span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Phone Number</span>
                 </th>
                 <td>
@@ -84,7 +84,7 @@
                 <th>
                     <span style="color: #ff0000; font-family: arial black,avant garde;">*</span>
                 </th>
-                <th>
+                <th style="padding: 3px 20px 3px 5px;">
                     <span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Place of Purchase</span>
                 </th>
                 <td>
@@ -95,7 +95,7 @@
                 <th>
                     <span style="color: #f8f8f8; font-family: arial black,avant garde;">*</span>
                 </th>
-                <th>
+                <th style="padding: 3px 20px 3px 5px;">
                     <span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Invoice Number</span>
                 </th>
                 <td>
@@ -106,7 +106,7 @@
                 <th>
                     <span style="color: #ff0000; font-family: arial black,avant garde;">*</span>
                 </th>
-                <th>
+                <th style="padding: 3px 20px 3px 5px;">
                     <span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Date of Purchase</span>
                 </th>
                 <td>
@@ -117,7 +117,7 @@
                 <th>
                     <span style="color: #ff0000; font-family: arial black,avant garde;">*</span>
                 </th>
-                <th>
+                <th style="padding: 3px 20px 3px 5px;">
                     <span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Product Name</span>
                 </th>
                 <td>
@@ -128,7 +128,7 @@
                 <th>
                     <span style="color: #f8f8f8; font-family: arial black,avant garde;">*</span>
                 </th>
-                <th>
+                <th style="padding: 3px 20px 3px 5px;">
                     <span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Model Number</span>
                 </th>
                 <td>
@@ -139,7 +139,7 @@
                 <th>
                     <span style="color: #f8f8f8; font-family: arial black,avant garde;">*</span>
                 </th>
-                <th>
+                <th style="padding: 3px 20px 3px 5px;">
                     <span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Serial Number</span>
                 </th>
                 <td>
@@ -150,7 +150,7 @@
                 <th>
                     <span style="color: #f8f8f8; font-family: arial black,avant garde;">*</span>
                 </th>
-                <th>
+                <th style="width: 200px;padding: 3px 20px 3px 5px;">
                     <span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">
                         In which Rosewill product categories are you likely to shop in the next 6 months?
                     </span>
@@ -166,9 +166,9 @@
             </tr>
             <tr>
                 <td>&nbsp;</td>
-                <td>&nbsp;</td>
+                <td style="padding: 3px 20px 3px 5px;">&nbsp;</td>
                 <td>
-                    <button type="submit">Submit</button>
+                    <button type="submit" style="padding: 4px 20px;border-radius: 5px;">Submit</button>
                 </td>
             </tr>
             </tbody>
@@ -219,7 +219,9 @@ function create() {
     var requestBody = {form_name:'productRegistration',value:JSON.stringify(form)};
 
     var href = window.location.href;
-    var urlWithoutPage = href.replace(href.match(/\/[a-z-_\.]+$/), '/');
+    var urlWithoutPage = href.replace(href.match(/\/[a-z-_\.]+[\/]?$/), '/');
+    urlWithoutPage = urlWithoutPage.replace(urlWithoutPage.match(/\/index.php\/[a-z-_\.]*$/), '/');
+
     jQuery.ajax({
         url:urlWithoutPage+"rosewill/rest/route.php/api/insertFormValue",
         type:"POST",
@@ -256,7 +258,7 @@ function changeCategoryContent (value, anchor) {
     switch (value) {
         case 'PC Gaming':
             var content = '<tr><td></td><td></td><td width="400px" class="categoryContent"><span id="ctl00_Main_Panel1" style="overflow:auto;height:120px; width:200px; color:black">'+
-                    '<table border="0" style="font-size:12px;width:100%;height:100%;border:1px solid silver">'
+                    '<table border="0" style="font-size:12px;width:100%;height:100%;border:1px solid silver;margin-bottom: 15px;">'
                     +'<tr><td style="padding-left: 5px"><input type="checkbox" name="Interested Field" value="All" id="all"/><label for="ctl00_Main_chk_InterestedField_0">All</label></td></tr>'
                     +'<tr><td style="padding-left: 5px"><input type="checkbox" name="Interested Field" value="Gaming Components" class="other"/><label for="ctl00_Main_chk_InterestedField_1">Gaming Components</label></td></tr>'
                     +'<tr><td style="padding-left: 5px"><input type="checkbox" name="Interested Field" value="Gaming Peripherals" class="other"/><label for="ctl00_Main_chk_InterestedField_2">Gaming Peripherals</label></td></tr>'
@@ -266,7 +268,7 @@ function changeCategoryContent (value, anchor) {
             break;
         case 'Information Technology':
             var content = '<tr><td></td><td></td><td width="400px" class="categoryContent"><span id="ctl00_Main_Panel1" style="overflow:auto;height:120px; width:200px; color:black">'+
-                    '<table border="0" style="font-size:12px;width:100%;height:100%;border:1px solid silver">'
+                    '<table border="0" style="font-size:12px;width:100%;height:100%;border:1px solid silver;margin-bottom: 15px;">'
                     +'<tr><td style="padding-left: 5px"><input type="checkbox" name="Interested Field" value="All"  id="all"/><label for="all">All</label></td></tr>'
                     +'<tr><td style="padding-left: 5px"><input type="checkbox" name="Interested Field" value="Cables" class="other" id="Cables" /><label for="Cables">Cables</label></td></tr>'
                     +'<tr><td style="padding-left: 5px"><input type="checkbox" name="Interested Field" value="Computer Components" class="other"/><label for="ctl00_Main_chk_InterestedField_2">Computer Components</label></td></tr>'
@@ -285,7 +287,7 @@ function changeCategoryContent (value, anchor) {
             break;
         case 'Home Products':
             var content = '<tr><td></td><td></td><td width="400px" class="categoryContent"><span id="ctl00_Main_Panel1" style="overflow:auto;height:120px; width:200px; color:black">'+
-                    '<table border="0" style="font-size:12px;width:100%;height:100%;border:1px solid silver">'
+                    '<table border="0" style="font-size:12px;width:100%;height:100%;border:1px solid silver;margin-bottom: 15px;">'
                     +'<tr><td style="padding-left: 5px"><input type="checkbox" name="Interested Field" value="All"  id="all"/><label for="ctl00_Main_chk_InterestedField_0">All</label></td></tr>'
                     +'<tr><td style="padding-left: 5px"><input type="checkbox" name="Interested Field" value="Home Appliances" class="other"/><label for="ctl00_Main_chk_InterestedField_1">Home Appliances</label></td></tr>'
                     +'<tr><td style="padding-left: 5px"><input type="checkbox" name="Interested Field" value="Tools & Electrical" class="other"/><label for="ctl00_Main_chk_InterestedField_2">Tools & Electrical</label></td></tr>'

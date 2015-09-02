@@ -1,6 +1,37 @@
 
 app.factory('Utils', ['restService', function(restService) {
     var Utils = {
+        downToLastElement: function (obj) {
+            var type = typeof obj;
+            switch (type) {
+                case 'object' :
+                    var lastElementValue = '';
+                    for (var key in obj) {
+                        if (typeof obj[key] == 'object') {
+                            lastElementValue = Utils.downToLastElement(obj[key]);
+                        } else {
+                            lastElementValue = obj[key];
+                        }
+                    }
+                    return lastElementValue;
+                    break;
+                default :
+                    return obj;
+            }
+        },
+        assignObjToAntoher: function (obj, toBeAssignedObj) {
+            for (var key in toBeAssignedObj) {
+                if ( typeof toBeAssignedObj[key] == 'object') {
+                    if (!obj.hasOwnProperty(obj[key])) {
+                        obj[key] = {};
+                    }
+                    this.assignObjToAntoher(obj[key], toBeAssignedObj[key]);
+                } else {
+                    obj[key] = toBeAssignedObj[key];
+                }
+            }
+            return obj;
+        },
         currentTimeStamp: function () {
             return new Date().valueOf();
         },
