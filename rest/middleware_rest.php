@@ -4,7 +4,7 @@ $app->post('/api/insertFormValue', function () {
     require_once 'config/db_config.php';
     global $input;
     $formData = parseFormData($input['value']);
-    $response = $db->query('INSERT INTO `custom_form` (`form_name`, `value`) VALUES (?, ?)', array($input['form_name'], json_encode($formData)));
+    $response = $db->query('INSERT INTO `custom_form` (`form_name`, `value`, `mtime`) VALUES (?, ?, CURRENT_TIMESTAMP)', array($input['form_name'], json_encode($formData)));
     if ($response < 1) {
         echo jsonMessage('danger', 'db error');
         return;

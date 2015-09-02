@@ -1,61 +1,21 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-</head>
-<body>
-
-<p>
-    <script type="text/javascript">// <![CDATA[
-    jQuery(document).ready(function () {
-        initDatePicker();
-    });
-
-    function initDatePicker () {
-        jQuery( "#dateOfPurchase" ).datepicker();
-    }
-
-    function create(event) {
-        event.preventDefault();
-        var requestBody = {form_name:'productRegistration',value:JSON.stringify(jQuery('#form').serializeArray())};
-        jQuery.ajax({
-            url:"http://10.16.133.65/rosewill/rest/route.php/api/insertFormValue",
-            type:"POST",
-            data:JSON.stringify(requestBody)
-        }).done(function( msg ) {
-            alert(msg.message);
-        });
-    }
-
-    function getUserName () {
-        var userNameBlock = jQuery('.welcome-msg').text();
-        var splitArray = userNameBlock.split(',');
-        if (splitArray[0] == 'Welcome') {
-            var userName = splitArray[1].trim().split('!', 1);
-            jQuery('#name').val(userName );
-        } else {
-            if (confirm('Please Login before submission')) {
-                location.href = '/customer/account/login/';
-            } else {
-                location.href = '/customer/account/login/';
-            }
-        }
-    }
-    // ]]></script>
-</p>
 
 <div style="background-color: #f8f8f8; margin: 10px; margin-bottom: 20px;">
-    <p style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333; margin-bottom: 20px; line-height: 26px;"><b>Thank you for choosing Rosewill products! To fully enjoy the benefits of the products, please take a few minutes to register your products and you will have the following benefits: <span><br /> 1. Receive exclusive promotional Email. <br /> 2. Receive information about Rosewill new products.</span></b></p>
-    <form id="form" method="post">
-        <table style="width: 600px; height: 400px;" border="0">
+    <p style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333; margin-bottom: 20px; line-height: 26px;">
+        <strong>
+            Thank you for choosing Rosewill products! To fully enjoy the benefits of the products, please take a few minutes to register your products and you will have the following benefits:
+            <span><br /> 1. Receive exclusive promotional Email. <br /> 2. Receive information about Rosewill new products.</span>
+        </strong>
+    </p>
+    <form id="form" action="JavaScript:create()">
+        <table style="height: 400px;" border="0">
             <tbody>
             <tr>
-                <th><span style="color: #ff0000; font-family: arial black,avant garde;">*</span></th>
-                <th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Customer Type</span></th>
+                <th>
+                    <span style="color: #ff0000; font-family: arial black,avant garde;">*</span>
+                </th>
+                <th>
+                    <span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Customer Type</span>
+                </th>
                 <td>
                     <select name="customerType">
                         <option value="endUser">End User</option>
@@ -65,52 +25,298 @@
                     </select>
                 </td>
             </tr>
-            <tr><th><span style="color: #ff0000; font-family: arial black,avant garde;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">E-mail</span></th>
-                <td><input type="text" name="email" /></td>
+            <tr>
+                <th>
+                    <span style="color: #ff0000; font-family: arial black,avant garde;">*</span>
+                </th>
+                <th>
+                    <span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">E-mail</span>
+                </th>
+                <td>
+                    <input class="required email" type="text" name="email" />
+                </td>
             </tr>
-            <tr><th><span style="color: #ff0000; font-family: arial black,avant garde;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">First Name</span></th>
-                <td><input type="text" name="firstName" /></td>
+            <tr>
+                <th>
+                    <span style="color: #ff0000; font-family: arial black,avant garde;">*</span>
+                </th>
+                <th>
+                    <span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">First Name</span>
+                </th>
+                <td>
+                    <input class="required" type="text" name="firstName" />
+                </td>
             </tr>
-            <tr><th><span style="color: #ff0000; font-family: arial black,avant garde;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Last Name</span></th>
-                <td><input type="text" name="lastName" /></td>
+            <tr>
+                <th>
+                    <span style="color: #ff0000; font-family: arial black,avant garde;">*</span>
+                </th>
+                <th>
+                    <span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Last Name</span>
+                </th>
+                <td>
+                    <input class="required" type="text" name="lastName" />
+                </td>
             </tr>
-            <tr><th><span style="color: #f8f8f8; font-family: arial black,avant garde;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Zip / Postal Code</span></th>
-                <td><input type="text" name="zip" /></td>
+            <tr>
+                <th>
+                    <span style="color: #f8f8f8; font-family: arial black,avant garde;">*</span>
+                </th>
+                <th>
+                    <span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Zip / Postal Code</span>
+                </th>
+                <td>
+                    <input type="text" name="zip" />
+                </td>
             </tr>
-            <tr><th><span style="color: #f8f8f8; font-family: arial black,avant garde;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Phone Number</span></th>
-                <td><input type="text" name="phoneNumber" /></td>
+            <tr>
+                <th>
+                    <span style="color: #f8f8f8; font-family: arial black,avant garde;">*</span>
+                </th>
+                <th>
+                    <span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Phone Number</span>
+                </th>
+                <td>
+                    <input type="text" name="phoneNumber" />
+                </td>
             </tr>
-            <tr><th><span style="color: #ff0000; font-family: arial black,avant garde;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Place of Purchase</span></th>
-                <td><input type="text" name="placeOfPurchase" /></td>
+            <tr>
+                <th>
+                    <span style="color: #ff0000; font-family: arial black,avant garde;">*</span>
+                </th>
+                <th>
+                    <span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Place of Purchase</span>
+                </th>
+                <td>
+                    <input class="required" type="text" name="placeOfPurchase" />
+                </td>
             </tr>
-            <tr><th><span style="color: #f8f8f8; font-family: arial black,avant garde;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Invoice Number</span></th>
-                <td><input type="text" name="invoiceNumber" /></td>
+            <tr>
+                <th>
+                    <span style="color: #f8f8f8; font-family: arial black,avant garde;">*</span>
+                </th>
+                <th>
+                    <span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Invoice Number</span>
+                </th>
+                <td>
+                    <input type="text" name="invoiceNumber" />
+                </td>
             </tr>
-            <tr><th><span style="color: #ff0000; font-family: arial black,avant garde;">*</span></th>
-                <th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Date of Purchase</span></th>
-                <td><input type="text" name="dateOfPurchase" id="dateOfPurchase" /></td>
+            <tr>
+                <th>
+                    <span style="color: #ff0000; font-family: arial black,avant garde;">*</span>
+                </th>
+                <th>
+                    <span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Date of Purchase</span>
+                </th>
+                <td>
+                    <input id="dateOfPurchase" class="required" type="text" name="dateOfPurchase" />
+                </td>
             </tr>
-            <tr><th><span style="color: #ff0000; font-family: arial black,avant garde;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Product Name</span></th>
-                <td><input type="text" name="productName" /></td>
+            <tr>
+                <th>
+                    <span style="color: #ff0000; font-family: arial black,avant garde;">*</span>
+                </th>
+                <th>
+                    <span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Product Name</span>
+                </th>
+                <td>
+                    <input class="required" type="text" name="productName" />
+                </td>
             </tr>
-            <tr><th><span style="color: #f8f8f8; font-family: arial black,avant garde;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Model Number</span></th>
-                <td><input type="text" name="modelNumber" /></td>
+            <tr>
+                <th>
+                    <span style="color: #f8f8f8; font-family: arial black,avant garde;">*</span>
+                </th>
+                <th>
+                    <span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Model Number</span>
+                </th>
+                <td>
+                    <input type="text" name="modelNumber" />
+                </td>
             </tr>
-            <tr><th><span style="color: #f8f8f8; font-family: arial black,avant garde;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Serial Number</span></th>
-                <td><input type="text" name="serialNumber" /></td>
+            <tr>
+                <th>
+                    <span style="color: #f8f8f8; font-family: arial black,avant garde;">*</span>
+                </th>
+                <th>
+                    <span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Serial Number</span>
+                </th>
+                <td>
+                    <input type="text" name="serialNumber" />
+                </td>
             </tr>
-            <tr><th><span style="color: #f8f8f8; font-family: arial black,avant garde;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Interested Field</span></th>
-                <td><input type="text" name="interestedField:" /></td>
+            <tr id="categories">
+                <th>
+                    <span style="color: #f8f8f8; font-family: arial black,avant garde;">*</span>
+                </th>
+                <th>
+                    <span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">
+                        In which Rosewill product categories are you likely to shop in the next 6 months?
+                    </span>
+                </th>
+                <td>
+                    <select id="category">
+                        <option value="" selected="selected">--- Please Select One ---</option>
+                        <option value="PC Gaming">PC Gaming</option>
+                        <option value="Information Technology">Information Technology</option>
+                        <option value="Home Products">Home Products</option>
+                    </select>
+                </td>
             </tr>
             <tr>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
-                <td><button onclick="create(event)" type="submit">Submit</button></td>
+                <td>
+                    <button type="submit">Submit</button>
+                </td>
             </tr>
             </tbody>
         </table>
     </form>
 </div>
 
-</body>
-</html>
+<script type="text/javascript">// <![CDATA[
+
+jQuery(document).ready(function () {
+    initDatePicker();
+    formValidation();
+});
+
+function initDatePicker () {
+    jQuery( "#dateOfPurchase" ).datepicker();
+}
+
+function formValidation () {
+    jQuery("#form").validate({
+        rules: {
+            'Interested Field': {
+                required: true
+            }
+        },
+        messages: {
+            'Interested Field': {
+                required: "You must check at least 1 box"
+            }
+        }
+    });
+}
+
+function create() {
+    var form = jQuery('#form').serializeArray();
+    var interestedField = [];
+    jQuery("input:checkbox[name='Interested Field']:checked").each(function(){
+        interestedField.push(jQuery(this).val());
+    });
+
+    for (var i = form.length-1; i >= 0; i--) {
+        var obj = form[i];
+        if (obj.name == 'Interested Field') {
+            form.splice(form.indexOf(obj),1);
+        }
+    }
+    form.push({"name":"interestedField", "value":interestedField});
+    var requestBody = {form_name:'productRegistration',value:JSON.stringify(form)};
+
+    var href = window.location.href;
+    var urlWithoutPage = href.replace(href.match(/\/[a-z-_\.]+$/), '/');
+    jQuery.ajax({
+        url:urlWithoutPage+"rosewill/rest/route.php/api/insertFormValue",
+        type:"POST",
+        data:JSON.stringify(requestBody)
+    }).done(function( msg ) {
+        alert(msg.message);
+    });
+}
+
+function getUserName () {
+    var userNameBlock = jQuery('.welcome-msg').text();
+    var splitArray = userNameBlock.split(',');
+    if (splitArray[0] == 'Welcome') {
+        var userName = splitArray[1].trim().split('!', 1);
+        jQuery('#name').val(userName );
+    } else {
+        if (confirm('Please Login before submission')) {
+            location.href = '/customer/account/login/';
+        } else {
+            location.href = '/customer/account/login/';
+        }
+    }
+}
+
+jQuery('#category').change(
+        function () {
+            changeCategoryContent(jQuery(this).val(),jQuery('#categories'));
+        }
+);
+
+
+function changeCategoryContent (value, anchor) {
+    jQuery('.categoryContent').parents('tr').remove();
+    switch (value) {
+        case 'PC Gaming':
+            var content = '<tr><td></td><td></td><td width="400px" class="categoryContent"><span id="ctl00_Main_Panel1" style="overflow:auto;height:120px; width:200px; color:black">'+
+                    '<table border="0" style="font-size:12px;width:100%;height:100%;border:1px solid silver">'
+                    +'<tr><td style="padding-left: 5px"><input type="checkbox" name="Interested Field" value="All" id="all"/><label for="ctl00_Main_chk_InterestedField_0">All</label></td></tr>'
+                    +'<tr><td style="padding-left: 5px"><input type="checkbox" name="Interested Field" value="Gaming Components" class="other"/><label for="ctl00_Main_chk_InterestedField_1">Gaming Components</label></td></tr>'
+                    +'<tr><td style="padding-left: 5px"><input type="checkbox" name="Interested Field" value="Gaming Peripherals" class="other"/><label for="ctl00_Main_chk_InterestedField_2">Gaming Peripherals</label></td></tr>'
+                    +'<tr><td style="padding-left: 5px"><input type="checkbox" name="Interested Field" value="Gaming Accessories" class="other"/><label for="ctl00_Main_chk_InterestedField_3">Gaming Accessories</label></td></tr>'
+                    +'</table></span></td></tr>';
+            anchor = insertHtmlContent(anchor, content);
+            break;
+        case 'Information Technology':
+            var content = '<tr><td></td><td></td><td width="400px" class="categoryContent"><span id="ctl00_Main_Panel1" style="overflow:auto;height:120px; width:200px; color:black">'+
+                    '<table border="0" style="font-size:12px;width:100%;height:100%;border:1px solid silver">'
+                    +'<tr><td style="padding-left: 5px"><input type="checkbox" name="Interested Field" value="All"  id="all"/><label for="all">All</label></td></tr>'
+                    +'<tr><td style="padding-left: 5px"><input type="checkbox" name="Interested Field" value="Cables" class="other" id="Cables" /><label for="Cables">Cables</label></td></tr>'
+                    +'<tr><td style="padding-left: 5px"><input type="checkbox" name="Interested Field" value="Computer Components" class="other"/><label for="ctl00_Main_chk_InterestedField_2">Computer Components</label></td></tr>'
+                    +'<tr><td style="padding-left: 5px"><input type="checkbox" name="Interested Field" value="Electronics" class="other"/><label for="ctl00_Main_chk_InterestedField_3">Electronics</label></td></tr>'
+                    +'<tr><td style="padding-left: 5px"><input type="checkbox" name="Interested Field" value="Computer Peripherals" class="other"/><label for="ctl00_Main_chk_InterestedField_3">Computer Peripherals</label></td></tr>'
+                    +'<tr><td style="padding-left: 5px"><input type="checkbox" name="Interested Field" value="Server Components" class="other"/><label for="ctl00_Main_chk_InterestedField_3">Server Components</label></td></tr>'
+                    +'<tr><td style="padding-left: 5px"><input type="checkbox" name="Interested Field" value="Laptop Accessories" class="other"/><label for="ctl00_Main_chk_InterestedField_3">Laptop Accessories</label></td></tr>'
+                    +'<tr><td style="padding-left: 5px"><input type="checkbox" name="Interested Field" value="Monitors" class="other"/><label for="ctl00_Main_chk_InterestedField_3">Monitors</label></td></tr>'
+                    +'<tr><td style="padding-left: 5px"><input type="checkbox" name="Interested Field" value="Wireless Networking" class="other"/><label for="ctl00_Main_chk_InterestedField_3">Wireless Networking</label></td></tr>'
+                    +'<tr><td style="padding-left: 5px"><input type="checkbox" name="Interested Field" value="Wired Networking" class="other"/><label for="ctl00_Main_chk_InterestedField_3">Wired Networking</label></td></tr>'
+                    +'<tr><td style="padding-left: 5px"><input type="checkbox" name="Interested Field" value="Server Systems" class="other"/><label for="ctl00_Main_chk_InterestedField_3">Server Systems</label></td></tr>'
+                    +'<tr><td style="padding-left: 5px"><input type="checkbox" name="Interested Field" value="Computer Accessories" class="other"/><label for="ctl00_Main_chk_InterestedField_3">Computer Accessories</label></td></tr>'
+                    +'<tr><td style="padding-left: 5px"><input type="checkbox" name="Interested Field" value="Surveillance Cameras" class="other"/><label for="ctl00_Main_chk_InterestedField_3">Surveillance Cameras</label></td></tr>'
+                    +'</table></span></td></tr>';
+            anchor = insertHtmlContent(anchor, content);
+            break;
+        case 'Home Products':
+            var content = '<tr><td></td><td></td><td width="400px" class="categoryContent"><span id="ctl00_Main_Panel1" style="overflow:auto;height:120px; width:200px; color:black">'+
+                    '<table border="0" style="font-size:12px;width:100%;height:100%;border:1px solid silver">'
+                    +'<tr><td style="padding-left: 5px"><input type="checkbox" name="Interested Field" value="All"  id="all"/><label for="ctl00_Main_chk_InterestedField_0">All</label></td></tr>'
+                    +'<tr><td style="padding-left: 5px"><input type="checkbox" name="Interested Field" value="Home Appliances" class="other"/><label for="ctl00_Main_chk_InterestedField_1">Home Appliances</label></td></tr>'
+                    +'<tr><td style="padding-left: 5px"><input type="checkbox" name="Interested Field" value="Tools & Electrical" class="other"/><label for="ctl00_Main_chk_InterestedField_2">Tools & Electrical</label></td></tr>'
+                    +'<tr><td style="padding-left: 5px"><input type="checkbox" name="Interested Field" value="Electronics" class="other"/><label for="ctl00_Main_chk_InterestedField_3">Cell Phone & Tablet Accessories</label></td></tr>'
+                    +'<tr><td style="padding-left: 5px"><input type="checkbox" name="Interested Field" value="Computer Peripherals" class="other"/><label for="ctl00_Main_chk_InterestedField_3">Electronics</label></td></tr>'
+                    +'<tr><td style="padding-left: 5px"><input type="checkbox" name="Interested Field" value="Server Components" class="other"/><label for="ctl00_Main_chk_InterestedField_3">Personal Health</label></td></tr>'
+                    +'<tr><td style="padding-left: 5px"><input type="checkbox" name="Interested Field" value="Laptop Accessories" class="other"/><label for="ctl00_Main_chk_InterestedField_3">Home Theater Accessories</label></td></tr>'
+                    +'<tr><td style="padding-left: 5px"><input type="checkbox" name="Interested Field" value="Monitors" class="other"/><label for="ctl00_Main_chk_InterestedField_3">Seasonal Products</label></td></tr>'
+                    +'<tr><td style="padding-left: 5px"><input type="checkbox" name="Interested Field" value="Wireless Networking" class="other"/><label for="ctl00_Main_chk_InterestedField_3">Accessories</label></td></tr>'
+                    +'<tr><td style="padding-left: 5px"><input type="checkbox" name="Interested Field" value="Wired Networking" class="other"/><label for="ctl00_Main_chk_InterestedField_3">Ink & Toner</label></td></tr>'
+                    +'<tr><td style="padding-left: 5px"><input type="checkbox" name="Interested Field" value="Server Systems" class="other"/><label for="ctl00_Main_chk_InterestedField_3">Office Furniture</label></td></tr>'
+                    +'<tr><td style="padding-left: 5px"><input type="checkbox" name="Interested Field" value="Computer Accessories" class="other"/><label for="ctl00_Main_chk_InterestedField_3">Office Electronics</label></td></tr>'
+                    +'</table></span></td></tr>';
+            anchor = insertHtmlContent(anchor, content);
+            break;
+    }
+
+    jQuery('#all').change(
+            function () {
+                if(jQuery(this).prop('checked')){
+                    jQuery('.other').prop('checked',true);
+                } else {
+                    jQuery('.other').prop('checked',"");
+                }
+            }
+    );
+    formValidation();
+}
+
+function insertHtmlContent (anchor, content) {
+    anchor = jQuery(anchor).after(content);
+    return jQuery(anchor).next();
+}
+// ]]></script>
