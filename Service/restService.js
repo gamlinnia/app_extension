@@ -51,10 +51,11 @@ app.service('restService', function($http) {
         });
     };
 
-    this.checkServerItemStatus = function (rwFilteredItemList) {
+    this.checkServerItemStatus = function (rwFilteredItemList, host) {
         return $http({
             method: 'POST',
             url: urlBase + 'checkServerItemStatus',
+            params: {host: host},
             data: rwFilteredItemList
         });
     };
@@ -67,10 +68,11 @@ app.service('restService', function($http) {
         });
     };
 
-    this.retrieveAttributeSetmappingTable = function () {
+    this.retrieveAttributeSetmappingTable = function (authObject) {
         return $http({
             method: 'GET',
-            url: urlBase + 'retrieveAttributeSetmappingTable'
+            url: urlBase + 'retrieveAttributeSetmappingTable',
+            params: authObject
         });
     };
 
@@ -82,19 +84,21 @@ app.service('restService', function($http) {
         });
     };
 
-    this.getAttributesById = function (attribute_set_id) {
+    this.getAttributesById = function (attribute_set_id, authObject) {
+        authObject.id = attribute_set_id;
         return $http({
             method: 'GET',
             url: urlBase + 'getAttributesById',
-            params: {id: attribute_set_id}
+            params: authObject
         });
     };
 
-    this.getAttributeOptions = function (attributeCodes) {
+    this.getAttributeOptions = function (attributeCodes, authObject) {
+        authObject.attributeCodes = attributeCodes;
         return $http({
             method: 'GET',
             url: urlBase + 'getAttributeOptionsByAttrCode',
-            params: {attributeCodes: attributeCodes}
+            params: authObject
         });
     };
 

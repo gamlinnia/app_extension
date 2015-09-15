@@ -350,7 +350,12 @@ app.factory('Utils', ['restService', function(restService) {
                     // deduplicate
                     for (var y = mapWordArray.length -1; y >= 0; y--) {
                         if (y != x) {
-                            if ( mapWordArray[y].match(new RegExp(mapWordArray[x], 'i')) ) {
+                            if (mapWordArray[x].indexOf('+') > -1) {
+                                var regexp = new RegExp('\\' + mapWordArray[x], 'i');
+                            } else {
+                                var regexp = new RegExp(mapWordArray[x], 'i');
+                            }
+                            if ( mapWordArray[y].match(regexp) ) {
                                 mapWordArray.splice(x, 1);
                                 break;
                             }
@@ -370,9 +375,21 @@ app.factory('Utils', ['restService', function(restService) {
             console.log(attribute_codeArray);
             var regexp;
             for (var i = attribute_codeArray.length -1; i > 0 ; i--) {
-                (splitableString.hasOwnProperty(attribute_codeArray[i])) ?
-                    regexp = new RegExp(splitableString[attribute_codeArray[i]], 'i') :
-                    regexp = new RegExp(attribute_codeArray[i], 'i');
+                if (splitableString.hasOwnProperty(attribute_codeArray[i])) {
+                    if (splitableString[attribute_codeArray[i]].indexOf('+') > -1) {
+                        console.log('has plus inside');
+                        regexp = new RegExp('\\' + splitableString[attribute_codeArray[i]], 'i');
+                    } else {
+                        regexp = new RegExp(splitableString[attribute_codeArray[i]], 'i');
+                    }
+                } else {
+                    if (attribute_codeArray[i].indexOf('+') > -1) {
+                        console.log('has plus inside');
+                        regexp = new RegExp('\\' + attribute_codeArray[i], 'i')
+                    } else {
+                        regexp = new RegExp(attribute_codeArray[i], 'i')
+                    }
+                }
                 for (var key = clonePropertyArray.length -1; key >= 0; key--) {
                     if (clonePropertyArray.length < 1) {
                         return null;
@@ -420,11 +437,11 @@ app.factory('Utils', ['restService', function(restService) {
             }
             return specAttributesValueMapping;
         },
-        mapMagentoOptions: function (specAttributesValueMappingObject, callback) {
+        mapMagentoOptions: function (specAttributesValueMappingObject, authObject, callback) {
             console.log('specAttributesValueMappingObject', specAttributesValueMappingObject);
             var attributeCodeArrayString = Object.keys(specAttributesValueMappingObject).join();
 
-            restService.getAttributeOptions(attributeCodeArrayString).success(function (response) {
+            restService.getAttributeOptions(attributeCodeArrayString, authObject).success(function (response) {
                 console.log(response);
                 var magentoAttributeOptionsArray = response;
                 var specAttributesOptionMappingObject = {};
@@ -436,29 +453,41 @@ app.factory('Utils', ['restService', function(restService) {
                 for (var i = 0; i < magentoAttributeOptionsArray.length; i++) {
                     attributeKey = magentoAttributeOptionsArray[i].attributeCode;
                     attributeValue = specAttributesValueMappingObject[attributeKey];
+                    console.log(attributeKey, attributeValue);
                     attributeType = magentoAttributeOptionsArray[i].frontend_input;
-                    if (attributeType == 'select') {
-                        regexMatchValue = null;
-                        console.log(attributeKey + ' need to get option of value: ' + attributeValue);
-                        for (var x = 0; x < magentoAttributeOptionsArray[i].options.length; x++) {
-                            if (attributeValue == magentoAttributeOptionsArray[i].options[x].label) {
-                                specAttributesOptionMappingObject[attributeKey] = magentoAttributeOptionsArray[i].options[x].value;
-                                console.log(attributeValue + ' equal ' + magentoAttributeOptionsArray[i].options[x].label + ', ' + magentoAttributeOptionsArray[i].options[x].value);
-                                regexMatchValue = null;
-                                break;
-                            } else {
-                                regex = new RegExp(magentoAttributeOptionsArray[i].options[x].label, 'i');
-                                if (attributeValue.match(regex)) {
-                                    regexMatchValue = magentoAttributeOptionsArray[i].options[x].value;
-                                    console.log(attributeValue + ' match ' + regex + ', ' + magentoAttributeOptionsArray[i].options[x].value);
+                    switch (attributeType) {
+                        case 'select' :
+                            regexMatchValue = null;
+                            console.log(attributeKey + ' need to get option of value: ' + attributeValue);
+                            for (var x = 0; x < magentoAttributeOptionsArray[i].options.length; x++) {
+                                if (attributeValue == magentoAttributeOptionsArray[i].options[x].label) {
+                                    specAttributesOptionMappingObject[attributeKey] = magentoAttributeOptionsArray[i].options[x].value;
+                                    console.log(attributeValue + ' equal ' + magentoAttributeOptionsArray[i].options[x].label + ', ' + magentoAttributeOptionsArray[i].options[x].value);
+                                    regexMatchValue = null;
+                                    break;
+                                } else {
+                                    console.log(magentoAttributeOptionsArray[i].options[x].label);
+                                    regex = new RegExp(magentoAttributeOptionsArray[i].options[x].label, 'i');
+                                    if (typeof attributeValue != 'object') {
+                                        if (attributeValue.match(regex)) {
+                                            regexMatchValue = magentoAttributeOptionsArray[i].options[x].value;
+                                            console.log(attributeValue + ' match ' + regex + ', ' + magentoAttributeOptionsArray[i].options[x].value);
+                                        }
+                                    } else {
+                                        console.log('------------------ attributeValue is not string ------------------' + typeof attributeValue);
+                                    }
                                 }
                             }
-                        }
-                        if (regexMatchValue) {
+                            if (regexMatchValue) {
+                                specAttributesOptionMappingObject[attributeKey] = regexMatchValue;
+                            }
+                            break;
+                        case 'text' :
+                        case 'textarea' :
                             specAttributesOptionMappingObject[attributeKey] = regexMatchValue;
-                        }
-                    } else {
-                        specAttributesOptionMappingObject[attributeKey] = attributeValue;
+                            break;
+                        default :
+                            console.log('type ' + attributeType, 'value ' + attributeValue, 'not inputted');
                     }
                 }
                 callback(specAttributesOptionMappingObject);

@@ -154,6 +154,9 @@ $app->post('/api/proceedRestData', 'proceedRestData');
 function proceedRestData () {
     global $app;
     global $input;
+    if (isset($input['host'])) {
+        $host = $input['host'];
+    }
     $action = $input['action'];
     $method = $input['method'];
     $requestBody = isset($input['requestBody']) ? $input['requestBody'] : array();
@@ -187,7 +190,7 @@ function proceedRestData () {
                     case 'getProductList' :
                         $response = parseMagentoJson(json_decode($oauthClient->getLastResponse(), true));
                         if (count($response) > 0) {
-                            $response = writeItemNumberToLocal($response);
+                            $response = writeItemNumberToLocal($response, $host);
                         }
                         break;
                     default :
@@ -246,10 +249,9 @@ $app->post('/api/uploadProductImages', function () {
         return;
     }
 
+    // get existed images in magento
     $magentoImages = getProductImages(true);
     $base64ProductImages = getProductImageBase64($itemObj['sku'], true);
-
-
     if ($base64ProductImages['count'] < 1) {
         echo json_encode(array(
             'status' => 'success',
@@ -279,12 +281,22 @@ $app->post('/api/uploadProductImages', function () {
         $oauthClient->setToken($_SESSION['token'], $_SESSION['secret']);
         $result = array();
         foreach ($base64ProductImages['DataCollection'] AS $index => $imageObject) {
+            if (strlen($imageObject['base64Content']) < 20) {
+                error_log('------------------ base64 length error ------------------');
+                $responseInfo = array('status' => 'skipped', 'imageInfo' => $imageObject);
+                array_push($result, $responseInfo);
+                continue;
+            }
             $startUploadTimeStamp = currentTimeStamp();
             $requestBody = array(
+                'position' => $imageObject['Priority'],
                 'file_mime_type' => 'image/jpeg',
                 'file_content' => $imageObject['base64Content'],
                 'file_name' => fileNamePrefix($imageObject['ImageName'])
             );
+            if ($imageObject['Priority'] < 2) {
+                $requestBody['types'] = array('image', 'small_image', 'thumbnail');
+            }
             $oauthClient->fetch(
                 $apiUrl . $restPostfix,
                 json_encode($requestBody),
@@ -309,10 +321,12 @@ $app->post('/api/uploadProductImages', function () {
 
 $app->post('/api/checkServerItemStatus', function () {
     global $input;
+    global $app;
+    $host = $app->request->get('host');
     $response = array();
     $count = 0;
     foreach ($input AS $key => $itemObject) {
-        $response[$key] = compareLocalItemNumber($itemObject);
+        $response[$key] = compareLocalItemNumber($itemObject, $host);
         if (!$response[$key]['exists']) {
             $count++;
         }
@@ -328,11 +342,13 @@ $app->post('/api/checkServerItemStatus', function () {
 $app->get('/api/retrieveAttributeSetmappingTable', 'retrieveAttributeSetmappingTable');
 function retrieveAttributeSetmappingTable ($returnResponse = false) {
     global $config;
+    global $app;
+    $params = $app->request->params();
     $header = array(
         'Content-Type: application/json',
         'Accept: application/json'
     );
-    $response = CallAPI('GET', $config['pimUrlBase'] . $config['pimAttributeSetRestPostfix'], $header);
+    $response = CallAPI('GET', $params['indexPage'] . $config['pimAttributeSetRestPostfix'], $header);
     if ($returnResponse) {
         return $response;
     }
@@ -540,7 +556,7 @@ $app->get('/api/getAttributesById', function ($returnResponse = false) {
         'Content-Type: application/json',
         'Accept: application/json'
     );
-    $response = CallAPI('GET', $config['pimUrlBase'] . $config['pimAttributesByIdRestPostfix'] . parseQueryString(array('id' => $params['id'])), $header);
+    $response = CallAPI('GET', $params['indexPage'] . $config['pimAttributesByIdRestPostfix'] . parseQueryString(array('id' => $params['id'])), $header);
     if ($returnResponse) {
         return $response;
     }
@@ -555,7 +571,7 @@ $app->get('/api/getAttributeOptionsByAttrCode', function ($returnResponse = fals
         'Content-Type: application/json',
         'Accept: application/json'
     );
-    $response = CallAPI('GET', $config['pimUrlBase'] . $config['pimAttributeOptionsByAttrCodeRestPostfix'] . parseQueryString(array('attributeCodes' => $params['attributeCodes'])), $header);
+    $response = CallAPI('GET', $params['indexPage'] . $config['pimAttributeOptionsByAttrCodeRestPostfix'] . parseQueryString(array('attributeCodes' => $params['attributeCodes'])), $header);
     if ($returnResponse) {
         return $response;
     }

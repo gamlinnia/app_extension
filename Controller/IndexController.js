@@ -20,6 +20,10 @@ app.controller('indexController', function($scope, restService, $window, Utils, 
 
     $scope.getConfigJson = function (modifyObject) {
         restService.getConfigJson(modifyObject).success(function (response) {
+            $scope.selectableHosts = [];
+            for (var key in response.magentoConfig) {
+                $scope.selectableHosts.push(key);
+            }
             Utils.assignObjToAntoher($scope, response);
             if (Utils.isDefinedAndNotNull($scope.host)) {
                 Utils.assignObjToAntoher($scope, $scope.magentoConfig[$scope.host]);
@@ -62,7 +66,8 @@ app.controller('indexController', function($scope, restService, $window, Utils, 
     };
 
     $scope.retrieveAttributeSetmappingTable = function () {
-        restService.retrieveAttributeSetmappingTable().success(function (response) {
+        $scope.parseAuthParams();
+        restService.retrieveAttributeSetmappingTable($scope.authObject).success(function (response) {
             $scope.attributeSetTable = response;
         })
     };
@@ -94,10 +99,11 @@ app.controller('indexController', function($scope, restService, $window, Utils, 
     $scope.parseAuthParams = function () {
         var callbackUrl = $window.location.origin + $window.location.pathname;
         $scope.authObject = {
+            indexPage: 'http://' + $scope.host + $scope.magentoDirectory + '/',
             callbackUrl: callbackUrl,
             apiUrl: 'http://' + $scope.host + $scope.magentoDirectory + '/api/rest',
             temporaryCredentialsRequestUrl: 'http://' + $scope.host + $scope.magentoDirectory + '/index.php/oauth/initiate?oauth_callback=' + encodeURIComponent(callbackUrl),
-            adminAuthorizationUrl: 'http://' + $scope.host + $scope.magentoDirectory + '/index.php/admin/oauth_authorize',
+            adminAuthorizationUrl: 'http://' + $scope.host + $scope.magentoDirectory + '/' + $scope.adminPath + '/oauth_authorize',
             accessTokenRequestUrl: 'http://' + $scope.host + $scope.magentoDirectory + '/index.php/oauth/token',
             consumerKey: $scope.consumerKey,
             consumerSecret: $scope.consumerSecret
@@ -127,6 +133,7 @@ app.controller('indexController', function($scope, restService, $window, Utils, 
 
     $scope.getProductList = function () {
         $scope.resetProductList();
+        $scope.authObject.host = $scope.host;
         $scope.authObject.action = 'getProductList';
         $scope.authObject.method = 'GET';
         $scope.authObject.restPostfix = '/products';
@@ -305,60 +312,18 @@ app.controller('indexController', function($scope, restService, $window, Utils, 
                 sku: rwItem.sku
             }
         };
-        console.log(rwItem);
-        console.log(uploadObj);
-        return;
         restService.uploadProductImages(uploadObj).success(function (response) {
-            console.log(response);
             if (response.length > 0) {
-                $scope.count.uploadImage.success++;
+                $window.alert('DONE UPLOADING IMAGES');
             } else {
                 if (response.message && response.message == 'NO IMAGE NEED TO BE UPLOADED') {
                     $scope.count.uploadImage.success++;
                 } else {
-                    $scope.count.uploadImage.fail++;
-                    $scope.errorObj.push({
-                        entity_id: obj.entity_id,
-                        sku: obj.sku
-                    });
+                    $window.alert('ERROR OCCUR');
                 }
             }
-            $scope.alert = {
-                type: 'success',
-                msg: 'sucess: ' + $scope.count.uploadImage.success + ', fail: ' + $scope.count.uploadImage.fail + ', count: ' + ($scope.count.uploadImage.count +1)
-            };
-            if ($scope.count.uploadImage.count < $scope.rowsPerPage) {
-                $scope.count.uploadImage.count++;
-                $scope.proceedUploading($scope.productList[$scope.count.uploadImage.count]);
-            } else {
-                console.log('DONE');
-                $scope.alert = {
-                    type: 'success',
-                    msg: 'DONE UPLOADING' + ', sucess: ' + $scope.count.uploadImage.success + ', fail: ' + $scope.count.uploadImage.fail
-                };
-                $window.alert('DONE');
-            }
         }).error(function () {
-            $scope.count.uploadImage.fail++;
-            $scope.errorObj.push({
-                entity_id: obj.entity_id,
-                sku: obj.sku
-            });
-
-            $scope.alert = {
-                type: 'success',
-                msg: 'sucess: ' + $scope.count.uploadImage.success + ', fail: ' + $scope.count.uploadImage.fail + ', count: ' + ($scope.count.uploadImage.count +1)
-            };
-
-            if ($scope.count.uploadImage.count < $scope.rowsPerPage) {
-                $scope.proceedUploading($scope.productList[$scope.count.uploadImage.count]);
-            } else {
-                $scope.alert = {
-                    type: 'success',
-                    msg: 'DONE UPLOADING' + ', sucess: ' + $scope.count.uploadImage.success + ', fail: ' + $scope.count.uploadImage.fail
-                };
-                $window.alert('DONE');
-            }
+            $window.alert('ERROR OCCUR');
         });
     };
 
@@ -394,7 +359,7 @@ app.controller('indexController', function($scope, restService, $window, Utils, 
     };
 
     $scope.checkServerItemStatus = function () {
-        restService.checkServerItemStatus($scope.rwFilteredItemList).success(function (response) {
+        restService.checkServerItemStatus($scope.rwFilteredItemList, $scope.host).success(function (response) {
             $scope.rwFilteredItemList = response.DataCollection;
             angular.forEach($scope.rwFilteredItemList, function (obj, index) {
                 if (Utils.isDefinedAndNotNull(obj.attribute_set_id)) {
@@ -481,12 +446,14 @@ app.controller('indexController', function($scope, restService, $window, Utils, 
                 'for\n' +
                 rwItem.Description + '?'
         )) {
+            $scope.parseAuthParams();
+            $scope.authObject.action = 'getRwProductList';
             rwItem.attribute_set_name = attr_name;
             rwItem.attribute_set_id = Utils.mapAttributeSetNameToId(rwItem.attribute_set_name, $scope.attributeSetTable);
-            restService.getAttributesById(rwItem.attribute_set_id).success(function (response) {
+            restService.getAttributesById(rwItem.attribute_set_id, $scope.authObject).success(function (response) {
                 var is_visible_on_frontAttributesArray = response.is_visible_on_front;
                 var specAttributesValueMappingObject = Utils.mapMagentoSpecAndProperty(rwItem.property, is_visible_on_frontAttributesArray);
-                Utils.mapMagentoOptions(specAttributesValueMappingObject, function(specAttributesOptionMappingObject) {
+                Utils.mapMagentoOptions(specAttributesValueMappingObject, $scope.authObject, function(specAttributesOptionMappingObject) {
                     var parseProcess = Utils.formatProductCreateObjectFromApi(idx, rwItem, $scope.attributeSetTable, specAttributesOptionMappingObject);
                     console.log(parseProcess);
                     if (!$scope.pageSetup.debugMode) {

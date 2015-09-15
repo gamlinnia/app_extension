@@ -28,6 +28,7 @@
     <script type="text/javascript" src="Directive/ExportTable.js"></script>
     <!--Style-->
     <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="bower_components/json-formatter/dist/json-formatter.min.css">
     <link type="text/css" rel="stylesheet" href="css/default.css" />
 </head>
 
@@ -43,6 +44,7 @@
     </pre>
 </div>
 
+
 <div class="alignCenter">
     <form style="width: 720px;margin: 0 auto;" class="alignRight">
         <input type="file" ng-model="uploadFile" id="file" name="file" base-sixty-four-input style="display: inline">
@@ -53,8 +55,7 @@
 <div class="alignCenter">
     <label for="magentoHost">Magento Host</label>
     <select id="magentoHost" data-ng-model="host" data-ng-change="changeMagentoHost()">
-        <option value="114.34.186.208">114.34.186.208</option>
-        <option value="rwpim.silksoftware.net">rwpim.silksoftware.net</option>
+        <option data-ng-repeat="selectableHost in selectableHosts" ng-value="selectableHost">{{selectableHost}}</option>
     </select>
     <span id="magentoDirectory" data-ng-bind="magentoDirectory"></span>
     <input type="button" data-ng-click="checkSessionState()" value="Start AUTH" />
@@ -128,17 +129,14 @@
                 <td class="alignCenter">
                     <span data-ng-bind="entity.sku"></span>
                 </td>
-                <td>
-                    <span data-ng-bind="entity | json"></span>
+                <td style="max-width: 800px;min-width: 300px;">
+                    <json-formatter json="entity" open="0"></json-formatter>
                 </td>
                 <td>
-                    <span class="glyphicon glyphicon-picture cursorPointer padding5px" data-ng-click="uploadSingleProductImage(rwItem)"></span>
+                    <span class="glyphicon glyphicon-picture cursorPointer padding5px" data-ng-click="uploadSingleProductImage(entity)"></span>
                 </td>
             </tr>
         </table>
-    </div>
-    <div ng-switch-when="createNewProduct">
-        createNewProduct
     </div>
     <div ng-switch-when="getRwProductList">
         <table class="infoTable marginAuto fullWidth export-table" data-ng-show="rwFilteredItemList.length>0">

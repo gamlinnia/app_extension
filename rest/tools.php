@@ -738,24 +738,24 @@ function parseQueryString ($queryStringArray) {
     return $queryString;
 }
 
-function writeItemNumberToLocal ($magentoProductList) {
+function writeItemNumberToLocal ($magentoProductList, $host) {
     global $config;
-    if (!file_exists($config['ItemNumberStoreDirectory'])) {
-        mkdir($config['ItemNumberStoreDirectory']);
+    if (!file_exists($config['ItemNumberStoreDirectory'] . $host . '/')) {
+        mkdir($config['ItemNumberStoreDirectory'] . $host . '/');
     }
     foreach ($magentoProductList AS $itemArray) {
         $fileName = $itemArray['sku'];
         if (!empty($itemArray['sku'])) {
-            file_put_contents($config['ItemNumberStoreDirectory'] . $fileName, json_encode($itemArray));
+            file_put_contents($config['ItemNumberStoreDirectory'] . $host . '/' . $fileName, json_encode($itemArray));
         }
     }
     return $magentoProductList;
 }
 
-function compareLocalItemNumber ($itemObject) {
+function compareLocalItemNumber ($itemObject, $host) {
     global $config;
     $ItemNumber = $itemObject['ItemNumber'];
-    $fileNameIncludeDir = $config['ItemNumberStoreDirectory'] . $ItemNumber;
+    $fileNameIncludeDir = $config['ItemNumberStoreDirectory'] . $host . '/' . $ItemNumber;
     if (file_exists($fileNameIncludeDir)) {
         $fileContent = file_get_contents($fileNameIncludeDir);
         $jsonDataArray = json_decode($fileContent, true);

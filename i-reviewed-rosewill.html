@@ -61,7 +61,8 @@ jQuery('#purposeForContact').change(
 
 function createContactUs() {
     var href = window.location.href;
-    var urlWithoutPage = href.replace(href.match(/\/[a-z-_\.]+$/), '/');
+    var urlWithoutPage = href.replace(href.match(/\/[a-z-_\.]+[\/]?$/), '/');
+    urlWithoutPage = urlWithoutPage.replace(urlWithoutPage.match(/\/index.php\/[a-z-_\.]*$/), '/');
     var requestBody = {form_name:'i-reviewed-rosewill',value:JSON.stringify(jQuery('#form').serializeArray())};
     jQuery.ajax({
         url:urlWithoutPage + "rosewill/rest/route.php/api/insertFormValue",

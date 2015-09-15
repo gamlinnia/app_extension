@@ -22,8 +22,13 @@ function getTestimonial (page, rowPerPage) {
     if (!rowPerPage) {rowPerPage = 10;}
     var queryString = '?page=' + page + '&rowPerPage=' + rowPerPage;
     resetTable('#testimonial');
+
+    var href = window.location.href;
+    var urlWithoutPage = href.replace(href.match(/\/[a-z-_\.]+[\/]?$/), '/');
+    urlWithoutPage = urlWithoutPage.replace(urlWithoutPage.match(/\/index.php\/[a-z-_\.]*$/), '/');
+
     jQuery.ajax({
-        url:'http://10.16.133.65/rosewill/rest/route.php/api/getFormList/customer_testimonial' + queryString,
+        url: urlWithoutPage + 'rosewill/rest/route.php/api/getFormList/customer_testimonial' + queryString,
         type:'GET'
     }).done(function(list){
         buildPagination(page, list.totalPage);

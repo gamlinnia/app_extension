@@ -223,7 +223,7 @@ function create() {
     urlWithoutPage = urlWithoutPage.replace(urlWithoutPage.match(/\/index.php\/[a-z-_\.]*$/), '/');
 
     jQuery.ajax({
-        url:urlWithoutPage+"rosewill/rest/route.php/api/insertFormValue",
+        url:urlWithoutPage + "rosewill/rest/route.php/api/insertFormValue",
         type:"POST",
         data:JSON.stringify(requestBody)
     }).done(function( msg ) {

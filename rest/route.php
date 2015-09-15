@@ -223,6 +223,7 @@ function existImageComparison ($magentoImagesDataCollection, $base64ProductImage
 function getProductImageBase64 ($itemNumber, $returnResponse = false) {
     global $imageBase;
     $itemImages = getProductImageListFromNE($itemNumber, true);
+
     if ($itemImages['count'] < 1) {
         $result = array(
             "status" => "success",
@@ -240,7 +241,6 @@ function getProductImageBase64 ($itemNumber, $returnResponse = false) {
     $responseObjects = array();
 
     $responseObjects = getBase64Content($responseObjects, $itemImages['DataCollection'], $imageBase, $count, count($itemImages['DataCollection']));
-
     $result = array(
         "status" => "success",
         "count" => count($responseObjects),
@@ -264,6 +264,7 @@ function getBase64Content ($response, $contentArray, $imageBase, $count, $sentin
         $fetchCount = 0;
         while ($fetchCount < 10) {
             try {
+                error_log('GET IMAGE URL: ' . $imageBase . '/' . $fileName);
                 $image = file_get_contents($imageBase . '/' . $fileName);
                 break;
             } catch (Exception $e) {
@@ -285,6 +286,8 @@ function getBase64Content ($response, $contentArray, $imageBase, $count, $sentin
     array_push($response, array(
         'ImageName' => $fileName,
         'imageNumber' => $count + 1,
+        'Priority' => $contentArray[$count]['Priority'],
+        'IsActive' => $contentArray[$count]['IsActive'],
         'base64Content' => base64_encode($image)
     ));
 
