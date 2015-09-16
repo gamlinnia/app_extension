@@ -741,7 +741,10 @@ function parseQueryString ($queryStringArray) {
 function writeItemNumberToLocal ($magentoProductList, $host) {
     global $config;
     if (!file_exists($config['ItemNumberStoreDirectory'] . $host . '/')) {
-        mkdir($config['ItemNumberStoreDirectory'] . $host . '/');
+        if (!mkdir($config['ItemNumberStoreDirectory'] . $host . '/')) {
+            echo jsonMessage('fail', 'no privilege to create dir');
+            return false;
+        }
     }
     foreach ($magentoProductList AS $itemArray) {
         $fileName = $itemArray['sku'];

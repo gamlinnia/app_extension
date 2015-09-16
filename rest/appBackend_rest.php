@@ -191,6 +191,9 @@ function proceedRestData () {
                         $response = parseMagentoJson(json_decode($oauthClient->getLastResponse(), true));
                         if (count($response) > 0) {
                             $response = writeItemNumberToLocal($response, $host);
+                            if (!$response) {
+                                return;
+                            }
                         }
                         break;
                     default :
