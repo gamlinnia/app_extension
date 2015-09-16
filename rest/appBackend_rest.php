@@ -495,8 +495,6 @@ $app->post('/api/getCombinationInfo', function () {
                 $responseIntelligence = getInformationFromIntelligence($params['itemNumber'], true);
                 if (isset($responseIntelligence['detailinfo'][0])) {
                     $response['intelligence'] = $responseIntelligence['detailinfo'][0];
-                } else {
-                    $response['intelligence'] = null;
                 }
                 break;
             case 'price' :
@@ -536,10 +534,6 @@ function getInformationFromIntelligence ($itemNumberTemp = '', $returnResponse =
     );
     $header = array('Content-Type: application/json', 'Accept: application/json');
     $response = CallAPI('POST', $intelligenceBaseUrl . $restPostfix, $header, $data);
-    var_dump($intelligenceBaseUrl . $restPostfix);
-    var_dump($response);
-    var_dump($data);
-    die();
     if ($returnResponse) {
         return $response;
     }
