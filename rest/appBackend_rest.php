@@ -496,7 +496,7 @@ $app->post('/api/getCombinationInfo', function () {
                 if (isset($responseIntelligence['detailinfo'][0])) {
                     $response['intelligence'] = $responseIntelligence['detailinfo'][0];
                 } else {
-                    $response['dimension'] = null;
+                    $response['intelligence'] = null;
                 }
                 break;
             case 'price' :
