@@ -741,6 +741,12 @@ function parseQueryString ($queryStringArray) {
 function writeItemNumberToLocal ($magentoProductList, $host) {
     global $config;
     if (!file_exists($config['ItemNumberStoreDirectory'] . $host . '/')) {
+        if (!file_exists($config['ItemNumberStoreDirectory'])) {
+            if (!mkdir($config['ItemNumberStoreDirectory'])) {
+                echo jsonMessage('fail', 'no privilege to create dir');
+                return false;
+            }
+        }
         if (!mkdir($config['ItemNumberStoreDirectory'] . $host . '/')) {
             echo jsonMessage('fail', 'no privilege to create dir');
             return false;
