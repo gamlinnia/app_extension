@@ -538,6 +538,7 @@ function getInformationFromIntelligence ($itemNumberTemp = '', $returnResponse =
     $response = CallAPI('POST', $intelligenceBaseUrl . $restPostfix, $header, $data);
     var_dump($intelligenceBaseUrl . $restPostfix);
     var_dump($response);
+    var_dump($data);
     die();
     if ($returnResponse) {
         return $response;
