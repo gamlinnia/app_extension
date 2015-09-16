@@ -536,6 +536,8 @@ function getInformationFromIntelligence ($itemNumberTemp = '', $returnResponse =
     );
     $header = array('Content-Type: application/json', 'Accept: application/json');
     $response = CallAPI('POST', $intelligenceBaseUrl . $restPostfix, $header, $data);
+    var_dump($response);
+    die();
     if ($returnResponse) {
         return $response;
     }
