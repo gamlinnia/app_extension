@@ -363,6 +363,13 @@ function changePurposeForContact (value, anchor) {
             content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Company Name</span></th><td><input type="text" name="Company Name" class="required"/></td></tr>';
             anchor = insertHtmlContent(anchor, content);
 
+            content = '<tr class="purposeContent">' +
+                    '<th><span style="color: #ff0000;">*</span></th>' +
+                    '<th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Website Address</span></th>' +
+                    '<td><input type="text" name="Website Address" class="required"/></td>' +
+                    '</tr>';
+            anchor = insertHtmlContent(anchor, content);
+
             content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Type of Business</span></th><td><input type="text" name="Type of Business" class="required"/></td></tr>';
             anchor = insertHtmlContent(anchor, content);
 
