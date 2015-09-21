@@ -6,6 +6,12 @@
             "consumerSecret": "e9b162188f73b155e880f1675c187304",
             "adminPath": "admin"
         },
+        "test.rosewill.com": {
+            "magentoDirectory": "",
+            "consumerKey": "4a79f6b2eaec75787d061ea58ccacce8",
+            "consumerSecret": "106861d66804ff38b25ee4f2299dfb77",
+            "adminPath": "rwAdMin"
+        },
         "www.rosewill.com": {
             "magentoDirectory": "",
             "consumerKey": "4a79f6b2eaec75787d061ea58ccacce8",
@@ -30,5 +36,5 @@
             "ItemCreationDateFrom": "2015-01-04"
         }
     },
-    "host": "114.34.186.208"
+    "host": "www.rosewill.com"
 }
