@@ -160,6 +160,12 @@ function sendMailByForm ($formName, $formData) {
                     'bcc' => array('Li.L.Liu@newegg.com', 'Henry.H.Wu@newegg.com')
                 );
                 break;
+            case 'Media Contact' :
+                $recipient_array = array(
+                    'to' => array('mkt@rosewill.com'),
+                    'bcc' => array('Li.L.Liu@newegg.com', 'Henry.H.Wu@newegg.com', 'Tim.H.Huang@newegg.com')
+                );
+                break;
             case 'Other':
                 $recipient_array = array(
                     'to' => array('mkt@rosewill.com'),
