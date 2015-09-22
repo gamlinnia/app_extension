@@ -467,6 +467,7 @@ app.factory('Utils', ['restService', function(restService) {
                                     break;
                                 } else {
                                     console.log(magentoAttributeOptionsArray[i].options[x].label);
+                                    magentoAttributeOptionsArray[i].options[x].label = magentoAttributeOptionsArray[i].options[x].label.replace(/\+/g, '\\+');
                                     regex = new RegExp(magentoAttributeOptionsArray[i].options[x].label, 'i');
                                     if (typeof attributeValue != 'object') {
                                         if (attributeValue.match(regex)) {
