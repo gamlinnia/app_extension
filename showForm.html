@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html data-ng-app="app">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Show Form</title>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+    <!--BootStrap-->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.0/ui-bootstrap-tpls.min.js"></script>
+    <!--Controller-->
+    <script type="text/javascript" src="Controller/app.js"></script>
+    <script type="text/javascript" src="Controller/IndexController.js"></script>
+    <script type="text/javascript" src="Controller/ShowFormController.js"></script>
+    <!--AngularJS Packages-->
+    <script type="text/javascript" src="bower_components/angular-base64-upload/dist/angular-base64-upload.js"></script>
+    <script type="text/javascript" src="bower_components/json-formatter/dist/json-formatter.min.js"></script>
+    <!--Factory-->
+    <script type="text/javascript" src="Factory/Utils.js"></script>
+    <!--Service-->
+    <script type="text/javascript" src="Service/restService.js"></script>
+    <!--jQuery plugin-->
+    <!--tableExport-->
+    <script type="text/javascript" src="bower_components/tableExport.jquery.plugin/tableExport.js"></script>
+    <script type="text/javascript" src="bower_components/tableExport.jquery.plugin/jquery.base64.js"></script>
+    <script type="text/javascript" src="bower_components/tableExport.jquery.plugin/jspdf/libs/sprintf.js"></script>
+    <script type="text/javascript" src="bower_components/tableExport.jquery.plugin/jspdf/jspdf.js"></script>
+    <script type="text/javascript" src="bower_components/tableExport.jquery.plugin/jspdf/libs/base64.js"></script>
+    <!--tableExport Directive-->
+    <script type="text/javascript" src="Directive/ExportTable.js"></script>
+    <!--Style-->
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="bower_components/json-formatter/dist/json-formatter.min.css">
+    <link type="text/css" rel="stylesheet" href="css/default.css" />
+    <link type="text/css" rel="stylesheet" href="css/loading.css" />
+</head>
+
+<body data-ng-controller="showFormController">
+<!--<body data-ng-controller="indexController">-->
+    <br>
+    <br>
+<select data-ng-model="formName" data-ng-change="changeForm(formName)" data-ng-options="p for p in formList" ng-disabled="formLoading">
+    <option value="">--options--</option>
+    <option>All</option>
+</select>
+
+<select data-ng-model="formName" data-ng-change="changeForm(formName)">
+    <option value="">--options--</option>
+    <option value="all">All</option>
+    <option data-ng-repeat="item in formList">{{item}}</option>
+</select>
+
+<!--<p data-ng-bind="formName"></p>-->
+
+<div class="spinner" data-ng-show="formLoading">
+    <div class="rect1"></div>
+    <div class="rect2"></div>
+    <div class="rect3"></div>
+    <div class="rect4"></div>
+    <div class="rect5"></div>
+</div>
+
+<div data-ng-show="showFormDetail">
+    <table border="1">
+        <tbody>
+            <tr>
+                <td>Form Name</td>
+                <td>Content</td>
+                <td>Create Time</td>
+                <td>Modify Time</td>
+            </tr>
+            <tr data-ng-repeat="item in formDetail">
+                <td data-ng-bind="item.form_name"></td>
+                <td data-ng-bind="item.value"></td>
+                <td data-ng-bind="item.ctime"></td>
+                <td data-ng-bind="item.mtime"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+
+</html>

@@ -116,5 +116,20 @@ app.service('restService', function($http) {
             data: postData
         })
     };
+    
+        //20150918 add by tim
+    this.getFormList = function (){
+        return $http({
+            method: 'GET',
+            url: urlBase + 'testShowForm1'
+        })
+    }
+
+    this.getFormDetail = function (form_name){
+        return $http({
+            method: 'GET',
+            url: urlBase + 'getFormList/' + form_name
+        })
+    }
 
 });
