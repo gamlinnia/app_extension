@@ -1,6 +1,9 @@
 app.service('restService', function($http) {
 
-    var urlBase = 'rest/route.php/api/';
+    var local_url = 'rest/route.php/api/';
+    var remote_url = 'http://114.34.186.208/rosewill/rest/route.php/api/';
+    var urlBase = remote_url;
+
 
     this.destroySession = function () {
         return $http({

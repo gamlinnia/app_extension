@@ -46,7 +46,6 @@
 
 <select data-ng-model="formName" data-ng-change="changeForm(formName)">
     <option value="">--options--</option>
-    <option value="all">All</option>
     <option data-ng-repeat="item in formList">{{item}}</option>
 </select>
 
@@ -59,6 +58,9 @@
     <div class="rect4"></div>
     <div class="rect5"></div>
 </div>
+
+<br>
+<br>
 
 <div data-ng-show="showFormDetail">
     <table border="1">

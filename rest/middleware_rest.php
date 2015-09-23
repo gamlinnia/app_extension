@@ -31,20 +31,28 @@ $app->get('/api/getFormList/:formName', function ($formName) {
     $rowPerPage = $app->request->get('rowPerPage') ? $app->request->get('rowPerPage') : 10;
     $rowPerPage = (int)$rowPerPage;
     $count = $db->getOne('SELECT COUNT(*) FROM `custom_form` WHERE `form_name` = ?', array($formName));
-    $response = $db->getAll('SELECT `id`, `form_name`, `value`, `mtime`, `ctime` FROM `custom_form` WHERE `form_name` = ? ORDER BY `id` DESC, `mtime` DESC LIMIT ?, ?', array($formName, ($page-1)*$rowPerPage, $page*$rowPerPage));
-    foreach ($response AS $key => $object) {
-        if (isJson($object['value'])) {
-            $response[$key]['value'] = json_decode($object['value'], true);
-        }
+    if ($count < 1 ){
+        echo json_encode(array(
+            'status' => 'failed',
+            'Detail' => 'Invalid form name or empty data'
+        ));
     }
-    echo json_encode(array(
-        'status' => 'success',
-        'count' => (int)$count,
-        'page' => $page,
-        'limit' => $rowPerPage,
-        'totalPage' => ceil($count / $rowPerPage),
-        'DataCollection' => $response
-    ));
+    else {
+        $response = $db->getAll('SELECT `id`, `form_name`, `value`, `mtime`, `ctime` FROM `custom_form` WHERE `form_name` = ? ORDER BY `id` DESC, `mtime` DESC LIMIT ?, ?', array($formName, ($page - 1) * $rowPerPage, $page * $rowPerPage));
+        foreach ($response AS $key => $object) {
+            if (isJson($object['value'])) {
+                $response[$key]['value'] = json_decode($object['value'], true);
+            }
+        }
+        echo json_encode(array(
+            'status' => 'success',
+            'count' => (int)$count,
+            'page' => $page,
+            'limit' => $rowPerPage,
+            'totalPage' => ceil($count / $rowPerPage),
+            'DataCollection' => $response
+        ));
+    }
     $db->disconnect();
 });
 
