@@ -91,8 +91,7 @@ function checkSessionState () {
         $oauthClient = new OAuth($consumerKey, $consumerSecret, OAUTH_SIG_METHOD_HMACSHA1, $authType);
         $oauthClient->enableDebug();
 
-//        if (!isset($oauth_token) && (!isset($_SESSION['state']) || !$_SESSION['state']) ) {
-        if (!isset($oauth_token) || !isset($_SESSION['state']) || !$_SESSION['state'] ) {
+        if (!isset($oauth_token) && (!isset($_SESSION['state']) || !$_SESSION['state']) ) {
             $requestToken = $oauthClient->getRequestToken($temporaryCredentialsRequestUrl);
             $_SESSION['secret'] = $requestToken['oauth_token_secret'];
             $_SESSION['state'] = 1;
