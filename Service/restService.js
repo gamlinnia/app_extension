@@ -13,6 +13,7 @@ app.service('restService', function($http) {
     };
 
     this.checkSessionState = function (authObject) {
+        console.log(authObject);
         return $http({
             method: 'GET',
             url: urlBase + 'checkSessionState',
