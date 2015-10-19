@@ -58,6 +58,7 @@ $app->post('/api/getProductImages', 'getProductImages');
 
 require_once 'middleware_rest.php';
 require_once 'appBackend_rest.php';
+require_once 'showForm.php';
 
 $app->run();
 

@@ -1,6 +1,9 @@
 app.service('restService', function($http) {
 
-    var urlBase = 'rest/route.php/api/';
+    var local_url = 'rest/route.php/api/';
+    var remote_url = 'http://114.34.186.208/rosewill/rest/route.php/api/';
+    var urlBase = remote_url;
+
 
     this.destroySession = function () {
         return $http({
@@ -10,6 +13,7 @@ app.service('restService', function($http) {
     };
 
     this.checkSessionState = function (authObject) {
+        console.log(authObject);
         return $http({
             method: 'GET',
             url: urlBase + 'checkSessionState',
@@ -116,5 +120,20 @@ app.service('restService', function($http) {
             data: postData
         })
     };
+    
+        //20150918 add by tim
+    this.getFormList = function (){
+        return $http({
+            method: 'GET',
+            url: urlBase + 'testShowForm1'
+        })
+    }
+
+    this.getFormDetail = function (form_name){
+        return $http({
+            method: 'GET',
+            url: urlBase + 'getFormList/' + form_name
+        })
+    }
 
 });

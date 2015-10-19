@@ -438,9 +438,9 @@ app.controller('indexController', function($scope, restService, $window, Utils, 
     };
 
     $scope.chooseAttrAndUploadNewProduct = function (idx, attr_name, rwItem) {
-        if (rwItem.exists) {
-            return;
-        }
+        //if (rwItem.exists) {
+        //    return;
+        //}
         if (confirm(
                 'Sure to choose ' + attr_name + '\n' +
                 'for\n' +
