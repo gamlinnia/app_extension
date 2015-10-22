@@ -246,7 +246,7 @@ app.factory('Utils', ['restService', function(restService) {
                 "Cutlery": "c08_cutlery",
                 "Deep Fryers": "c09_deep-fryers",
                 "Digital Camera Batteries & Chargers": "b42_digital-camera-batteries-&-chargers",
-                "Digital Camera Cases": "c04_printer-ink-cartridges-aftermarket",
+                "Digital Camera Cases": "b73_camera_bags",
                 "Digital Media Remote": "c10_digital-media-remote",
                 "Extenders & Repeaters": "b41_data-adapters",
                 "External Enclosure": "b45_hard-drive-adapters, b44_external-enclosure",
