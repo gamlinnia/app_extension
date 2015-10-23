@@ -51,9 +51,14 @@ function submitTestimonial () {
         form_name: 'customer_testimonial',
         value: JSON.stringify(jQuery('#testimonialForm').serializeArray())
     };
+
+    var href = window.location.href;
+    var urlWithoutPage = href.replace(href.match(/\/[a-z-_\.]+[\/]?$/), '/');
+    urlWithoutPage = urlWithoutPage.replace(urlWithoutPage.match(/\/index.php\/[a-z-_\.]*$/), '/');
+
     jQuery.ajax({
         type: "POST",
-        url: "http://10.16.133.65/rosewill/rest/route.php/api/insertFormValue",
+        url: urlWithoutPage + "rosewill/rest/route.php/api/insertFormValue",
         data: JSON.stringify(requestBody),
         success: function( msg ) {
             if (msg.status == 'success') {
@@ -68,7 +73,7 @@ function submitTestimonial () {
                     } else if (name == 'testimonial') {
                         testmonialHtml = testmonialHtml + '<div style="color: rgb(128, 128, 128); padding: 20px 0px 5px 20px;">'+testmonial[i].value+'</div>';
                     }
-                };
+                }
                 jQuery('#testmonialList').append(testmonialHtml);
                 //redirectAfterAlert('Form has been successfully submitted', redirectToPage('http://' + window.location.hostname + '/customer_testimonial/'));
             } else {
