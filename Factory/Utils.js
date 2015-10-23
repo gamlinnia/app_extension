@@ -306,7 +306,16 @@ app.factory('Utils', ['restService', function(restService) {
                 "Tools - Network / PC Service / Acc.": "b61_tools-network/pc-service/acc",
                 "TV Brackets": "c32_tv-brackets",
                 "USB Converters": "b45_hard-drive-adapters",
-                "Video Adapters": "b13_cables-dvi-cables, b12_cables-displayport-cables, b65_video-adapters"
+                "Video Adapters": "b13_cables-dvi-cables, b12_cables-displayport-cables, b65_video-adapters",
+                "OS - Staplers & Hole Punchers" : "c39_staplers_hole_punchers",
+                "Teakettles" : "c36_electric_kettles",
+                "Water Dispensers" : "c30_thermo-pots",
+                "Food Processors" : "c21_ice-cream-makers",
+                "Steamers" : "c37_food_steamers",
+                "Pressure Cookers" : "c35_pressure_cookers",
+                "Massagers" : "c38_massagers",
+                "Accessories - General" : "b72_cable_ties",
+                "HI - Portable Generators" : "c40_portable_generators"
             };
             if (this.isDefinedAndNotNull(mappingTable[neSubcategory])) {
                 return {
