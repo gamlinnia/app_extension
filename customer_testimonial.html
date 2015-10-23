@@ -7,11 +7,9 @@
 </head>
 <body>
 
-<!-- not sure -->
 <div id="testmonialList">
 
 </div>
-<!-- not sure-->
 
 <div style="margin: 5%;">
     <!--<p><span style="color: black; font-size: 16px; font-weight: bold;">SUBMIT YOUR TESTIMONIAL</span></p>-->
@@ -67,7 +65,7 @@ function submitTestimonial () {
                 for(var i=0; i<testmonial.length; i++){
                     var name = testmonial[i].name;
                     if(name == 'name') {
-                        testmonialHtml = testmonialHtml+'<div><span style="margin-right: 25px; font-size: 18px; color: rgb(0, 0, 0);">&nbsp;-&nbsp;undefined</span><span>by&nbsp;&nbsp;</span><span style="font-size: 16px; color: darkcyan;">'+testmonial[i].name+'</span></div>';
+                        testmonialHtml = testmonialHtml+'<div><span style="margin-right: 25px; font-size: 18px; color: rgb(0, 0, 0);">Testimonial&nbsp;-&nbsp;</span><span>by&nbsp;&nbsp;</span><span style="font-size: 16px; color: darkcyan;">'+testmonial[i].value+'</span></div>';
                     } else if (name == 'email') {
 
                     } else if (name == 'testimonial') {
