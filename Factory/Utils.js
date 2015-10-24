@@ -294,7 +294,7 @@ app.factory('Utils', ['restService', function(restService) {
                 "Printer / Fax - Toners - Aftermarket": "c04_printer-ink-cartridges-aftermarket",
                 "Rice Cookers": "c27_rice-cookers",
                 "Satellite TV - Receivers & Accessories": "b52_network-network-antennas",
-                "Server - Accessories": "b27_cables-sata/esata-cables, b57_server-accessories, b45_hard-drive-adapters, b27_cables-sata/esata-cables",
+                "Server - Accessories": "b27_cables-sata/esata-cables, b57_server-accessories, b45_hard-drive-adapters",
                 "Server - Chassis": "b58_server-chassis",
                 "Server - RAID Sub-Systems": "b46_hard-drive-controllers/raid-cards",
                 "Sound Card": "b51_network-interface-cards",
