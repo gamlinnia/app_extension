@@ -163,9 +163,9 @@ app.factory('Utils', ['restService', function(restService) {
                 transformedData: {
                     type_id : "simple",
                     attribute_set_id : this.mapAttributeSetNameToId( apiData.attribute_set_name, attributeSetTable ),
-                    ne_highlight: apiData.intelligence.Intelligence ? apiData.intelligence.Intelligence : null,
-                    description: apiData.intelligence.Introduction ? apiData.intelligence.Introduction : apiData.baseinfo.ShortDescription,
-                    ne_description: apiData.intelligence.Introduction ? apiData.intelligence.Introduction : null,
+                    ne_highlight: apiData.intelligence.hasOwnProperty('Intelligence') ? apiData.intelligence.Intelligence : null,
+                    description: apiData.intelligence.hasOwnProperty('Introduction') ? apiData.intelligence.Introduction : apiData.baseinfo.ShortDescription,
+                    ne_description: apiData.intelligence.hasOwnProperty('Introduction') ? apiData.intelligence.Introduction : null,
                     sku: apiData.baseinfo.ItemNumber,
                     status : 1,
                     visibility : "4",   // Catalog, Search
@@ -183,10 +183,10 @@ app.factory('Utils', ['restService', function(restService) {
                     ne_height_cm: apiData.dimension.Height * 2.54,
 
                     //                    product_type: apiData.baseinfo.ProductType ? apiData.baseinfo.ProductType : null,
-                    item_type: apiData.baseinfo.ItemType ? apiData.baseinfo.ItemType : null,
+                    item_type: apiData.baseinfo.ItemType || null,
                     short_description : apiData.baseinfo.ShortDescription,
 
-                    name: apiData.description.Title ? apiData.description.Title : apiData.description.ProductWeb,
+                    name: apiData.description.Title || apiData.description.ProductName,
                     name_long: apiData.description.WebDescription,
                     model_number: this.lookforProperty(apiData.property, 'PropertyName', /model/i, ['UserInputted', 'ValueName']),
                     price: apiData.price.UnitPrice,

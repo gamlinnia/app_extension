@@ -51,13 +51,16 @@ function submitTestimonial () {
     };
 
     var href = window.location.href;
-    var urlWithoutPage = href.replace(href.match(/\/[a-z-_\.]+[\/]?$/), '/');
-    urlWithoutPage = urlWithoutPage.replace(urlWithoutPage.match(/\/index.php\/[a-z-_\.]*$/), '/');
+    var urlWithoutPage = href.replace(/customer_[a-z0-9\-_\/]+/i, '');
+    urlWithoutPage = urlWithoutPage.replace("index.php/", "");
 
     jQuery.ajax({
         type: "POST",
         url: urlWithoutPage + "rosewill/rest/route.php/api/insertFormValue",
         data: JSON.stringify(requestBody),
+        beforeSend: function (xhr){
+            xhr.setRequestHeader('Authorization', make_base_auth('rosewill', 'rosewillPIM'));
+        },
         success: function( msg ) {
             if (msg.status == 'success') {
                 var testmonial =jQuery('#testimonialForm').serializeArray();
@@ -85,7 +88,11 @@ function submitTestimonial () {
         }
     });
 }
-
+function make_base_auth(user, password) {
+    var tok = user + ':' + password;
+    var hash = btoa(tok);
+    return "Basic " + hash;
+}
 jQuery(document).ready(function () {
     getUserName();
     formValidation();
