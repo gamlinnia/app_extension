@@ -164,7 +164,7 @@ app.factory('Utils', ['restService', function(restService) {
                     type_id : "simple",
                     attribute_set_id : this.mapAttributeSetNameToId( apiData.attribute_set_name, attributeSetTable ),
                     ne_highlight: apiData.intelligence.hasOwnProperty('Intelligence') ? apiData.intelligence.Intelligence : null,
-                    description: apiData.intelligence.hasOwnProperty('Introduction') ? apiData.intelligence.Introduction : apiData.baseinfo.ShortDescription,
+                    description: apiData.intelligence.hasOwnProperty('Introduction') && apiData.intelligence.Introduction ? apiData.intelligence.Introduction : apiData.baseinfo.ShortDescription,
                     ne_description: apiData.intelligence.hasOwnProperty('Introduction') ? apiData.intelligence.Introduction : null,
                     sku: apiData.baseinfo.ItemNumber,
                     status : 1,
