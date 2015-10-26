@@ -186,7 +186,7 @@ app.factory('Utils', ['restService', function(restService) {
                     item_type: apiData.baseinfo.ItemType || null,
                     short_description : apiData.baseinfo.ShortDescription,
 
-                    name: apiData.description.Title || apiData.description.ProductName,
+                    name: apiData.description.hasOwnProperty('WebDescription') ? apiData.description.WebDescription : apiData.description.Title,
                     name_long: apiData.description.WebDescription,
                     model_number: this.lookforProperty(apiData.property, 'PropertyName', /model/i, ['UserInputted', 'ValueName']),
                     price: apiData.price.UnitPrice,
