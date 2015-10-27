@@ -106,7 +106,8 @@ function createContactUs() {
         data:JSON.stringify(requestBody),
         success: function(msg){
             alert(msg.message);
-            window.location.reload();
+//            window.location.reload();
+            window.location = window.location.origin;
         },
         error:function(xhr, ajaxOptions, thrownError){
             alert(xhr.status);
