@@ -164,7 +164,6 @@ app.factory('Utils', ['restService', function(restService) {
                     type_id : "simple",
                     attribute_set_id : this.mapAttributeSetNameToId( apiData.attribute_set_name, attributeSetTable ),
                     ne_highlight: apiData.intelligence.hasOwnProperty('Intelligence') ? apiData.intelligence.Intelligence : null,
-                    description: apiData.intelligence.hasOwnProperty('Introduction') && apiData.intelligence.Introduction ? apiData.intelligence.Introduction : apiData.baseinfo.ViewDescription,
                     ne_description: apiData.intelligence.hasOwnProperty('Introduction') && apiData.intelligence.Introduction ? apiData.intelligence.Introduction : apiData.baseinfo.ViewDescription,
                     sku: apiData.baseinfo.ItemNumber,
                     status : 1,
@@ -196,6 +195,14 @@ app.factory('Utils', ['restService', function(restService) {
                     upc_number: apiData.ProductInfos.UPCCode
                 }
             };
+
+            if (apiData.intelligence.hasOwnProperty('Introduction') && apiData.intelligence.Introduction) {
+                parsedObject.description =  apiData.intelligence.Introduction;
+
+            } else {
+                parsedObject.description = apiData.baseinfo.ViewDescription ? apiData.baseinfo.ViewDescription : apiData.description.WebDescription;
+            }
+
             for (var key in specAttributesValueMappingObject) {
                 parsedObject.transformedData[key] = specAttributesValueMappingObject[key];
             }
