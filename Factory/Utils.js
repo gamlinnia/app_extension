@@ -197,9 +197,9 @@ app.factory('Utils', ['restService', function(restService) {
             };
 
             if (apiData.intelligence.hasOwnProperty('Introduction') && apiData.intelligence.Introduction) {
-                parsedObject.description =  apiData.intelligence.Introduction;
+                parsedObject.transformedData.description =  apiData.intelligence.Introduction;
             } else {
-                parsedObject.description = apiData.baseinfo.ViewDescription ? apiData.baseinfo.ViewDescription : apiData.description.WebDescription;
+                parsedObject.transformedData.description = apiData.baseinfo.ViewDescription ? apiData.baseinfo.ViewDescription : apiData.description.WebDescription;
             }
 
             for (var key in specAttributesValueMappingObject) {
