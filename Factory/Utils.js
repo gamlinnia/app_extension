@@ -198,7 +198,6 @@ app.factory('Utils', ['restService', function(restService) {
 
             if (apiData.intelligence.hasOwnProperty('Introduction') && apiData.intelligence.Introduction) {
                 parsedObject.description =  apiData.intelligence.Introduction;
-
             } else {
                 parsedObject.description = apiData.baseinfo.ViewDescription ? apiData.baseinfo.ViewDescription : apiData.description.WebDescription;
             }
