@@ -209,7 +209,7 @@ app.factory('Utils', ['restService', function(restService) {
         },
         neSubcategoryToMagentoSubcategory: function (neSubcategory) {
             var mappingTable = {
-                "Accessories - Case / Rackmount": "b01_Computer_Case",
+                "Accessories - Case / Rackmount": "b01_Computer_Case, b33_case-fans",
                 "Accessories - Hard Drive": "b45_hard-drive-adapters",
                 "Accessories - Monitors": "c32_tv-brackets, c19_home-electronics-accessories",
                 "Accessories - Mouse": "a05_gaming-keyboard, b37_cell-phone-chargers-&-cables, b70_mouse, a06_gaming-mouse",
@@ -262,7 +262,7 @@ app.factory('Utils', ['restService', function(restService) {
                 "Gaming Keyboard": "a05_gaming-keyboard",
                 "Gaming Mice": "a06_gaming-mouse",
                 "Hard Drive Adapters": "b45_hard-drive-adapters, b17_cables-internal-power-cables",
-                "Hard Drive Controllers / RAID Cards": "b51_network-interface-cards",
+                "Hard Drive Controllers / RAID Cards": "b51_network-interface-cards, b03_add-on-cards",
                 "Headphones and Accessories": "b66_Headsets_and_Accessories, a02_Gaming_Headsets_and_Accessories",
                 "Headsets and Accessories": "b66_Headsets_and_Accessories, a02_Gaming_Headsets_and_Accessories",
                 "Heater": "c13_heater",
@@ -316,7 +316,7 @@ app.factory('Utils', ['restService', function(restService) {
                 "OS - Staplers & Hole Punchers" : "c39_staplers_hole_punchers",
                 "Teakettles" : "c36_electric_kettles",
                 "Water Dispensers" : "c30_thermo-pots",
-                "Food Processors" : "c21_ice-cream-makers",
+                "Food Processors" : "c21_ice-cream-makers, c37_food_steamers",
                 "Steamers" : "c37_food_steamers",
                 "Pressure Cookers" : "c35_pressure_cookers",
                 "Massagers" : "c38_massagers",
