@@ -138,7 +138,7 @@ function sendMailByForm ($formName, $formData) {
         switch ($action) {
             case 'productRegistration' :
                 $recipient_array = array(
-                    'to' => array('rma@rosewill.com'),       // temp, need to change.
+                    'to' => array('mkt@rosewill.com'),       // temp, need to change.
                     'bcc' => array('Li.L.Liu@newegg.com', 'Tim.H.Huang@newegg.com')
                 );
                 break;
