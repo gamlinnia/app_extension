@@ -132,7 +132,7 @@ function sendMailByForm ($formName, $formData) {
     if ($config['debugMode']) {
         $recipient_array = array(
             'to' => array('Li.L.Liu@newegg.com'),
-            'bcc' => array('Reyna.C.Chu@newegg.com', 'Henry.H.Wu@newegg.com')
+            'bcc' => array('Reyna.C.Chu@newegg.com', 'Tim.H.Huang@newegg.com')
         );
     } else {
         switch ($action) {
