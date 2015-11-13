@@ -120,7 +120,7 @@ $app->delete('/api/delForm/:id', function ($id) {
 
 function sendMailByForm ($formName, $formData) {
     global $config;
-    $formToEmail = array('contactUs', 'i-reviewed-rosewill');
+    $formToEmail = array('contactUs', 'i-reviewed-rosewill', 'productRegistration');
 
     if (!in_array($formName, $formToEmail)) {
         return false;
@@ -137,11 +137,14 @@ function sendMailByForm ($formName, $formData) {
     } else {
         switch ($action) {
             case 'productRegistration' :
-
+                $recipient_array = array(
+                    'to' => array('Li.L.Liu@newegg.com'),       // temp, need to change.
+                    'bcc' => array('Li.L.Liu@newegg.com', 'Tim.H.Huang@newegg.com')
+                );
                 break;
             case 'Tech Support' :
                 $recipient_array = array(
-                    'to' => array('rma@rosewill.com'),
+                    'to' => array('techsupport@rosewill.com'),
                     'bcc' => array('Li.L.Liu@newegg.com', 'Tim.H.Huang@newegg.com')
                 );
                 break;
