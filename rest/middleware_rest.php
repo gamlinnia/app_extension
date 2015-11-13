@@ -136,6 +136,15 @@ function sendMailByForm ($formName, $formData) {
         );
     } else {
         switch ($action) {
+            case 'productRegistration' :
+
+                break;
+            case 'Tech Support' :
+                $recipient_array = array(
+                    'to' => array('rma@rosewill.com'),
+                    'bcc' => array('Li.L.Liu@newegg.com', 'Tim.H.Huang@newegg.com')
+                );
+                break;
             case 'Request to Return Merchandise':
                 $recipient_array = array(
                     'to' => array('rma@rosewill.com'),
