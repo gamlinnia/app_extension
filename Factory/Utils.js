@@ -321,7 +321,8 @@ app.factory('Utils', ['restService', function(restService) {
                 "Pressure Cookers" : "c35_pressure_cookers",
                 "Massagers" : "c38_massagers",
                 "Accessories - General" : "b72_cable_ties",
-                "HI - Portable Generators" : "c40_portable_generators"
+                "HI - Portable Generators" : "c40_portable_generators",
+                "Network - Powerline": "c45_powerline_adapter"
             };
             if (this.isDefinedAndNotNull(mappingTable[neSubcategory])) {
                 return {
