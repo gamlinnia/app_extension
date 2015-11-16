@@ -1,74 +1,36 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-    <style>
-        td{white-space: nowrap}
-        th{white-space: nowrap}
-        textarea{resize: both}
-
-    </style>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
-</head>
-<body>
-<div style="background-color: #f8f8f8; margin: 10px; padding: 20px;">
-<form id="form" action="javascript:createContactUs()">
+<p>&nbsp;</p>
+<div style="background-color: #f8f8f8; margin: 10px; padding: 20px;"><form id="form" action="javascript:createContactUs()">
 <table style="width: 600px;" border="0">
     <tbody>
-    <tr>
-        <th colspan="3">
-            <h2><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #ff0000;">Personal Information</span></h2>
-        </th>
-    </tr>
+    <tr><th colspan="3">
+        <h2><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #ff0000;">Personal Information</span></h2>
+    </th></tr>
     <tr><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">First Name</span></th>
-        <td><input type="text" name="First Name" class="required"/></td>
+        <td><input class="required" type="text" name="First Name" /></td>
     </tr>
     <tr><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Last Name</span></th>
-        <td><input type="text" name="Last Name" class="required"/></td>
+        <td><input class="required" type="text" name="Last Name" /></td>
     </tr>
-    <tr><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;white-space: nowrap;">Your Location (Region/Country)</span></th>
-        <td><input type="text" name="Your Location (Region/Country)" class="required"/></td>
+    <tr><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333; white-space: nowrap;">Your Location (Region/Country)</span></th>
+        <td><input class="required" type="text" name="Your Location (Region/Country)" /></td>
     </tr>
     <tr><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Your E-Mail Address</span></th>
-        <td><input type="text" name="email" class="required email"/><span style="color:black">sendACopyToMe: <input type="radio" name="sendACopyToMe" value="yes" checked="checked">yes <input type="radio" name="sendACopyToMe" value="no">no</span></td>
+        <td><input class="required email" type="text" name="email" />&nbsp;S<span style="color: black;">end a Copy to Me: <input type="radio" name="sendACopyToMe" value="yes" />yes <input type="radio" name="sendACopyToMe" value="no" />no</span></td>
     </tr>
-    <tr>
-        <th>
-            <span style="color: #ff0000;">*</span>
-        </th>
-        <th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Telephone Number</span></th>
-        <td>
-            <input type="text" name="Phone Number" class="required"/>
-        </td>
+    <tr><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Telephone Number</span></th>
+        <td><input class="required" type="text" name="Phone Number" /></td>
     </tr>
-    <tr>
-        <th>&nbsp;</th>
-        <th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Telephone Number #2(optional)</span></th>
-        <td>
-            <input type="text" name="Phone Number #2"/>
-        </td>
+    <tr><th>&nbsp;</th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Telephone Number #2(optional)</span></th>
+        <td><input type="text" name="Phone Number #2" /></td>
     </tr>
     <tr><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Preferred Contact Method</span></th>
-        <td><span style="color:black"><input type="radio" name="Preferred Contact Method" checked="checked" value="E-Mail"/>E-Mail
-            <input type="radio" name="Preferred Contact Method" value="Phone"/>Phone</span></td>
+        <td><span style="color: black;"><input type="radio" name="Preferred Contact Method" value="E-Mail" />E-Mail &nbsp;&nbsp;<input type="radio" name="Preferred Contact Method" value="Phone" />Phone</span></td>
     </tr>
     <tr>
         <td colspan="3">&nbsp;</td>
     </tr>
-
-    <tr id="purpose"><th><span style="color: #f8f8f8;">*</span></th><th
-><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Purpose for Contact</span></th>
-        <td><select name="Purpose for Contact" id="purposeForContact">
-            <option selected="selected">-- please select one --</option>
-            <option value="Media Contact">Media Contact</option>
-            <option value="Request to Return Merchandise">Request to Return Merchandise</option>
-            <option value="Request to Review Product">Request to Review Product</option>
-            <option value="Sponsorship Request">Sponsorship Request</option>
-            <option value="Tech Support">Tech Support</option>
-            <option value="Vendor or Business Contact">Vendor or Business Contact</option>
-            <option value="Other">Other (Please Specify in Comments)</option>
-        </select></td>
+    <tr id="purpose"><th><span style="color: #f8f8f8;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Purpose for Contact</span></th>
+        <td><select id="purposeForContact" name="Purpose for Contact"> <option selected="selected">-- please select one --</option> <option value="Media Contact">Media Contact</option> <option value="Request to Return Merchandise">Customer Support / Return Product</option> <option value="Request to Review Product">Request to Review Product</option> <option value="Sponsorship Request">Sponsorship Request</option> <option value="Tech Support">Tech Support</option> <option value="Vendor or Business Contact">Vendor or Business Contact</option> <option value="Other">Other (Please Specify in Comments)</option> </select></td>
     </tr>
     <tr>
         <td>&nbsp;</td>
@@ -78,12 +40,12 @@
     </tbody>
 </table>
 <script type="text/javascript">// <![CDATA[
-
-jQuery(document).ready(function () {
-    formValidation();
-    styleTd();
-});
-
+jQuery(document).ready(
+        function () {
+            formValidation();
+            styleTd();
+        }
+);
 function formValidation () {
     jQuery("#form").validate();
 }
@@ -101,12 +63,11 @@ function createContactUs() {
     urlWithoutPage = urlWithoutPage.replace(urlWithoutPage.match(/\/index.php\/[a-z-_\.]*$/), '/');
     var requestBody = {form_name:'contactUs',value:JSON.stringify(jQuery('#form').serializeArray())};
     jQuery.ajax({
-        url: urlWithoutPage + "rosewill/rest/route.php/api/insertFormValue",
+        url: cmsmartBaseUrl + "rosewill/rest/route.php/api/insertFormValue",
         type:"POST",
         data:JSON.stringify(requestBody),
         success: function(msg){
             alert(msg.message);
-//            window.location.reload();
             window.location = window.location.origin;
         },
         error:function(xhr, ajaxOptions, thrownError){
@@ -121,30 +82,32 @@ function changePurposeForContact (value, anchor) {
     switch (value) {
         case 'Request to Return Merchandise':
             //Product Information – Please Complete All Fields
-            var content = '<tr class="purposeContent">' +
-                    '<th colspan="3" scope="row">' +
-                    '<h2>' +
-                    '<span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #ff0000;">Product Information – Please Complete All Fields</span>' +
-                    '</h2>' +
-                    '</th>';
+            var content = '<tr class="purposeContent"><th colspan="3" scope="row"><h2><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #ff0000;">Product Information – Please Complete All Fields</span></h2></th>';
             anchor = insertHtmlContent(anchor, content);
 
-            content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Street Address Line 1</span></th><td><input type="text" name="Street Address Line 1" class="required"/></td></tr>';
+            //Product Information
+            content = '<tr class="purposeContent"><th colspan="2" scope="row"><h2><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #ff0000;">Product Information</span></h2></th>';
             anchor = insertHtmlContent(anchor, content);
 
-            content = '<tr class="purposeContent"><th></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Street Address Line 2</span></th><td><input type="text" name="Street Address Line 2"/></td></tr>';
+            content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Name of Product</span></th><td><input type="text" name="Name of Product" class="required"/></td></tr>';
             anchor = insertHtmlContent(anchor, content);
 
-            content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">City</span></th><td><input type="text" name="city" class="required"/></td></tr>';
+            content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Model Number</span></th><td><input type="text" name="Model Number" class="required"/></td></tr>';
             anchor = insertHtmlContent(anchor, content);
 
-            content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">State/Region</span></th><td><input type="text" name="State/Region" class="required"/></td></tr>';
+            content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Quantity</span></th><td><input type="text" name="Quantity" class="required"/></td></tr>';
             anchor = insertHtmlContent(anchor, content);
 
-            content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Country</span></th><td><input type="text" name="Country" class="required"/></td></tr>';
+            content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Purchase Date</span></th><td><input type="text" name="Purchase Date" class="required"/></td></tr>';
             anchor = insertHtmlContent(anchor, content);
 
-            content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Postal Code</span></th><td><input type="text" name="Postal Code" class="required"/></td></tr>';
+            content = '<tr class="purposeContent"><th></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Sales Order Number</span></th><td><input type="text" name="Sales Order Number" /></td></tr>';
+            anchor = insertHtmlContent(anchor, content);
+
+            content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Serial Number</span></th><td><input type="text" name="Serial Number" class="required"/></td></tr>';
+            anchor = insertHtmlContent(anchor, content);
+
+            content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Sold By</span></th><td><input type="text" name="Sold By" class="required"/></td></tr>';
             anchor = insertHtmlContent(anchor, content);
 
             //Shipping Address
@@ -169,41 +132,14 @@ function changePurposeForContact (value, anchor) {
             content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Postal Code</span></th><td><input type="text" name="Postal Code" class="required"/></td></tr>';
             anchor = insertHtmlContent(anchor, content);
 
-            //Product Information
-            content = '<tr class="purposeContent"><th colspan="2" scope="row"><h2><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #ff0000;">Product Information</span></h2></th>';
-            anchor = insertHtmlContent(anchor, content);
-
-            content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Name of Product</span></th><td><input type="text" name="Name of Product" class="required"/></td></tr>';
-            anchor = insertHtmlContent(anchor, content);
-
-            content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Model Number</span></th><td><input type="text" name="Model Number" class="required"/></td></tr>';
-            anchor = insertHtmlContent(anchor, content);
-
-            content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">RMA Number</span></th><td><input type="text" name="RMA Number" class="required"/></td></tr>';
-            anchor = insertHtmlContent(anchor, content);
-
-            content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Quantity</span></th><td><input type="text" name="Quantity" class="required"/></td></tr>';
-            anchor = insertHtmlContent(anchor, content);
-
-            content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Purchase Date</span></th><td><input type="text" name="Purchase Date" class="required"/></td></tr>';
-            anchor = insertHtmlContent(anchor, content);
-
-            content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Sales Order Number</span></th><td><input type="text" name="Sales Order Number" class="required"/></td></tr>';
-            anchor = insertHtmlContent(anchor, content);
-
-            content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">UPS Number</span></th><td><input type="text" name="UPS Number" class="required"/></td></tr>';
-            anchor = insertHtmlContent(anchor, content);
-
-            content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Sold By</span></th><td><input type="text" name="Sold By" class="required"/></td></tr>';
-            anchor = insertHtmlContent(anchor, content);
-
+            // Note:
             content = '<tr class="purposeContent"><th colspan="3" scope="row" style="padding: 5px 0;"><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color:#333333;display: block;width: 400px;">Note: The product retailer will designate where to return your Rosewill product. Please check your sales confirmation e-mail.</span></th>';
             anchor = insertHtmlContent(anchor, content);
 
             content = '<tr class="purposeContent"></tr>';
             anchor = insertHtmlContent(anchor, content);
 
-            content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Request</span></th><td><input type="radio" name="Request" checked="checked"/>Refund<input type="radio" name="Request" />Replacement</td></tr>';
+            content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Request</span></th><td><select name="Request"><option value="Refund">Refund</option><option value="Replacement">Replacement</option></select></td></tr>';
             anchor = insertHtmlContent(anchor, content);
 
             //details
@@ -279,6 +215,16 @@ function changePurposeForContact (value, anchor) {
             content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Name of Contact Person</span></th><td><input type="text" name="Name of Contact Person" class="required"/></td></tr>';
             anchor = insertHtmlContent(anchor, content);
 
+            //Product Information
+            content = '<tr class="purposeContent"><th colspan="2" scope="row"><h2><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #ff0000;">Product Information </span></h2></th></tr>';
+            anchor = insertHtmlContent(anchor, content);
+
+            content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Name of Product</span></th><td><input type="text" name="Name of Product" class="required"/></td></tr>';
+            anchor = insertHtmlContent(anchor, content);
+
+            content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Model Number</span></th><td><input type="text" name="Model Number" class="required"></td></tr>';
+            anchor = insertHtmlContent(anchor, content);
+
             //Shipping Address
             content = '<tr class="purposeContent"><th colspan="2" scope="row"><h2><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #ff0000;">Shipping Address</span></h2></th>';
             anchor = insertHtmlContent(anchor, content);
@@ -299,19 +245,6 @@ function changePurposeForContact (value, anchor) {
             anchor = insertHtmlContent(anchor, content);
 
             content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Postal Code</span></th><td><input type="text" name="Postal Code" class="required"/></td></tr>';
-            anchor = insertHtmlContent(anchor, content);
-
-            //Product Information
-            content = '<tr class="purposeContent"><th colspan="2" scope="row"><h2><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #ff0000;">Product Information </span></h2></th></tr>';
-            anchor = insertHtmlContent(anchor, content);
-
-            content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Name of Product</span></th><td><input type="text" name="Name of Product" class="required"/></td></tr>';
-            anchor = insertHtmlContent(anchor, content);
-
-            content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Model Number</span></th><td><input type="text" name="Model Number" class="required"></td></tr>';
-            anchor = insertHtmlContent(anchor, content);
-
-            content = '<tr class="purposeContent"><th><span style="color: #ff0000;">*</span></th><th><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #333333;">Quantity</span></th><td><input type="text" name="Quantity" class="required"/></td></tr>';
             anchor = insertHtmlContent(anchor, content);
 
             //details
@@ -381,6 +314,7 @@ function changePurposeForContact (value, anchor) {
             content = '<tr class="purposeContent"><th colspan="2" scope="row" style="vertical-align: top;"><span style="font-family: arial,helvetica,sans-serif; font-size: 12px; color: #ff0000;">Details</span></th><td><textarea name="Details" rows="8" cols="30" style="border: 1px solid darkgrey; overflow-y:scroll"/></td></tr>';
             anchor = insertHtmlContent(anchor, content);
             break;
+
         case 'Tech Support' :
 
             //Product Information
@@ -413,24 +347,18 @@ function insertHtmlContent (anchor, content) {
 
 function styleTd () {
     jQuery('#form td').css({
-        padding: '3px 0'
+        padding: '5px 0'
     });
 }
-
 // ]]></script>
-</form>
-</div>
-
+</form></div>
 <div style="padding-left: 3%;"><hr style="height: 5px; width: 100%;" size="5" width="100%" />
     <p><strong><br /></strong></p>
     <p><strong>US Office:</strong> <br /> 18501 E. Gale Ave. #100, City of Industry, CA 91748 USA</p>
-    <p><strong>Shanghai Office:</strong> <br /> Floor 11, Kaikai Mansion, 888 Wanhangdu Rd, Shanghai (200042), China P.R.</p>
-    <p><strong>Taipei Office:</strong> <br /> 10F, No.31, Lane 513, Jui-Kuang RD. Taipei, Taiwan</p>
+    <p><strong>Shanghai Office:</strong> <br /> Floor 19, Kaikai Mansion, 888 Wanhangdu Rd, Shanghai (200042), China P.R.</p>
+    <p><strong>Taipei Office:</strong> <br /> 10F, No.31, Lane 513, Ruiguang Rd. Taipei, Taiwan</p>
     <p><strong>Customer Service and Technical Support:</strong> <br /> Toll Free: (800) 575-9885 <br /> FAX: (626) 271-9504</p>
     <p>Customer Service Hours: Mon-Fri 8:00 AM-5:00 PM PST <br /> Technical Support Hours: Mon-Fri 8:00 AM-5:00 PM PST</p>
     <p>Support Email: techsupport@rosewill.com <br /> Warranty and RMA Email: rma@rosewill.com</p>
     <p><strong>Sales:</strong> <br /> Toll Free: (855) 711-3069 <br /> FAX: (626) 271-9500 <br /> Email: sales@rosewill.com <br /> Hours: Mon-Fri 8:30 AM-5:30 PM PST</p>
 </div>
-
-</body>
-</html>

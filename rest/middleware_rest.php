@@ -132,13 +132,13 @@ function sendMailByForm ($formName, $formData) {
     if ($config['debugMode']) {
         $recipient_array = array(
             'to' => array('Li.L.Liu@newegg.com'),
-            'bcc' => array('Reyna.C.Chu@newegg.com', 'Henry.H.Wu@newegg.com')
+            'bcc' => array('Reyna.C.Chu@newegg.com', 'Tim.H.Huang@newegg.com')
         );
     } else {
         switch ($action) {
             case 'productRegistration' :
                 $recipient_array = array(
-                    'to' => array('Li.L.Liu@newegg.com'),       // temp, need to change.
+                    'to' => array('mkt@rosewill.com'),
                     'bcc' => array('Li.L.Liu@newegg.com', 'Tim.H.Huang@newegg.com')
                 );
                 break;
@@ -163,31 +163,31 @@ function sendMailByForm ($formName, $formData) {
             case 'Sponsorship Request':
                 $recipient_array = array(
                     'to' => array('mkt@rosewill.com'),
-                    'bcc' => array('Li.L.Liu@newegg.com', 'Henry.H.Wu@newegg.com')
+                    'bcc' => array('Li.L.Liu@newegg.com', 'Tim.H.Huang@newegg.com')
                 );
                 break;
             case 'Vendor or Business Contact':
                 $recipient_array = array(
                     'to' => array('sales@rosewill.com'),
-                    'bcc' => array('Li.L.Liu@newegg.com', 'Henry.H.Wu@newegg.com')
+                    'bcc' => array('Li.L.Liu@newegg.com', 'Tim.H.Huang@newegg.com')
                 );
                 break;
             case 'Media Contact' :
                 $recipient_array = array(
                     'to' => array('mkt@rosewill.com'),
-                    'bcc' => array('Li.L.Liu@newegg.com', 'Henry.H.Wu@newegg.com', 'Tim.H.Huang@newegg.com')
+                    'bcc' => array('Li.L.Liu@newegg.com', 'Tim.H.Huang@newegg.com')
                 );
                 break;
             case 'Other':
                 $recipient_array = array(
                     'to' => array('mkt@rosewill.com'),
-                    'bcc' => array('Li.L.Liu@newegg.com', 'Henry.H.Wu@newegg.com')
+                    'bcc' => array('Li.L.Liu@newegg.com', 'Tim.H.Huang@newegg.com')
                 );
                 break;
             case 'i-reviewed-rosewill' :
                 $recipient_array = array(
                     'to' => array('mkt@rosewill.com', 'sales@rosewill.com', 'consumerreviews@rosewill.com'),
-                    'bcc' => array('Reyna.C.Chu@newegg.com', 'Henry.H.Wu@newegg.com', 'Li.L.Liu@newegg.com')
+                    'bcc' => array('Reyna.C.Chu@newegg.com', 'Tim.H.Huang@newegg.com', 'Li.L.Liu@newegg.com')
                 );
                 break;
             default:
@@ -236,8 +236,12 @@ function templateReplace ($action, $formData) {
 
     $emailContent = array();
     foreach ($formData AS $key => $value) {
-        if ($key != 'sendACopyToMe' && trim($value) != '') {
-            array_push($emailContent, '<p>' . $key . ': ' . $value . '</p>');
+        if (is_array($value)) {
+            array_push($emailContent, '<p>' . $key . ': ' . join(', ', $value) . '</p>');
+        } else {
+            if ($key != 'sendACopyToMe' && trim($value) != '') {
+                array_push($emailContent, '<p>' . $key . ': ' . $value . '</p>');
+            }
         }
     }
     $doc['.description'] = join('', $emailContent);
