@@ -274,7 +274,7 @@ app.factory('Utils', ['restService', function(restService) {
                 "Hubs - Network / USB / Firewire": "b47_hubs-network-usb-firewire",
                 "Humidifiers": "c20_humidifiers",
                 "Ice Cream Makers": "c21_ice-cream-makers",
-                "IceMakers": "c33_ice-maker",
+                "IceMakers": "c71_ice-maker",
                 "Induction Cookers": "c22_induction-cookers",
                 "IP/Network Cameras": "b48_ip/network-cameras, c29_surveillance-video-monitoring-kits-all-in-one-systems",
                 "Juicers & Extractors": "c23_juicers-&-extractors",
