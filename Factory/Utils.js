@@ -316,6 +316,7 @@ app.factory('Utils', ['restService', function(restService) {
                 "OS - Staplers & Hole Punchers" : "c39_staplers_hole_punchers",
                 "Teakettles" : "c36_electric_kettles",
                 "Water Dispensers" : "c30_thermo-pots",
+                "Webcam" : "b48_ip/network-cameras",    // added by stephanie
                 "Food Processors" : "c21_ice-cream-makers, c37_food_steamers",
                 "Steamers" : "c37_food_steamers",
                 "Pressure Cookers" : "c35_pressure_cookers",
