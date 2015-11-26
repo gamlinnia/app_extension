@@ -256,7 +256,7 @@ app.factory('Utils', ['restService', function(restService) {
                 "Digital Media Remote": "c10_digital-media-remote",
                 "Extenders & Repeaters": "b41_data-adapters",
                 "External Enclosure": "b45_hard-drive-adapters, b44_external-enclosure",
-                "Fans": "b33_case-fans",
+                "Fans": "c11_fans",
                 "Filament": "c02_filament",
                 "Flashlights": "c12_flashlights",
                 "Gaming Keyboard": "a05_gaming-keyboard",
