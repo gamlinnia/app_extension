@@ -13,7 +13,7 @@ require_once 'CORS.php';
 require_once ('tools.php');
 
 /*SETUP*/
-$intelligenceBaseUrl = 'http://172.16.16.110:8461';
+$intelligenceBaseUrl = 'http://172.16.16.77:8471';
 $IMBaseUrl = 'http://apis.newegg.org';
 $imageBase = 'http://10.1.39.209/productimage';
 //$imageBase = 'http://images10.newegg.com/productimage';
