@@ -216,7 +216,7 @@ app.factory('Utils', ['restService', function(restService) {
                 "Accessories - Projectors": "c32_tv-brackets",
                 "Accessories - USB": "c20_humidifiers, c17_led-lightbulbs",
                 "Accessories - Wireless": "b02_wireless, b38_cell-phone-mounts-&-holders",
-                "Add-On Cards": "b51_network-interface-cards, b03_add-on-cards",
+                "Add-On Cards": "b51_network-interface-cards, b03_add-on-cards, b46_hard-drive-controllers/raid-cards",
                 "App Enabled Products": "b04_app-enabled-products",
                 "Audio Adapters": "b65_video-adapters",
                 "Audio/Video Splitters": "b65_video-adapters",
