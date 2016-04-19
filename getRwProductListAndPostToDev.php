@@ -30,6 +30,7 @@ if(!empty($rwProductList)) {
                 echo 'Success' . PHP_EOL;
             }
             else{
+                echo 'Error' . PHP_EOL;
                 $log = array();
                 $log['item number'] = $input['ItemNumber'];
                 $log['response'] = $response;
@@ -38,6 +39,5 @@ if(!empty($rwProductList)) {
                 file_put_contents('post.log', json_encode($log) . PHP_EOL, FILE_APPEND);
             }
         }
-        var_dump($response);
     }
 }
