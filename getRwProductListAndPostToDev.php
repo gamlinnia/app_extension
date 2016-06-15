@@ -83,6 +83,7 @@ if(!empty($rwProductList)) {
             }
             else{
                 echo 'Error' . PHP_EOL;
+                var_dump($response);
                 logErrorMessage($input, $response);
             }
         }
