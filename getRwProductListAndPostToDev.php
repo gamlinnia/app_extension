@@ -70,9 +70,13 @@ if(!empty($rwProductList)) {
         echo $input["ItemNumber"] . PHP_EOL;
         $input['action'] = 'baseinfo';
         $productInfo = getProductInfo($input);
+        var_dump($productInfo);
         if (!empty($productInfo)) {
             $imagesArray = getImagesFromIM($input['ItemNumber']);
             $productInfo['Images'] = $imagesArray['Images'];
+
+            var_dump($productInfo);
+
 
             $response = postProductInfoToDev($productInfo);
             if($response['message'] == 'Success'){
