@@ -695,6 +695,7 @@ function CallAPI($method, $url, $header = null, $data = false) {
 
     curl_setopt($curl, CURLOPT_URL, $url);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
 
     $result = curl_exec($curl);
 
