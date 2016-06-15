@@ -50,7 +50,7 @@ function getImagesFromIM ($itemNumber) {
     $restUrl = $IMBaseUrl . $restPostfix;
 
     $response = CallAPI('GET', $restUrl, $header);
-    return json_decode($response, true);
+    return $response;
 }
 
 function logErrorMessage($input, $response){
