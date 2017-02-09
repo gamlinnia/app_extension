@@ -1,6 +1,6 @@
 <?php
 
-require_once 'rest/tools.php';
+require_once '../rest/tools.php';
 
 $reviewJson = file_get_contents('result.json');
 
