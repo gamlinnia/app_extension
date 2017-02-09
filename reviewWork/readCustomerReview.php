@@ -54,7 +54,6 @@ if (($handle = fopen("CustomerReview.csv", "r")) !== FALSE) {
                 'rating'=> $data[$index['rating']],
                 'reviewdate'=> $reviewdate,
                 'title'=> $data[$index['title']],
-                'hasmanufacturerresponse' => $data[$index['hasmanufacturerresponse']]
             );
         }
         $row++;
