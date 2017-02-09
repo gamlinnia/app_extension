@@ -62,10 +62,11 @@ if (($handle = fopen("CustomerReview.csv", "r")) !== FALSE) {
     fclose($handle);
 }
 
-if($result){
-    file_put_contents('result.json', json_encode($result));
-}
-else {
-    file_put_contents('result.json', json_encode(array()));
-}
+$data = array(
+    'count' => count($result),
+    'data' => $result
+);
+
+file_put_contents('result.json', json_encode($data));
+
 var_dump($result);
