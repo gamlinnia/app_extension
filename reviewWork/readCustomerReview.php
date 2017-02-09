@@ -15,7 +15,7 @@ function moreThanSpecificDays ($date_string_1, $date_string_2, $specific_days = 
     return false;
 }
 
-$validTitle = array('comments','cons','displayname','itemnumber','loginName','nickname','pros','rating','replycontent','reviewdate','title', 'hasmanufacturerresponse');
+$validTitle = array('comments','cons','displayname','itemnumber','loginName','nickname','pros','rating','reviewdate','title', 'hasmanufacturerresponse');
 
 $row = 1;
 if (($handle = fopen("CustomerReview.csv", "r")) !== FALSE) {
@@ -37,9 +37,10 @@ if (($handle = fopen("CustomerReview.csv", "r")) !== FALSE) {
             $reviewdate = $data[$index['reviewdate']];
             $reviewdate = $reviewdate / 1000;
             $reviewdate = date("Y-m-d H:i:s", $reviewdate);
-            $moreThan2Days = moreThanSpecificDays($reviewdate, 'now', 10);
+            $moreThan2Days = moreThanSpecificDays($reviewdate, 'now', 2);
             $rating = $data[$index['rating']];
-            if($rating > 2 || $moreThan2Days){
+            $hasManufacturerResponse = $data[$index['hasmanufacturerresponse']];
+            if($rating > 2 || $moreThan2Days || $hasManufacturerResponse){
                 continue;
             }
             $result[$sku][] = array(
@@ -51,7 +52,6 @@ if (($handle = fopen("CustomerReview.csv", "r")) !== FALSE) {
                 'nickname'=> $data[$index['nickname']],
                 'pros'=> $data[$index['pros']],
                 'rating'=> $data[$index['rating']],
-                'replycontent'=> $data[$index['replycontent']],
                 'reviewdate'=> $reviewdate,
                 'title'=> $data[$index['title']],
                 'hasmanufacturerresponse' => $data[$index['hasmanufacturerresponse']]
