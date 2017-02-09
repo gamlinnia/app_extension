@@ -65,4 +65,7 @@ if (($handle = fopen("CustomerReview.csv", "r")) !== FALSE) {
 if($result){
     file_put_contents('result.json', json_encode($result));
 }
+else {
+    file_put_contents('result.json', json_encode(array()));
+}
 var_dump($result);
