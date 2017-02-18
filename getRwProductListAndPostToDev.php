@@ -1,11 +1,11 @@
 <?php
 require_once 'rest/tools.php';
 
-function getRwProductList(){
+function getRwProductList($manufactoryCode){
     $neweggApiUrl = "http://api.newegg.org/ExternalMarketplace/v1/RosewillItem";
 
     $params['format'] = 'json';
-    $params['Manufactory'] = '2177';
+    $params['Manufactory'] = $manufactoryCode;
     $params['ItemCreationDateFrom'] = '2000-01-16';
 
     $headers =  array('Content-Type: application/json', 'Accept: application/json');
@@ -65,26 +65,28 @@ function logErrorMessage($input, $response){
     file_put_contents('post.log', json_encode($log) . PHP_EOL, FILE_APPEND);
 }
 
-// get rosewill product list from newegg
-$rwProductList = getRwProductList();
-if(!empty($rwProductList)) {
-    foreach ($rwProductList as $each) {
-        $input['ItemNumber'] = $each['ItemNumber'];
-        echo $input["ItemNumber"] . PHP_EOL;
-        $input['action'] = 'baseinfo';
-        $productInfo = getProductInfo($input);
-        if (!empty($productInfo)) {
-            $imagesArray = getImagesFromIM($input['ItemNumber']);
-            $productInfo['Images'] = $imagesArray['Images'];
+// get rosewill and SHIELDEYE products list from newegg
+$manufactoryCodeList = array('rosewill' => '2177', 'SHIELDEYE' => '120677');
+foreach($manufactoryCodeList as $brand => $manufactoryCode) {
+    $rwProductList = getRwProductList($manufactoryCode);
+    if (!empty($rwProductList)) {
+        foreach ($rwProductList as $each) {
+            $input['ItemNumber'] = $each['ItemNumber'];
+            echo $input["ItemNumber"] . PHP_EOL;
+            $input['action'] = 'baseinfo';
+            $productInfo = getProductInfo($input);
+            if (!empty($productInfo)) {
+                $imagesArray = getImagesFromIM($input['ItemNumber']);
+                $productInfo['Images'] = $imagesArray['Images'];
 
-            $response = postProductInfoToDev($productInfo);
-            if($response['message'] == 'Success'){
-                echo 'Item Number: ' . $input['ItemNumber'] . ' post product info success' . PHP_EOL;
-            }
-            else{
-                echo 'Error' . PHP_EOL;
-                var_dump($response);
-                logErrorMessage($input, $response);
+                $response = postProductInfoToDev($productInfo);
+                if ($response['message'] == 'Success') {
+                    echo 'Item Number: ' . $input['ItemNumber'] . ' post product info success' . PHP_EOL;
+                } else {
+                    echo 'Error' . PHP_EOL;
+                    var_dump($response);
+                    logErrorMessage($input, $response);
+                }
             }
         }
     }
