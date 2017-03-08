@@ -37,7 +37,7 @@ if (($handle = fopen("CustomerReview.csv", "r")) !== FALSE) {
             $reviewdate = $data[$index['reviewdate']];
             $reviewdate = $reviewdate / 1000;
             $reviewdate = date("Y-m-d H:i:s", $reviewdate);
-            $moreThan2Days = moreThanSpecificDays($reviewdate, 'now', 2);
+            $moreThan2Days = moreThanSpecificDays($reviewdate, 'now', 3);
             $rating = $data[$index['rating']];
             $hasManufacturerResponse = $data[$index['hasmanufacturerresponse']];
             if($rating > 2 || $moreThan2Days || $hasManufacturerResponse){
